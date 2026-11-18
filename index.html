@@ -37,9 +37,9 @@ body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}input,
 <label>ノーツ開始位置 (上から%) <b id="vspawn"></b><input id="spawn" type="range" min="0" max="80" step="1"></label>
 <label>レーン幅 (px) <b id="vlnw"></b><input id="lnw" type="range" min="40" max="260" step="1"></label>
 <label class="row"><input id="tap" type="checkbox">タップ音</label>
-<div style="display:flex;align-items:end"><button id="go">スタート</button><button id="stop" disabled>停止</button></div>
+<div style="display:flex;align-items:end"><button id="go">スタート</button><button id="stop" disabled>停止</button><button id="cal" type="button" style="background:#7a5cff;margin-left:8px">タイミング調整モード</button></div>
 </div>
-<small>キーボードでも遊べます（4レーンはD F J K、5レーンは下で選択）。停止を押すまでノーツは降り続けます。タイミング調整は＋で判定が遅くなります（ノーツが音より早いと感じたら＋、遅いと感じたら−）。</small>
+<small>キーボードでも遊べます（4レーンはD F J K、5レーンは下で選択）。停止を押すまでノーツは降り続けます。「タイミング調整モード」は、音に合わせて16回タップすると調整値を自動で設定します。タイミング調整は＋で判定が遅くなります（ノーツが音より早いと感じたら＋、遅いと感じたら−）。</small>
 <details style="margin-top:8px"><summary>難易度の詳細設定（選択中の難易度を編集）</summary>
 <div class="grid" style="margin-top:8px">
 <label>ノーツ間隔 <select id="d_sub"><option value="8">8分</option><option value="16">16分</option><option value="24">24分</option><option value="0">混合（小節ごとにランダム）</option></select></label>
@@ -56,7 +56,7 @@ body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}input,
 <script>
 const $=id=>document.getElementById(id);
 const H=620,JY=H-150,LEAD=2000,NH=20;
-let BEAT=400,nb=0,gb=0,gcur=0,gbar=-1,gsub=16,pend=[];
+let BEAT=400,nb=0,gb=0,gcur=0,gbar=-1,gsub=16,pend=[],cal=false,calOff=0,calD=[],calGen=0;
 // 難易度の初期値（画面の「難易度の詳細設定」で編集可）sub=ノーツ間隔(8/16/24/0=混合) pr=1マスの出現率 hold=ホールド率 hmin/hmax=ホールド長(拍) chord=同時押し率
 const DD=[{sub:16,pr:.5,hold:.15,hmin:1,hmax:2,chord:.12},{sub:0,pr:.7,hold:.2,hmin:.5,hmax:2,chord:.3}];
 const DIFF=JSON.parse(JSON.stringify(DD));
@@ -110,6 +110,7 @@ function mkPat(D,sm){
   const fl=r()<.5,res=f().map(s=>s.map(it=>({l:fl?K-1-it.l:it.l,d:it.d})));res.jk=f===P.jack;return res;
 }
 function fill(now){
+  if(cal){if(!calGen){calGen=1;for(let i=0;i<16;i++)N.push({t:LEAD+i*BEAT,l:i%S.lanes,k:0,d:0,st:0})}return}
   const D=DIFF[S.diff]||DIFF[0],r=rnd,ahead=Math.max(3000,JY/(S.speed*.06)+900);
   while(gcur<now+ahead){
     const bar=Math.max(0,Math.floor((gcur-LEAD)/(4*BEAT)+1e-6)),bt=LEAD+bar*4*BEAT;
@@ -131,7 +132,8 @@ function blip(time,f,dur,vol,type){const o=actx.createOscillator(),g=actx.create
 let p0=0,adj=0;
 const audioMs=()=>(actx.currentTime-(actx.outputLatency||actx.baseLatency||0)-t0)*1000;
 const cur=()=>performance.now()-p0+adj;
-const sync=()=>{adj+=(audioMs()-(performance.now()-p0)-adj)*.03};
+let lastAC=-1,lastACp=0;
+const sync=()=>{const c=actx.currentTime,pn=performance.now();if(c!==lastAC){lastAC=c;lastACp=pn}if(pn-lastACp>400||actx.state!="running")return;adj+=(audioMs()-(pn-p0)-adj)*.03};
 function metro(now){for(;LEAD+nb*BEAT<now+1200;nb++){const t=t0+(LEAD+nb*BEAT)/1000;if(t<actx.currentTime)continue;const a=nb%4;
   blip(t,1500,.02,.1,"square");blip(t,a?180:90,.12,a?.22:.4,"triangle");blip(t+BEAT/2000,nb%2?1400:2200,.03,.04,"square");if(!a)blip(t,nb%16?220:330,.35,.05,"sawtooth")}}
 
@@ -158,6 +160,7 @@ const JN=["PERFECT+","PERFECT","GOOD","MISS"],JC=["#ffe45c","#ff9ad5","#6fe3ff",
 function reg(j,fl){cnt[j]++;score+=JS[j];if(j<3){combo++;maxc=Math.max(maxc,combo)}else combo=0;lastJ={j,fl,t:performance.now()}}
 function press(l,ts){
   if(!run)return;const dl=ts?performance.now()-ts:0,now=cur()-(dl>0&&dl<150?dl:0);
+  if(cal){calTap(now);return}
   for(const n of N){const d=n.t+S.off-now;if(d>70)break;
     if(n.st||n.l!=l||d<-70)continue;
     const a=Math.abs(d),j=a<=25?0:a<=40?1:2;n.st=1;reg(j,j?(d>0?"FAST":"LATE"):"");
@@ -165,8 +168,19 @@ function press(l,ts){
   let b=null,bd=1e9;for(const n of N){if(n.st||n.l!=l)continue;const d=n.t+S.off-now;if(Math.abs(d)<Math.abs(bd)){b=n;bd=d}}
   if(b&&Math.abs(bd)<300)lastJ={j:-1,fl:(bd>0?"EARLY ":"LATE ")+Math.round(Math.abs(bd))+"ms",t:performance.now()};
 }
-function update(now){for(const n of N){if(n.st)continue;if(n.l>=S.lanes){n.st=3;continue}if(now>n.t+S.off+70){n.st=2;reg(3)}}}
+function update(now){if(cal)return;for(const n of N){if(n.st)continue;if(n.l>=S.lanes){n.st=3;continue}if(now>n.t+S.off+70){n.st=2;reg(3)}}}
 
+// ---- タイミング調整モード（音に合わせて16回タップ→中央値を調整値に設定）----
+function calTap(now){let b=null,bd=1e9;for(const n of N){if(n.st)continue;const d=now-n.t;if(Math.abs(d)<Math.abs(bd)){b=n;bd=d}}
+  if(b&&Math.abs(bd)<300){b.st=1;calD.push(bd);lastJ={j:-1,lab:"ズレ",fl:(bd>0?"LATE ":"EARLY ")+Math.round(Math.abs(bd))+"ms",t:performance.now()};if(S.tap)blip(actx.currentTime,2600,.05,.15,"square")}}
+function endCal(done){
+  const d=calD.slice().sort((a,b)=>a-b);cal=false;run=false;S.off=calOff;
+  $("stop").disabled=true;$("go").textContent="スタート";
+  if(done&&d.length>=6){const m=Math.round(d[d.length>>1]);S.off=Math.max(-200,Math.min(200,m));$("off").value=S.off;apply();
+    $("st").innerHTML=`<b>調整完了</b>：${d.length}回のタップの中央値は ${m>0?"+":""}${m}ms（${m>0?"遅め":"早め"}）。タイミング調整を ${S.off}ms に設定しました（前の値：${calOff}ms）。`}
+  else if(done)$("st").textContent="タップが少なすぎたため、調整値は変えていません。もう一度、音に合わせてタップしてください。";
+  else $("st").textContent="調整を中止しました。";
+}
 // ---- draw（ユメステ風の遠近法レーン。タップ=赤、ホールド=青、レーン色は統一）----
 const HZ=30,SMIN=.32,NZ=22;
 function draw(now){
@@ -201,7 +215,7 @@ function draw(now){
   ctx.textAlign="center";
   if(run&&lastJ){const age=performance.now()-lastJ.t;
     if(age<600){ctx.globalAlpha=1-age/600;const nj=lastJ.j<0;ctx.font=nj?"bold 18px system-ui":"bold 28px system-ui";
-      ctx.lineWidth=4;ctx.strokeStyle="rgba(90,30,110,.8)";ctx.strokeText(nj?"判定外":JN[lastJ.j],W/2,H*.5);ctx.fillStyle=nj?"#c0c0d0":JC[lastJ.j];ctx.fillText(nj?"判定外":JN[lastJ.j],W/2,H*.5);
+      ctx.lineWidth=4;ctx.strokeStyle="rgba(90,30,110,.8)";ctx.strokeText(lastJ.lab||(nj?"判定外":JN[lastJ.j]),W/2,H*.5);ctx.fillStyle=nj?"#c0c0d0":JC[lastJ.j];ctx.fillText(lastJ.lab||(nj?"判定外":JN[lastJ.j]),W/2,H*.5);
       if(lastJ.fl){ctx.font="bold 16px system-ui";ctx.fillStyle=lastJ.fl[0]=="F"||lastJ.fl[0]=="E"?"#6fb7ff":"#ff8a6f";ctx.fillText(lastJ.fl,W/2,H*.5+24)}ctx.globalAlpha=1}
     if(combo>1){ctx.fillStyle="rgba(255,255,255,.9)";ctx.font="bold 40px system-ui";ctx.fillText(combo,W/2,H*.38);ctx.font="12px system-ui";ctx.fillText("COMBO",W/2,H*.38+18)}}
 }
@@ -210,21 +224,24 @@ function hud(fin){
   $("st").innerHTML=`P+ ${cnt[0]} ／ P ${cnt[1]} ／ GOOD ${cnt[2]} ／ MISS ${cnt[3]} ｜ MAX COMBO ${maxc} ｜ 達成率 ${(acc*100).toFixed(2)}% ｜ スコア ${Math.round(acc*1e6).toLocaleString()}`+(fin?"　<b>停止しました</b>":"");
 }
 function loop(){
-  if(!run)return;sync();if(actx.state=="suspended")actx.resume();const now=cur();
+  if(!run)return;sync();if(actx.state!="running")actx.resume();const now=cur();
   try{metro(now);fill(now);update(now)}catch(e){console.error(e)}
   while(N.length&&N[0].st&&N[0].t+S.off+N[0].d<now-1800)N.shift();
-  draw(now);hud(false);requestAnimationFrame(loop);
+  draw(now);if(cal){if(now>LEAD+16*BEAT+800){endCal(true);draw(now);return}$("st").textContent=`調整モード：音とノーツに合わせてタップ（${calD.length}/16）`+(calD.length?` 平均ズレ ${Math.round(calD.reduce((a,b)=>a+b,0)/calD.length)}ms`:"")}else hud(false);requestAnimationFrame(loop);
 }
-$("go").onclick=()=>{
+function startRun(isCal){
   if(actx)actx.close();
+  if(cal)S.off=calOff;cal=isCal;if(isCal){calOff=S.off;S.off=0;calD=[];calGen=0}
   actx=new(window.AudioContext||window.webkitAudioContext)();
+  actx.resume&&actx.resume();try{const b=actx.createBuffer(1,1,22050),sn=actx.createBufferSource();sn.buffer=b;sn.connect(actx.destination);sn.start(0)}catch(e){}
   N=[];cnt=[0,0,0,0];combo=0;maxc=0;score=0;lastJ=null;
-  last=Array(5).fill(-999);BEAT=60000/Math.max(60,Math.min(300,S.bpm||150));nb=0;gb=0;gcur=LEAD;gbar=-1;pend=[];
+  last=Array(5).fill(-999);BEAT=isCal?600:60000/Math.max(60,Math.min(300,S.bpm||150));nb=0;gb=0;gcur=LEAD;gbar=-1;pend=[];
   rnd=rng((Math.random()*4294967296)>>>0);
   t0=actx.currentTime+.3;p0=performance.now();adj=audioMs();run=true;
   $("go").textContent="リスタート";$("stop").disabled=false;$("go").blur();loop();
-};
-$("stop").onclick=()=>{if(!run)return;run=false;$("stop").disabled=true;$("go").textContent="スタート";hud(true);draw(cur())};
+}
+$("go").onclick=()=>startRun(false);$("cal").onclick=()=>startRun(true);
+$("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}run=false;$("stop").disabled=true;$("go").textContent="スタート";hud(true);draw(cur())};
 
 // ---- 難易度の詳細設定 ----
 const DF=["sub","pr","hold","hmin","hmax","chord"],PCT={pr:1,hold:1,chord:1};
