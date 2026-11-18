@@ -37,10 +37,10 @@ body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}input,
 <label>ノーツ開始位置 (上から%) <b id="vspawn"></b><input id="spawn" type="range" min="0" max="80" step="1"></label>
 <label>レーン幅 (px) <b id="vlnw"></b><input id="lnw" type="range" min="40" max="260" step="1"></label>
 <label class="row"><input id="tap" type="checkbox">タップ音</label>
+<label>タップ音の種類 <select id="tapsnd"><option value="0">ピッ（標準）</option><option value="1">ポン</option><option value="2">スナップ</option></select></label>
+<label>ノーツの落ち方 <select id="view"><option value="0">斜め（遠近法）</option><option value="1">垂直</option></select></label>
 <label class="row"><input id="metro" type="checkbox">メトロノーム</label>
 <label>ノーツのスキン <select id="skin"><option value="0">ノーマル</option><option value="1">シンプル</option><option value="2">高品質</option></select></label>
-<label class="row"><input id="nohold" type="checkbox">ホールドなし（テスト）</label>
-<label>同時に押す指の上限（iPad対策） <select id="maxf"><option value="2">2本</option><option value="3">3本</option><option value="4">4本</option><option value="5">5本</option></select></label>
 <div style="display:flex;align-items:end"><button id="go">スタート</button><button id="stop" disabled>停止</button><button id="cal" type="button" style="background:#7a5cff;margin-left:8px">タイミング調整モード</button></div>
 </div>
 <small>キーボードでも遊べます（4レーンはD F J K、5レーンは下で選択）。停止を押すまでノーツは降り続けます。「タイミング調整モード」は、音に合わせて16回タップすると調整値を自動で設定します。タイミング調整は＋で判定が遅くなります（ノーツが音より早いと感じたら＋、遅いと感じたら−）。</small>
@@ -64,18 +64,18 @@ const $=id=>document.getElementById(id);
 const H=620,JY=H-150,LEAD=2000,NH=20;
 let BEAT=400,nb=0,gb=0,gcur=0,gbar=-1,gsub=16,pend=[],cal=false,calOff=0,calD=[],calGen=0,nbuf=null;
 // 難易度の初期値（画面の「難易度の詳細設定」で編集可）sub=ノーツ間隔(8/16/24/0=混合) pr=1マスの出現率 hold=ホールド率 hmin/hmax=ホールド長(拍) chord=同時押し率
-const DD=[{sub:16,pr:.5,hold:.15,hmin:1,hmax:2,chord:.12,pin:.1},{sub:0,pr:.7,hold:.2,hmin:.5,hmax:2,chord:.3,pin:.2}];
+const DD=[{sub:16,pr:.6,hold:.18,hmin:1,hmax:2,chord:.18,pin:.12},{sub:0,pr:.85,hold:.25,hmin:.5,hmax:2,chord:.4,pin:.25}];
 const DIFF=JSON.parse(JSON.stringify(DD));
-try{JSON.parse(localStorage.getItem("g20d")||"[]").forEach((d,i)=>{if(DIFF[i]&&d)Object.assign(DIFF[i],d)})}catch(e){}
-const SK=["speed","off","spawn","lnw","lanes","diff","bpm","key","maxf","skin"];
-const S={speed:10,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,maxf:3,nohold:0,metro:1,skin:0};
+try{JSON.parse(localStorage.getItem("g20d2")||"[]").forEach((d,i)=>{if(DIFF[i]&&d)Object.assign(DIFF[i],d)})}catch(e){}
+const SK=["speed","off","spawn","lnw","lanes","diff","bpm","key","skin","tapsnd","view"];
+const S={speed:10,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0};
 try{Object.assign(S,JSON.parse(localStorage.getItem("g20")||"{}"))}catch(e){}
 if(!S.v2){S.v2=1;if(S.lnw<=110)S.lnw=130}
 const cv=$("cv"),ctx=cv.getContext("2d");
 let actx,t0=0,run=false,N=[],cnt=[0,0,0,0,0],combo=0,maxc=0,score=0,lastJ=null,rnd,last=[],lh=[];
 function apply(){
   for(const k of SK){S[k]=+$(k).value;const v=$("v"+k);if(v)v.textContent=S[k]}
-  S.tap=$("tap").checked?1:0;S.nohold=$("nohold").checked?1:0;S.metro=$("metro").checked?1:0;kh.fill(0);
+  S.tap=$("tap").checked?1:0;S.metro=$("metro").checked?1:0;kh.fill(0);
   const dpr=window.devicePixelRatio||1,W=S.lanes*S.lnw;
   cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+"px";cv.style.height=H+"px";
   ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -84,7 +84,6 @@ function apply(){
 }
 for(const k of SK){$(k).value=S[k];$(k).addEventListener("input",apply)}
 $("tap").checked=!!S.tap;$("tap").addEventListener("change",apply);
-$("nohold").checked=!!S.nohold;$("nohold").addEventListener("change",apply);
 $("metro").checked=!!S.metro;$("metro").addEventListener("change",apply);
 function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 
@@ -113,7 +112,7 @@ function mkPat(D,sm){
     hstair(){const hl=hlen(),n=3+ri(K-2),hs=1+ri(2),ord=r()<.5?[...Array(K).keys()]:[1,3,0,2,4].filter(x=>x<K),o=Array.from({length:(n-1)*hs+hl},()=>[]);
       for(let i=0;i<n;i++)o[i*hs].push({l:ord[i],d:hl*sm});return o}
   };
-  const W=[[P.stair,3],[P.fold,1.5],[P.trill,2.5],[P.far,1.5],[P.zig,2],[P.scat,2],[P.acc,2],[P.edge,1],[P.jack,.15],[P.chord,D.chord*10],[P.cx,D.chord*5],[P.tri,D.chord*3],[P.schord,1],[P.hold,S.nohold?0:D.hold*10],[P.hpair,S.nohold?0:D.hold*5],[P.hstair,S.nohold?0:D.hold*5]];
+  const W=[[P.stair,3],[P.fold,1.5],[P.trill,2.5],[P.far,1.5],[P.zig,2],[P.scat,2],[P.acc,2],[P.edge,1],[P.jack,.15],[P.chord,D.chord*10],[P.cx,D.chord*5],[P.tri,D.chord*3],[P.schord,1],[P.hold,D.hold*10],[P.hpair,D.hold*5],[P.hstair,D.hold*5]];
   let x=r()*W.reduce((a,w)=>a+w[1],0),f=W[0][0];for(const w of W){if((x-=w[1])<0){f=w[0];break}}
   const fl=r()<.5,res=f().map(s=>s.map(it=>({l:fl?K-1-it.l:it.l,d:it.d}))),mn=Math.ceil(250/sm);
   if(D.pin>0){const ad=[];res.forEach((its,i)=>its.forEach(it=>{if(it.d>0){const hl=Math.round(it.d/sm),lo=i+mn,hi=Math.min(res.length-1,i+hl-1);if(hi>=lo&&r()<D.pin)ad.push([lo+ri(hi-lo+1),it.l])}}));for(const[j,l]of ad)res[j].push({l,d:0,in:1})}
@@ -129,7 +128,7 @@ function fill(now){
     gcur=bt+Math.ceil((gcur-bt)/sm-1e-6)*sm;
     if(gcur>=bt+4*BEAT-1e-6)continue;
     let st;for(let k=0;k<8;k++){st=mkPat(D,sm);const f=st.find(a=>a.length);if(st.jk||!f||!f.some(it=>pend.includes(it.l)))break}
-    st.forEach((its,i)=>its.forEach(it=>{const t=gcur+i*sm;if(!it.in&&t-last[it.l]<(lh[it.l]?250:80))return;let c=1;for(const n of N){if(n.t>t+1)break;if(n.t>=t-1||(n.k&&n.t+n.d>t+1))c++}if(c>(S.maxf||3))return;if(!it.in){last[it.l]=t+it.d;lh[it.l]=it.d?1:0}N.push({t,l:it.l,k:it.d?1:0,d:it.d,st:0})}));
+    st.forEach((its,i)=>its.forEach(it=>{const t=gcur+i*sm;if(!it.in&&t-last[it.l]<(lh[it.l]?250:80))return;if(!it.in){last[it.l]=t+it.d;lh[it.l]=it.d?1:0}N.push({t,l:it.l,k:it.d?1:0,d:it.d,st:0})}));
     const ls=[...st].reverse().find(a=>a.length);pend=ls?ls.map(it=>it.l):[];
     gcur+=st.length*sm+Math.round(st.length*(1/Math.max(.05,D.pr)-1)*(.5+r()))*sm;
   }
@@ -145,15 +144,18 @@ const cur=()=>performance.now()-p0+adj;
 let lastAC=-1,lastACp=0;
 const sync=()=>{const c=actx.currentTime,pn=performance.now();if(c!==lastAC){lastAC=c;lastACp=pn}if(pn-lastACp>400||actx.state!="running")return;adj+=(audioMs()-(pn-p0)-adj)*.03};
 const env=(g,t,v,d)=>{g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+d)};
-function kick(t,v){const o=actx.createOscillator(),g=actx.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(48,t+.1);env(g,t,v,.28);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.3)}
 function ping(t,f,v,d){const o=actx.createOscillator(),g=actx.createGain();o.type="sine";o.frequency.value=f;env(g,t,v,d);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+d+.02)}
 function hit(t,v,d,type,f){if(!nbuf)return;const sr=actx.createBufferSource(),fl=actx.createBiquadFilter(),g=actx.createGain();sr.buffer=nbuf;fl.type=type;fl.frequency.value=f;env(g,t,v,d);sr.connect(fl);fl.connect(g);g.connect(actx.destination);sr.start(t);sr.stop(t+d+.02)}
 function metro(now){
   if(!S.metro&&!cal){nb=Math.max(nb,Math.floor((now-LEAD)/BEAT)+1);return}
   try{for(;LEAD+nb*BEAT<now+1200;nb++){const t=t0+(LEAD+nb*BEAT)/1000;if(t<actx.currentTime)continue;const a=nb%4;
-    if(a%2==0)kick(t,a?.5:.7);else hit(t,.4,.14,"bandpass",1900);
-    ping(t,a?1175:1760,a?.05:.09,.09);hit(t+BEAT/2000,.08,.03,"highpass",7500)}}catch(e){}
+    ping(t,a?480:640,a?.35:.5,.07)}}catch(e){}
 }
+
+function tapSnd(){try{const t=actx.currentTime,k=S.tapsnd|0;
+  if(k==1){ping(t,1046,.3,.08);hit(t,.1,.02,"highpass",3500)}
+  else if(k==2){hit(t,.5,.07,"bandpass",2600);ping(t,1800,.1,.04)}
+  else blip(t,2600,.05,.15,"square")}catch(e){}}
 
 // ---- input ----
 const ptr=new Map(),fl=[0,0,0,0,0],kh=[0,0,0,0,0],held=l=>kh[l]||[...ptr.values()].includes(l);
@@ -177,14 +179,14 @@ cv.addEventListener("contextmenu",e=>e.preventDefault());
 
 // ---- judge ----
 const JN=["PERFECT+","PERFECT","GREAT","GOOD","MISS"],JC=["#ffe45c","#ff9ad5","#6fe3ff","#9be37a","#8a8a99"],JS=[1,.9,.5,.25,0];
-function reg(j,fl){cnt[j]++;score+=JS[j];if(j<4){combo++;maxc=Math.max(maxc,combo)}else combo=0;lastJ={j,fl,t:performance.now()}}
+function reg(j,fl){cnt[j]++;score+=JS[j];if(j<3){combo++;maxc=Math.max(maxc,combo)}else combo=0;lastJ={j,fl,t:performance.now()}}
 function press(l,ts){
   if(!run)return;const now=cur();
   if(cal){calTap(now);return}
   for(const n of N){const d=n.t+S.off-now;if(d>100)break;
     if(n.st||n.l!=l||d<-100)continue;
     const a=Math.abs(d),j=a<=25?0:a<=40?1:a<=70?2:3;n.st=1;reg(j,j?(d>0?"FAST":"LATE"):"");plg(l,JN[j]+(j?(d>0?" FAST":" LATE"):""));
-    if(S.tap)blip(actx.currentTime,2600,.05,.15,"square");return}
+    if(S.tap)tapSnd();return}
   let b=null,bd=1e9;for(const n of N){if(n.st||n.l!=l)continue;const d=n.t+S.off-now;if(Math.abs(d)<Math.abs(bd)){b=n;bd=d}}
   if(b&&Math.abs(bd)<300){plg(l,"判定の窓の外 "+(bd>0?"EARLY ":"LATE ")+Math.round(Math.abs(bd))+"ms")}else plg(l,"近くにノーツなし");
 }
@@ -192,7 +194,7 @@ function update(now){if(cal)return;for(const n of N){if(n.st)continue;if(n.l>=S.
 
 // ---- タイミング調整モード（音に合わせて16回タップ→中央値を調整値に設定）----
 function calTap(now){let b=null,bd=1e9;for(const n of N){if(n.st)continue;const d=now-n.t;if(Math.abs(d)<Math.abs(bd)){b=n;bd=d}}
-  if(b&&Math.abs(bd)<300){b.st=1;calD.push(bd);lastJ={j:-1,lab:"ズレ",fl:(bd>0?"LATE ":"EARLY ")+Math.round(Math.abs(bd))+"ms",t:performance.now()};if(S.tap)blip(actx.currentTime,2600,.05,.15,"square")}}
+  if(b&&Math.abs(bd)<300){b.st=1;calD.push(bd);lastJ={j:-1,lab:"ズレ",fl:(bd>0?"LATE ":"EARLY ")+Math.round(Math.abs(bd))+"ms",t:performance.now()};if(S.tap)tapSnd()}}
 function endCal(done){
   const d=calD.slice().sort((a,b)=>a-b);cal=false;run=false;S.off=calOff;
   $("stop").disabled=true;$("go").textContent="スタート";
@@ -205,7 +207,7 @@ function endCal(done){
 const HZ=30,SMIN=.32,NZ=22;
 function draw(now){
   const K=S.lanes,lw=S.lnw,W=K*lw,sp=S.speed*60,sy=H*S.spawn/100,cx=W/2;
-  const pj=(x,z)=>{if(z<0)return[x,JY-z*.9];const u=Math.min(1,z/JY),q=1/(1+(1/SMIN-1)*u),f=(q-SMIN)/(1-SMIN);return[cx+(x-cx)*q,HZ+(JY-HZ)*f]};
+  const pj=(x,z)=>{if(z<0)return[x,JY-z*.9];if(S.view==1){const u=Math.min(1,z/JY);return[x,JY-(JY-HZ)*u]}const u=Math.min(1,z/JY),q=1/(1+(1/SMIN-1)*u),f=(q-SMIN)/(1-SMIN);return[cx+(x-cx)*q,HZ+(JY-HZ)*f]};
   const poly=(pts,fill,line)=>{ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(line){ctx.strokeStyle=line;ctx.lineWidth=2;ctx.stroke()}};
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#0b0c2e");g.addColorStop(1,"#2a1048");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   poly([pj(0,JY),pj(W,JY),[W,H],[0,H]],"rgba(18,22,70,.9)");
@@ -280,7 +282,7 @@ $("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}run=false;$("
 const DF=["sub","pr","hold","hmin","hmax","chord","pin"],PCT={pr:1,hold:1,chord:1,pin:1};
 function loadD(){const D=DIFF[S.diff]||DIFF[0];for(const k of DF)$("d_"+k).value=PCT[k]?Math.round(D[k]*100):D[k]}
 function saveD(){const D=DIFF[S.diff]||DIFF[0];for(const k of DF){let v=+$("d_"+k).value;if(!isFinite(v))continue;if(k=="hmin"||k=="hmax")v=Math.max(.25,v);D[k]=PCT[k]?Math.max(0,Math.min(1,v/100)):v}
-  try{localStorage.setItem("g20d",JSON.stringify(DIFF))}catch(e){}}
+  try{localStorage.setItem("g20d2",JSON.stringify(DIFF))}catch(e){}}
 for(const k of DF)$("d_"+k).addEventListener("input",saveD);
 $("diff").addEventListener("input",loadD);
 $("d_reset").onclick=()=>{DIFF[S.diff]=JSON.parse(JSON.stringify(DD[S.diff]));loadD();saveD()};
