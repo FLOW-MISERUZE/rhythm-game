@@ -345,8 +345,8 @@ function ysUpdate(now){
   for(const n of N){const te=n.t+S.off;if(te-now>200)break;
     if(n.k==1||n.k==3){
       if(n.st==0){if(n.k==3||!n.hd){if(now>=te)n.st=1}else if(now>te+125){n.st=1;n.hm=1;reg(MISS)}}
-      if(n.st==1)while(n.ti<n.ticks.length&&now>=n.ticks[n.ti]+S.off){const tt=n.ticks[n.ti],sp=spanAt(n,tt);n.ti++;
-        if(heldSpan(sp[0],sp[1],.5))reg(0,"",1);else reg(MISS,"",1)}
+      if(n.st==1)while(n.ti<n.ticks.length&&now>=n.ticks[n.ti]+S.off){const tt=n.ticks[n.ti],s1=spanAt(n,tt-30),s2=spanAt(n,tt),sp=[Math.min(s1[0],s2[0]),Math.max(s1[1],s2[1])];n.ti++;
+        if(heldSpan(sp[0],sp[1],.5))reg(0,"");else reg(MISS,"")}
       continue}
     if(n.st)continue;
     if(n.k==2){if(now>te+130){if(n.pend){n.st=1;reg(2,"");fx(n);plg(LN(n.u0),"FLICK（はじかず）GREAT")}else{n.st=2;reg(MISS)}}continue}
@@ -534,7 +534,7 @@ function drawYS(now){
     P([A,B,C,D]);ctx.fillStyle=lg(C[1],A[1],col[0],col[1]);ctx.fill();ctx.lineWidth=Math.max(1.5,2*SC*(B[0]-A[0])/(xb-xa||1));ctx.strokeStyle=miss?"#888":kind==2?"#d8c8ff":sc5?"#ffd0f6":"#ffd36a";ctx.stroke();
     if(kind!=2&&!sc5&&!miss){const w=B[0]-A[0],h=A[1]-D[1];ctx.fillStyle=kind==4?"#fff3c0":"#fff";for(const f of[.05,.95]){const xx=A[0]+w*f,yy=D[1]+h*.25;ctx.fillRect(xx-1.2,yy,2.4,h*.38);ctx.fillRect(xx-1.2,yy+h*.5,2.4,h*.12)}}
     if((kind==2||sc5)&&!miss){const za=z+th*1.1,zb=z+th*2.6,m=(xa+xb)/2,n=Math.max(1,Math.round((xb-xa)/lw*3));ctx.strokeStyle=sc5?"rgba(255,215,250,.95)":"rgba(240,230,255,.95)";ctx.lineWidth=Math.max(1.5,2.2*SC*(B[0]-A[0])/(xb-xa||1));ctx.lineJoin="round";
-      for(let i=0;i<n;i++){for(const dir of(sc5&&ad?[ad]:[-1,1])){const cx2=sc5&&ad?m+dir*(xb-xa)*(-.3+.6*i/Math.max(1,n-1)):m+dir*(xb-xa)*(.12+.3*i/n),wv=(xb-xa)*.06,p1=pj(cx2-dir*wv,za),p2=pj(cx2+dir*wv,(za+zb)/2),p3=pj(cx2-dir*wv,zb);ctx.beginPath();ctx.moveTo(p1[0],p1[1]);ctx.lineTo(p2[0],p2[1]);ctx.lineTo(p3[0],p3[1]);ctx.stroke()}}}};
+      for(let i=0;i<n;i++){for(const dir of(sc5&&ad?[ad]:[-1,1])){const fx=sc5&&ad?.5+dir*(-.3+.6*i/Math.max(1,n-1)):.5+dir*(.12+.3*i/n),tw=C[0]-D[0],hh=A[1]-D[1],x2=D[0]+tw*fx,wv=tw*.06*dir,y0=D[1]-hh*.15,y1=D[1]-hh*1.25,p1=[x2-wv,y0],p2=[x2+wv,(y0+y1)/2],p3=[x2-wv,y1];ctx.beginPath();ctx.moveTo(p1[0],p1[1]);ctx.lineTo(p2[0],p2[1]);ctx.lineTo(p3[0],p3[1]);ctx.stroke()}}}};
   const body=(z0,z1,xa,xb,xa2,xb2,kind,hd,miss)=>{z1=Math.min(z1,JY);if(z1<=z0)return;const A=pj(xa,z0),B=pj(xb,z0),C=pj(xb2,z1),D=pj(xa2,z1);P([A,B,C,D]);
     ctx.fillStyle=miss?"rgba(110,110,120,.45)":kind==1?lg(D[1],A[1],hd?"rgba(140,240,255,.55)":"rgba(80,220,255,.28)",hd?"rgba(170,250,255,.95)":"rgba(80,220,255,.62)"):lg(D[1],A[1],hd?"rgba(220,140,255,.55)":"rgba(160,70,255,.3)",hd?"rgba(255,150,255,.95)":"rgba(255,80,240,.7)");ctx.fill();
     ctx.strokeStyle=miss?"rgba(150,150,150,.5)":kind==1?"rgba(170,250,255,.85)":"rgba(255,170,255,.85)";ctx.lineWidth=1.5;ctx.stroke()};
@@ -707,10 +707,12 @@ function buildPreset(p){const mb=60000/p.bpm,T=b=>LEAD+p.off+b*mb,out=[];
   const scs=out.filter(n=>n.k==3);
   for(const n of out)if(n.k==4){const h=scs.find(s=>s.t-5<=n.t&&n.t<=s.t+s.d+5);n.ad=0;if(h){const a=spanAt(h,n.t-2),b=spanAt(h,n.t+2),c=(b[0]+b[1])-(a[0]+a[1]);n.ad=c>.05?1:c<-.05?-1:0}}
   for(const n of out)if(n.k==3||n.k==1)n.tapHead=out.some(m=>m.k==0&&Math.abs(m.t-n.t)<5&&Math.min(m.u1,U1(n))-Math.max(m.u0,U0(n))>0);
-  // 8分ごとの押しっぱなし判定（直後や同時にフリックがある所は判定しない）
+  // ロング判定：曲の8分の拍ごとに押下中か判定（押していればPERFECT✦、離していればMISS）。終点の判定はなし
+  // 直後や同時にフリックがある所は判定しない
   const half=mb/2,fls=out.filter(n=>n.k==2);
   for(const n of out){if(n.k!=1&&n.k!=3)continue;n.ticks=[];n.ti=0;
-    for(let tt=n.t+half;tt<n.t+n.d-5;tt+=half){const sp=spanAt(n,tt);if(fls.some(f=>f.t>=tt-30&&f.t<=tt+half&&Math.min(sp[1]+.34,f.u1)-Math.max(sp[0]-.34,f.u0)>0))continue;n.ticks.push(tt)}}
+    for(let k=Math.floor((n.t-T(0))/half)+1;;k++){const tt=T(k/2);if(tt>=n.t+n.d-5)break;if(tt<=n.t+5)continue;
+      const sp=spanAt(n,tt);if(fls.some(f=>f.t>=tt-30&&f.t<=tt+half&&Math.min(sp[1]+.34,f.u1)-Math.max(sp[0]-.34,f.u0)>0))continue;n.ticks.push(tt)}}
   return out.sort((x,y)=>x.t-y.t)}
 const ovl=$("ovl"),showOv=v=>{ovl.classList.remove("hide");$("pwView").classList.toggle("hide",v!="pw");$("listView").classList.toggle("hide",v!="list")},hideOv=()=>ovl.classList.add("hide");
 function showList(){const box=$("songList");box.innerHTML="";$("listMsg").textContent="";
