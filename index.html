@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="theme-color" content="#0b0c2e">
-<meta name="apple-mobile-web-app-title" content="音ゲー">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>音ゲー</title>
 <style>
@@ -114,7 +110,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div class="row"><span>難易度</span><select id="diff" class="seg"><option value="0">ノーマル</option><option value="1">ハード</option></select></div>
 <div class="row"><span>レーン数</span><select id="lanes" class="seg"><option value="4">4レーン</option><option value="5">5レーン</option></select></div>
 <div class="row" id="bpmRow"><span>BPM</span><input id="bpm" type="number" min="60" max="300" step="1"></div>
-<label class="sl"><div class="top"><span>ノーツ速度</span><b id="vspeed"></b></div><input id="speed" type="range" min="1" max="30" step="0.1"></label>
+<label class="sl" id="speedRow"><div class="top"><span>ノーツ速度</span><b id="vspeed"></b></div><input id="speed" type="range" min="1" max="30" step="0.1"></label>
 <div class="row"><span>5レーン時のキー（PC）</span><select id="key" class="seg"><option value="0">SDFJK</option><option value="1">DFJKL</option></select></div>
 </section>
 <section class="card" id="musicCard" style="display:none"><h3>🎵 音楽モード</h3>
@@ -126,13 +122,16 @@ summary{cursor:pointer;color:#cfd4ff}
 </section>
 <section class="card" id="ysCard" style="display:none"><h3>📀 〇〇〇〇モード</h3>
 <div class="row"><span id="ysName">曲が選ばれていません</span><button id="presetBtn" type="button" class="mini2 presetBtn">📀 曲を選ぶ</button></div>
+<label class="sl"><div class="top"><span>ノーツの速さ（このモード専用）</span><b id="vyspeed"></b></div><input id="yspeed" type="range" min="1" max="20" step="0.1"></label>
+<label class="sl"><div class="top"><span>ノーツの表示開始位置（このモード専用）</span><b id="vyspawn"></b></div><input id="yspawn" type="range" min="0" max="80" step="1"></label>
+<div class="row"><span>ノーツ加速</span><label class="sw"><input id="yacc" type="checkbox"><i></i></label></div>
 <div class="hint" id="ysInfo">とにかくシークレットなモードです。曲を遊ぶには、パスワードが必要です。</div>
 </section>
 <section class="card"><h3>🎨 見た目</h3>
 <div class="row"><span>ノーツのスキン</span><select id="skin" class="seg"><option value="0">ノーマル</option><option value="1">シンプル</option><option value="2">高品質</option></select></div>
 <div class="row"><span>ノーツの落ち方</span><select id="view" class="seg"><option value="0">斜め</option><option value="1">垂直</option></select></div>
 <label class="sl"><div class="top"><span>レーン幅（0で自動）</span><b id="vlnw"></b></div><input id="lnw" type="range" min="0" max="400" step="1"></label>
-<label class="sl"><div class="top"><span>ノーツ開始位置（上から%）</span><b id="vspawn"></b></div><input id="spawn" type="range" min="0" max="80" step="1"></label>
+<label class="sl" id="spawnRow"><div class="top"><span>ノーツ開始位置（上から%）</span><b id="vspawn"></b></div><input id="spawn" type="range" min="0" max="80" step="1"></label>
 <div class="hint">スライダーを動かしている間は、後ろにゲーム画面が透けて見えます。黄色い線から下に、ノーツが現れます。</div>
 </section>
 <section class="card"><h3>🔊 音</h3>
@@ -166,11 +165,12 @@ let BEAT=400,nb=0,gb=0,gcur=0,gbar=-1,gsub=16,pend=[],cal=false,calOff=0,calD=[]
 const DD=[{sub:16,pr:.6,hold:.18,hmin:1,hmax:2,chord:.18,pin:.12},{sub:0,pr:.85,hold:.25,hmin:.5,hmax:2,chord:.4,pin:.25}];
 const DIFF=JSON.parse(JSON.stringify(DD));
 try{JSON.parse(localStorage.getItem("g20d2")||"[]").forEach((d,i)=>{if(DIFF[i]&&d)Object.assign(DIFF[i],d)})}catch(e){}
-const SK=["speed","off","spawn","lnw","lanes","diff","bpm","key","skin","tapsnd","view","mode"];
-const S={speed:10,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0,mode:0};
+const SK=["speed","yspeed","yspawn","off","spawn","lnw","lanes","diff","bpm","key","skin","tapsnd","view","mode"];
+const S={speed:10,yspeed:5.5,yspawn:0,yacc:1,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0,mode:0};
 try{Object.assign(S,JSON.parse(localStorage.getItem("g20")||"{}"))}catch(e){}
 if(!S.v2){S.v2=1;if(S.lnw<=110)S.lnw=130}
 if(!S.v3){S.v3=1;S.lnw=0}
+if(S.yspeed==null)S.yspeed=5.5;if(S.yspawn==null)S.yspawn=0;if(S.yacc==null)S.yacc=1;
 const cv=$("cv"),ctx=cv.getContext("2d");
 let lastPend=null,OUT=null,ys=false,preset=null,lanesBak=0,unlocked=false,ysBuf=null,ysAn=null;
 let actx,t0=0,run=false,N=[],cnt=[0,0,0,0,0,0],combo=0,maxc=0,score=0,lastJ=null,rnd,last=[],lh=[];
@@ -181,7 +181,8 @@ function fit(){const vv=window.visualViewport;W0=Math.round(vv&&vv.width?vv.widt
 function apply(){
   for(const k of SK){S[k]=+$(k).value;const v=$("v"+k);if(v)v.textContent=S[k]}
   $("vlnw").textContent=S.lnw||"自動";
-  if(S.mode==2){$("vspeed").textContent=S.speed.toFixed(1)+"（表示時間 "+Math.round(74*(100-S.spawn)/S.speed)+"ms）";$("vspawn").textContent=S.spawn+"%"}
+  $("vyspeed").textContent=S.yspeed.toFixed(1)+"（表示時間 "+ysTime()+"ms）";$("vyspawn").textContent=S.yspawn;S.yacc=$("yacc").checked?1:0;
+  $("speedRow").style.display=$("spawnRow").style.display=S.mode==2?"none":"";
   $("musicCard").style.display=S.mode==1?"":"none";$("ysCard").style.display=S.mode==2?"":"none";$("bpmRow").style.display=S.mode>=1?"none":"";
   S.tap=$("tap").checked?1:0;S.metro=$("metro").checked?1:0;kh.fill(0);
   fit();
@@ -191,6 +192,7 @@ function apply(){
 for(const k of SK){$(k).value=S[k];$(k).addEventListener("input",apply)}
 $("tap").checked=!!S.tap;$("tap").addEventListener("change",apply);
 $("metro").checked=!!S.metro;$("metro").addEventListener("change",apply);
+$("yacc").checked=!!S.yacc;$("yacc").addEventListener("change",apply);
 function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 
 // ---- 無限生成：高難易度譜面に多い配置をグループ化し、ランダムに選んで連結 ----
@@ -400,7 +402,7 @@ function drawPanels(){
   const lw2=Math.max(110*SC,Math.min(170*SC,X0-16));
   if(X0>=lw2+16){const lx=Math.max(6,X0-lw2-Math.min(24*SC,(X0-lw2)/2)),ly=Math.max(py,100*SC);box(lx,ly,lw2,lh*4.8);
     const L2=(i,a,b)=>{const y=ly+lh*(i+.85);ctx.textAlign="left";ctx.fillStyle="#cfd8ff";ctx.fillText(a,lx+pd,y);ctx.textAlign="right";ctx.fillStyle="#fff";ctx.fillText(b,lx+lw2-pd,y)};
-    L2(0,"BPM",run?Math.round(60000/BEAT):S.bpm);L2(1,"難易度",ys?"〇〇〇〇":["ノーマル","ハード"][S.diff|0]);L2(2,"レーン",K);L2(3,"速度",S.speed)}
+    L2(0,"BPM",run?Math.round(60000/BEAT):S.bpm);L2(1,"難易度",ys?"〇〇〇〇":["ノーマル","ハード"][S.diff|0]);L2(2,"レーン",K);L2(3,"速度",ys?S.yspeed:S.speed)}
   if(cal&&calMsg){ctx.font=`bold ${16*SC}px system-ui`;ctx.textAlign="center";const w=Math.min(W0-20,ctx.measureText(calMsg).width+28*SC);box(W0/2-w/2,H*.02,w,lh*1.5);ctx.fillStyle="#fff";ctx.fillText(calMsg,W0/2,H*.02+lh*1.05)}
   ctx.restore();
 }
@@ -497,10 +499,21 @@ function buildBg(){const c=document.createElement("canvas"),dpr=window.devicePix
   spot(W0*.12,H*.12,W0*.03,"90,220,255");spot(W0*.88,H*.12,-W0*.03,"90,220,255");spot(W0*.2,H*.05,W0*.12,"200,120,255");spot(W0*.8,H*.05,-W0*.12,"200,120,255");
   gr=g.createLinearGradient(0,H*.7,0,H);gr.addColorStop(0,"rgba(255,170,90,.18)");gr.addColorStop(1,"rgba(0,0,0,0)");g.fillStyle=gr;g.fillRect(0,H*.7,W0,H*.3);
   return c}
+const YSD=[7400,7050,20000/3,6300,17800/3,16700/3,15550/3,14450/3,4450,12250/3,3700,10000/3,8900/3,2600,6650/3,1850,4450/3,3350/3,2200/3,1100/3,0];
+function ysDist(p){p=Math.max(0,Math.min(100,+p||0));const i=Math.min(19,Math.floor(p/5)),f=p/5-i;return YSD[i]+(YSD[i+1]-YSD[i])*f}
+function rhe(x){const r=Math.round(x);return Math.abs(x-Math.trunc(x))===.5&&r%2?r-1:r}
+function ysTime(){return Math.max(1,rhe(ysDist(S.yspawn)/S.yspeed))}
 function drawYS(now){
-  const K=4,lw=LWe,W=K*lw,SP0=S.spawn,sp=JY*S.speed*1000/7400,cx=W/2,SM=.3,TOP=H*.02;
-  const pj=(x,z)=>{const u=Math.max(-.35,Math.min(1,z/JY)),q=1/(1+(1/SM-1)*u),f=(q-SM)/(1-SM);return[cx+(x-cx)*q,TOP+(JY-TOP)*f]};
-  const sy=pj(0,JY*(100-SP0)/100)[1];
+  const K=4,lw=LWe,W=K*lw,ZS=JY*ysDist(S.yspawn)/7400,sp=ZS*1000/ysTime(),cx=W/2,KF=6,MN=S.yacc?3.8:6,TOP=0,SPN=JY-TOP;
+  const sMin=-(H-JY)/SPN-.12,uMin=sMin/(1+MN-MN*sMin);
+  // ノーツの進み方 s=u(1+m)/(1+m·u)（m≈3.8, 加速なしは床と同じ k=6）、横幅は床の遠近 w=1-s·k/(1+k)
+  const sOf=z=>{const u=Math.max(uMin,Math.min(1,z/JY));return u*(1+MN)/(1+MN*u)},wOf=s=>1-s*KF/(1+KF);
+  const pj=(x,z)=>{const s=sOf(z),w=wOf(s);return[cx+(x-cx)*w,JY-s*SPN]};
+  const wAtY=y=>wOf((JY-y)/SPN),VY=JY+1.57*H,H0=.485,EX=.68,TL=.78,LIFT=.095*lw/3/(1.57*H);
+  const lift=(p,r)=>{const L=LIFT*r;return[cx+(p[0]-cx)*(1+L),VY+(p[1]-VY)*(1+L)]};
+  const plate=(xa,xb,z,hm)=>{const A=pj(xa,z),B=pj(xb,z),r=wOf(sOf(z)),h=H0*lw/3*Math.pow(Math.max(.02,r),EX)*hm,yt=A[1]-h,kr=wAtY(yt)/r,f=1+TL*(kr-1);
+    return{r,q:[A,B,[cx+(B[0]-cx)*f,yt],[cx+(A[0]-cx)*f,yt]]}};
+  const sy=pj(0,ZS)[1];
   const P=(pts)=>{ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath()};
   const lg=(y0,y1,a,b)=>{const g=ctx.createLinearGradient(0,y0,0,y1);g.addColorStop(0,a);g.addColorStop(1,b);return g};
   if(!bgC)bgC=buildBg();ctx.drawImage(bgC,0,0,W0,H);
@@ -514,7 +527,9 @@ function drawYS(now){
   // ノーツ
   ctx.save();ctx.beginPath();ctx.rect(-lw,sy,W+2*lw,H-sy);ctx.clip();
   const NB2=NZ*.95,X=u=>u*lw,mg=3;
-  const bar=(z,xa,xb,kind,miss,ad)=>{const sc5=kind==5;if(sc5)kind=3;const th=(kind==2||sc5)?NB2*.55:NB2,A=pj(xa,z),B=pj(xb,z),C=pj(xb,z+th),D=pj(xa,z+th);
+  const bar=(z,xa,xb,kind,miss,ad)=>{const sc5=kind==5;if(sc5)kind=3;const th=(kind==2||sc5)?NB2*.55:NB2,pl=plate(xa,xb,z,(kind==2||sc5)?.6:1);
+    if(!miss){P(pl.q);ctx.fillStyle=kind==2?"rgba(150,120,255,.75)":sc5?"rgba(255,170,240,.7)":"rgba(255,205,90,.85)";ctx.fill()}
+    const [A,B,C,D]=pl.q.map(p=>lift(p,pl.r));
     const col=miss?["#666","#555"]:[["#ff8ab4","#ff4f8a"],["#5ab4ff","#2a6cff"],["#a87bff","#6a3cf0"],["#ff7af2","#c43cff"],["#ffc14d","#ff9a10"]][kind];
     P([A,B,C,D]);ctx.fillStyle=lg(C[1],A[1],col[0],col[1]);ctx.fill();ctx.lineWidth=Math.max(1.5,2*SC*(B[0]-A[0])/(xb-xa||1));ctx.strokeStyle=miss?"#888":kind==2?"#d8c8ff":sc5?"#ffd0f6":"#ffd36a";ctx.stroke();
     if(kind!=2&&!sc5&&!miss){const w=B[0]-A[0],h=A[1]-D[1];ctx.fillStyle=kind==4?"#fff3c0":"#fff";for(const f of[.05,.95]){const xx=A[0]+w*f,yy=D[1]+h*.25;ctx.fillRect(xx-1.2,yy,2.4,h*.38);ctx.fillRect(xx-1.2,yy+h*.5,2.4,h*.12)}}
@@ -525,13 +540,13 @@ function drawYS(now){
     ctx.strokeStyle=miss?"rgba(150,150,150,.5)":kind==1?"rgba(170,250,255,.85)":"rgba(255,170,255,.85)";ctx.lineWidth=1.5;ctx.stroke()};
   for(const pass of[1,0])for(let i=N.length-1;i>=0;i--){const n=N[i],lng=n.k==1||n.k==3;if(pass!=(lng?1:0))continue;
     const te=n.t+S.off,z=(te-now)*sp/1000,miss=n.st==2;if(z>JY)continue;
-    if(lng){const zt=z+n.d*sp/1000;if(n.st==1&&now>=te+n.d)continue;
+    if(lng){const zt=z+n.d*sp/1000;if(n.st==1&&now>=te+n.d||zt<uMin*JY)continue;
       const z0=n.st==1?Math.max(z,0):z,hd=n.st==1&&(n.k==3?heldSpan(...spanAt(n,now),.3):heldSpan(U0(n),U1(n),.3));
       if(n.k==3){const P=n.path;for(let q=0;q<P.length;q++){let za=(P[q].t+S.off-now)*sp/1000,zb2=q+1<P.length?(P[q+1].t+S.off-now)*sp/1000:zt;if(n.st==1){za=Math.max(za,0);zb2=Math.max(zb2,0)}
           if(zb2<=za||za>JY)continue;const ab=n.st==1&&now>=P[q].t+S.off&&(q+1>=P.length||now<P[q+1].t+S.off)?hd:false;body(za,zb2,X(P[q].u0)+mg,X(P[q].u1)-mg,X(P[q].u0)+mg,X(P[q].u1)-mg,3,ab,miss)}}
       else{body(z0,zt,X(U0(n))+mg,X(U1(n))-mg,X(U0(n))+mg,X(U1(n))-mg,1,hd,miss);if(zt<=JY)bar(zt,X(U0(n))+mg,X(U1(n))-mg,1,miss);if(n.st!=1&&n.hd)bar(z0,X(U0(n))+mg,X(U1(n))-mg,1,miss)}
       continue}
-    if(n.st==1)continue;
+    if(n.st==1||z<uMin*JY)continue;
     bar(z,X(U0(n))+mg,X(U1(n))-mg,n.k==4?5:n.k==2?2:n.g?4:0,miss,n.ad)}
   ctx.restore();
   // ノーツ開始位置の線
@@ -736,5 +751,4 @@ if(document.querySelectorAll){
   document.querySelectorAll("input[type=range]").forEach(r=>{const card=r.closest(".card"),on=()=>{menuEl.classList.add("peek");card.classList.add("keep")},off=()=>setTimeout(()=>{menuEl.classList.remove("peek");card.classList.remove("keep")},400);
     r.addEventListener("pointerdown",on);r.addEventListener("touchstart",on,{passive:true});for(const e of["pointerup","pointercancel","touchend","touchcancel","change"])r.addEventListener(e,off)})}
 apply();loadD();
-if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script></body></html>
