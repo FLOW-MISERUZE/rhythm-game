@@ -181,6 +181,7 @@ function fit(){const vv=window.visualViewport;W0=Math.round(vv&&vv.width?vv.widt
 function apply(){
   for(const k of SK){S[k]=+$(k).value;const v=$("v"+k);if(v)v.textContent=S[k]}
   $("vlnw").textContent=S.lnw||"自動";
+  if(S.mode==2){$("vspeed").textContent=S.speed.toFixed(1)+"（表示時間 "+Math.round(74*(100-S.spawn)/S.speed)+"ms）";$("vspawn").textContent=S.spawn+"%"}
   $("musicCard").style.display=S.mode==1?"":"none";$("ysCard").style.display=S.mode==2?"":"none";$("bpmRow").style.display=S.mode>=1?"none":"";
   S.tap=$("tap").checked?1:0;S.metro=$("metro").checked?1:0;kh.fill(0);
   fit();
@@ -497,7 +498,7 @@ function buildBg(){const c=document.createElement("canvas"),dpr=window.devicePix
   gr=g.createLinearGradient(0,H*.7,0,H);gr.addColorStop(0,"rgba(255,170,90,.18)");gr.addColorStop(1,"rgba(0,0,0,0)");g.fillStyle=gr;g.fillRect(0,H*.7,W0,H*.3);
   return c}
 function drawYS(now){
-  const K=4,lw=LWe,W=K*lw,SP0=S.spawn>0?S.spawn:13,sp=JY*S.speed*1000/7400,cx=W/2,SM=.3,TOP=H*.02;
+  const K=4,lw=LWe,W=K*lw,SP0=S.spawn,sp=JY*S.speed*1000/7400,cx=W/2,SM=.3,TOP=H*.02;
   const pj=(x,z)=>{const u=Math.max(-.35,Math.min(1,z/JY)),q=1/(1+(1/SM-1)*u),f=(q-SM)/(1-SM);return[cx+(x-cx)*q,TOP+(JY-TOP)*f]};
   const sy=pj(0,JY*(100-SP0)/100)[1];
   const P=(pts)=>{ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath()};
