@@ -700,12 +700,18 @@ const ovl=$("ovl"),showOv=v=>{ovl.classList.remove("hide");$("pwView").classList
 function showList(){const box=$("songList");box.innerHTML="";$("listMsg").textContent="";
   SONGS.forEach(sg=>{const b=document.createElement("button");b.type="button";b.className="songItem";b.innerHTML=`<span style="font-size:26px">📀</span><span>${sg.name}<small>${sg.sub}</small></span>`;b.onclick=()=>loadPreset(sg);box.appendChild(b)});showOv("list")}
 async function loadPreset(sg){$("listMsg").textContent="読み込み中…";
-  try{const [ab,js]=await Promise.all([fetch(sg.mp3).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()}),fetch(sg.chart).then(r=>{if(!r.ok)throw 0;return r.json()})]);
-    dctx=dctx||new(window.AudioContext||window.webkitAudioContext)();ysBuf=await new Promise((ok,ng)=>dctx.decodeAudioData(ab,ok,ng));
+  let stage="";
+  try{const get=async(u,kind)=>{stage=u;let r=null;
+      // songs/ フォルダになくても、index.html と同じ場所にあれば読み込む
+      for(const v of[u,u.split("/").pop()]){try{r=await fetch(v,{cache:"no-store"})}catch(e){r=null}if(r&&r.ok)break}
+      if(!r)throw new Error(u+" に接続できません");
+      if(!r.ok)throw new Error(u+" が見つかりません（"+r.status+"）");return kind=="json"?r.json():r.arrayBuffer()};
+    const [ab,js]=await Promise.all([get(sg.mp3,"bin"),get(sg.chart,"json")]);
+    stage="音声のデコード";dctx=dctx||new(window.AudioContext||window.webkitAudioContext)();ysBuf=await new Promise((ok,ng)=>dctx.decodeAudioData(ab,ok,e=>ng(new Error("曲ファイルを再生できる形に変換できません"))));
     ysAn={bpm:js.bpm,off:js.off,dur:ysBuf.duration*1000};preset=js;
     $("ysName").textContent="📀 "+sg.name;
     $("ysInfo").textContent="とにかくシークレットなモードです。曲を遊ぶには、パスワードが必要です。";
-    hideOv()}catch(e){$("listMsg").textContent="読み込めませんでした。ネットにつながっているか確認してください。"}}
+    hideOv()}catch(e){$("listMsg").textContent="読み込めませんでした："+((e&&e.message)||stage)}}
 $("presetBtn").onclick=()=>{if(unlocked)showList();else{$("pwIn").value="";$("pwErr").textContent="";showOv("pw");setTimeout(()=>{try{$("pwIn").focus()}catch(e){}},50)}};
 $("pwOk").onclick=()=>{if(cyrb53($("pwIn").value,1888)===PWH){unlocked=true;showList()}else{$("pwErr").textContent="パスワードが違います";$("pwIn").value=""}};
 $("pwIn").addEventListener("keydown",e=>{if(e.key=="Enter")$("pwOk").onclick()});
