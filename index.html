@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 28</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 29</div></div>
 </div>
 </div>
 <script>
@@ -600,14 +600,16 @@ function drawYS(now){
       ctx.fillStyle=kind==4?"#fff4c8":"#ffd84a";
       for(const f of[.085,.915]){const bw=Math.max(.004,ph*.09/pw);rr(f-bw,.46,f+bw,.76,ph*.05);ctx.fill();
         const c=Q(f,.34),r2=ph*.07;ctx.beginPath();ctx.moveTo(c[0],c[1]-r2);ctx.lineTo(c[0]+r2*.35,c[1]-r2*.35);ctx.lineTo(c[0]+r2,c[1]);ctx.lineTo(c[0]+r2*.35,c[1]+r2*.35);ctx.lineTo(c[0],c[1]+r2);ctx.lineTo(c[0]-r2*.35,c[1]+r2*.35);ctx.lineTo(c[0]-r2,c[1]);ctx.lineTo(c[0]-r2*.35,c[1]-r2*.35);ctx.fill()}}
-    // フリック・スクラッチの矢印：紫で縁取った太い「＜」「＞」をすき間なく並べる。フリックは中央を空ける。矢印の向きへ光が流れる（本家風）
-    if((kind==2||sc5)&&!miss){const M0=Q(0,.5),M1=Q(1,.5),tw=M1[0]-M0[0],hh=A[1]-D[1],h=hh*1.05,sp=h*.62,y0=M0[1],ym=y0-h/2,one=sc5&&ad,ph=(performance.now()/420)%1,T=sp*.5,aa=sp*.42;
-      const pos=[];if(one){const n=Math.max(1,Math.round(tw/sp));for(let i=0;i<n;i++)pos.push([(i+.5)/n,ad])}
-      else{const half=tw*.4,n=Math.max(1,Math.round(half/sp));for(let i=0;i<n;i++){const f=(i+.5)/n*.4;pos.push([f,-1]);pos.push([1-f,1])}}
-      ctx.lineJoin="miter";ctx.lineWidth=Math.max(1,T*.22);ctx.strokeStyle="rgba(120,70,255,.95)";
-      for(const[fx,dir]of pos){const x=M0[0]+tw*fx,xb_=x-dir*aa-dir*T/2,xt=x+dir*aa-dir*T/2;
-        const pr=one?(ad>0?fx:1-fx):Math.abs(fx-.5)*2;let dd=pr-ph;dd-=Math.round(dd);const g=Math.exp(-dd*dd/.02),al=.5+.3*pr;
-        ctx.fillStyle=`rgba(${225+Math.round(30*g)},${215+Math.round(40*g)},255,${Math.min(1,al+.35*g)})`;
+    // フリック・スクラッチの矢印：紫で縁取った太い「＜」「＞」を、凹みに次の先端がはまるように隙間なく重ねる。
+    // フリックは中央を空けて左右へ。スクラッチは進行方向の端まで埋め、反対側は2〜3個分空ける。光は矢印の向きへゆっくり流れる
+    if((kind==2||sc5)&&!miss){const M0=Q(0,.5),M1=Q(1,.5),tw=M1[0]-M0[0],hh=A[1]-D[1],h=hh*1.05,T=h*.4,aa=h*.3,half=aa+T/2,y0=M0[1],ym=y0-h/2,one=sc5&&ad,ph=(performance.now()/900)%1;
+      const runs=[];const fit=w=>Math.max(1,Math.floor((w-2*half)/T+1e-6)+1);
+      if(one){const n=fit(tw-2.5*T);runs.push([ad>0?M1[0]-half:M0[0]+half,ad,n])}
+      else{const n=fit(tw*.4);runs.push([M0[0]+half,-1,n]);runs.push([M1[0]-half,1,n])}
+      ctx.lineJoin="miter";ctx.lineWidth=Math.max(1,T*.16);ctx.strokeStyle="rgba(110,60,240,.95)";
+      for(const[x0,dir,n]of runs)for(let k=n-1;k>=0;k--){const x=x0-dir*k*T,xb_=x-dir*half,xt=x+dir*(aa-T/2);
+        const pr=n>1?1-k/(n-1):1;let dd=pr-ph;dd-=Math.round(dd);const g=Math.exp(-dd*dd/.015),al=.55+.3*pr;
+        ctx.fillStyle=`rgba(${222+Math.round(33*g)},${212+Math.round(43*g)},255,${Math.min(1,al+.3*g)})`;
         ctx.beginPath();ctx.moveTo(xb_,y0);ctx.lineTo(xb_+dir*T,y0);ctx.lineTo(xt+dir*T,ym);ctx.lineTo(xb_+dir*T,y0-h);ctx.lineTo(xb_,y0-h);ctx.lineTo(xt,ym);ctx.closePath();ctx.fill();ctx.stroke()}}};
   const body=(z0,z1,xa,xb,xa2,xb2,kind,hd,miss)=>{z1=Math.min(z1,JY);if(z1<=z0)return;const A=pj(xa,z0),B=pj(xb,z0),C=pj(xb2,z1),D=pj(xa2,z1);P([A,B,C,D]);
     ctx.fillStyle=miss?"rgba(110,110,120,.5)":kind==1?lg(D[1],A[1],hd?"rgba(120,235,255,.85)":"rgba(40,200,245,.72)",hd?"rgba(170,250,255,1)":"rgba(60,215,255,.92)"):lg(D[1],A[1],hd?"rgba(210,120,255,.85)":"rgba(150,50,240,.75)",hd?"rgba(255,150,255,1)":"rgba(225,70,240,.92)");ctx.fill();
