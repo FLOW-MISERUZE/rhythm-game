@@ -155,7 +155,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 6</div>
+<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 7</div>
 </div>
 </div>
 <script>
@@ -613,8 +613,13 @@ function drawYS(now){
   // 判定の文字とコンボ
   ctx.textAlign="center";
   if(run&&lastJ){const age=tn-lastJ.t;if(age<500&&lastJ.j>=0){const a=1-age/500,y=JY*.62-(1-a)*8;ctx.globalAlpha=a;ctx.font=`900 ${34*SC}px system-ui`;ctx.lineWidth=6*SC;ctx.strokeStyle="rgba(60,10,80,.85)";ctx.strokeText(jname(lastJ.j),W/2,y);
-      let g;if(lastJ.j<=1){g=ctx.createLinearGradient(0,y-30*SC,0,y+2*SC);g.addColorStop(0,"#8fdcfb");g.addColorStop(.28,"#b6fbea");g.addColorStop(.52,"#fff8d2");g.addColorStop(.75,"#ffd2d8");g.addColorStop(1,"#ff9fd4")}else g=JC[lastJ.j];ctx.fillStyle=g;ctx.fillText(jname(lastJ.j),W/2,y);
-      if(lastJ.fl){ctx.font=`bold ${15*SC}px system-ui`;ctx.fillStyle=lastJ.fl[0]=="F"||lastJ.fl[0]=="E"?"#7cc4ff":"#ff9a7a";ctx.fillText(lastJ.fl,W/2,y+22*SC)}ctx.globalAlpha=1}}
+      // 本家の色：PERFECT✦＝青→白→ピンク、PERFECT＝紫→薄紫→水色、GREAT＝黄色
+      const vg=(cs,glow)=>{const g=ctx.createLinearGradient(0,y-30*SC,0,y+2*SC);cs.forEach((c,i)=>g.addColorStop(i/(cs.length-1),c));ctx.shadowColor=glow;ctx.shadowBlur=12*SC;return g};
+      const j=lastJ.j;ctx.fillStyle=j==0?vg(["#8fdcfb","#b6fbea","#fff8d2","#ffd2d8","#ff9fd4"],"rgba(255,255,255,.7)"):j==1?vg(["#b98ef6","#d6b4f8","#ebcff9","#cde6fa","#b5f4fb"],"rgba(150,110,255,.8)"):j==2?vg(["#fbf39a","#f6ed7f","#f7d575"],"rgba(255,200,60,.8)"):JC[j];
+      ctx.fillText(jname(j),W/2,y);ctx.shadowBlur=0;
+      if(lastJ.fl){const fast=lastJ.fl[0]=="F"||lastJ.fl[0]=="E",t=lastJ.fl=="LATE"?"SLOW":lastJ.fl,yy=y-36*SC;ctx.font=`900 ${20*SC}px system-ui`;
+        const g=ctx.createLinearGradient(0,yy-18*SC,0,yy);if(fast){g.addColorStop(0,"#dff1ff");g.addColorStop(1,"#94b2f7")}else{g.addColorStop(0,"#fde0f6");g.addColorStop(1,"#eeb0e3")}
+        ctx.shadowColor=fast?"rgba(90,140,255,.95)":"rgba(255,80,210,.95)";ctx.shadowBlur=10*SC;ctx.fillStyle=g;ctx.fillText(t,W/2,yy);ctx.shadowBlur=0}ctx.globalAlpha=1}}
   if(paused){ctx.fillStyle="rgba(0,0,0,.45)";ctx.fillRect(-X0,0,W0,H);if(cdNum>0){ctx.font=`bold ${130*SC}px system-ui`;ctx.lineWidth=6;ctx.strokeStyle="rgba(90,30,110,.9)";ctx.strokeText(cdNum,W/2,H*.48);ctx.fillStyle="#fff";ctx.fillText(cdNum,W/2,H*.48);ctx.font=`bold ${18*SC}px system-ui`;ctx.fillText("再開まで",W/2,H*.48-110*SC)}}
   ctx.restore();
   // コンボ（右側）
@@ -622,8 +627,9 @@ function drawYS(now){
     // ALL PERFECT✦→虹色＋✦、ALL PERFECT→虹色、フルコンボ→GREATの色、コンボを切った→黄色
     const st=cnt[1]+cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?2:cnt[3]+cnt[4]+cnt[5]==0?1:0;
     const rb=(y0,y1)=>{const g=ctx.createLinearGradient(0,y0,0,y1);g.addColorStop(0,"#8fdcfb");g.addColorStop(.28,"#b6fbea");g.addColorStop(.52,"#fff8d2");g.addColorStop(.75,"#ffd2d8");g.addColorStop(1,"#ff9fd4");return g};
-    const col=(y0,y1)=>st>=2?rb(y0,y1):st==1?JC[2]:"#ffe14d";
-    ctx.shadowColor=st>=2?"rgba(255,255,255,.9)":st==1?"rgba(111,227,255,.8)":"rgba(255,225,77,.7)";ctx.shadowBlur=10*SC;
+    const fcg=(y0,y1)=>{const g=ctx.createLinearGradient(0,y0,0,y1);g.addColorStop(0,"#fff4ff");g.addColorStop(.45,"#ffe0f6");g.addColorStop(1,"#ffb6dc");return g};
+    const col=(y0,y1)=>st>=2?rb(y0,y1):st==1?fcg(y0,y1):"#ffe14d";
+    ctx.shadowColor=st>=2?"rgba(255,255,255,.9)":st==1?"rgba(255,90,200,.9)":"rgba(255,225,77,.7)";ctx.shadowBlur=10*SC;
     ctx.font=`900 ${17*SC}px system-ui`;const cw=ctx.measureText("COMBO").width;ctx.fillStyle=col(H*.32-13*SC,H*.32);ctx.fillText("COMBO",xx,H*.32);
     if(st==3){const sx=xx-cw/2-12*SC,sy2=H*.32-6*SC,r=8*SC;ctx.fillStyle=rb(sy2-r,sy2+r,sx-r,sx+r);ctx.beginPath();ctx.moveTo(sx,sy2-r);ctx.lineTo(sx+r*.28,sy2-r*.28);ctx.lineTo(sx+r,sy2);ctx.lineTo(sx+r*.28,sy2+r*.28);ctx.lineTo(sx,sy2+r);ctx.lineTo(sx-r*.28,sy2+r*.28);ctx.lineTo(sx-r,sy2);ctx.lineTo(sx-r*.28,sy2-r*.28);ctx.fill()}
     ctx.font=`900 ${54*SC}px system-ui`;const nw=ctx.measureText(String(combo)).width;ctx.fillStyle=col(H*.4-40*SC,H*.4);ctx.fillText(combo,xx,H*.4);ctx.restore()}
