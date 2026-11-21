@@ -26,6 +26,7 @@ body.playing #bar{display:none}
 .hero{text-align:center;padding:6px 0 0}
 .logo{font-size:30px;font-weight:800;letter-spacing:.12em;background:linear-gradient(90deg,#ff6a9a,#8a7bff,#4fc3ff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{color:var(--mut);font-size:13px}
+.difHead{margin:10px 2px 4px;font-size:12px;font-weight:800;letter-spacing:.12em;color:#d9c8ff;text-align:left}
 .dif{display:inline-block;padding:1px 8px;margin-right:6px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.06em;color:#6a2bd8;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .actions{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
 @media(max-width:520px){.actions{grid-template-columns:1fr}}
@@ -156,7 +157,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 12</div>
+<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 13</div>
 </div>
 </div>
 <script>
@@ -787,7 +788,7 @@ function buildPreset(p){const mb=60000/p.bpm,BP=p.bpms||[[0,p.bpm]],out=[];
   return out.sort((x,y)=>x.t-y.t)}
 const ovl=$("ovl"),showOv=v=>{ovl.classList.remove("hide");$("pwView").classList.toggle("hide",v!="pw");$("listView").classList.toggle("hide",v!="list")},hideOv=()=>ovl.classList.add("hide");
 function showList(){const box=$("songList");box.innerHTML="";$("listMsg").textContent="";
-  SONGS.forEach(sg=>{const b=document.createElement("button");b.type="button";b.className="songItem";b.innerHTML=`<span style="font-size:26px">📀</span><span>${sg.name}<small><b class="dif">${sg.diff}</b> ${sg.sub}</small></span>`;b.onclick=()=>loadPreset(sg);box.appendChild(b)});showOv("list")}
+  const DO=["OLIVIER VI","OLIVIER VII","OLIVIER VIII"];let lastD="";[...SONGS].sort((x,y)=>DO.indexOf(x.diff)-DO.indexOf(y.diff)).forEach(sg=>{if(sg.diff!=lastD){lastD=sg.diff;const h=document.createElement("div");h.className="difHead";h.textContent=sg.diff;box.appendChild(h)}const b=document.createElement("button");b.type="button";b.className="songItem";b.innerHTML=`<span style="font-size:26px">📀</span><span>${sg.name}<small><b class="dif">${sg.diff}</b> ${sg.sub}</small></span>`;b.onclick=()=>loadPreset(sg);box.appendChild(b)});showOv("list")}
 async function loadPreset(sg){$("listMsg").textContent="読み込み中…";
   let stage="";
   try{const get=async(u,kind)=>{stage=u;let r=null;
