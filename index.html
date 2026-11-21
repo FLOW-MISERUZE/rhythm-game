@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 34</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 35</div></div>
 </div>
 </div>
 <script>
@@ -602,7 +602,7 @@ function drawYS(now){
         const c=Q(f,.34),r2=ph*.07;ctx.beginPath();ctx.moveTo(c[0],c[1]-r2);ctx.lineTo(c[0]+r2*.35,c[1]-r2*.35);ctx.lineTo(c[0]+r2,c[1]);ctx.lineTo(c[0]+r2*.35,c[1]+r2*.35);ctx.lineTo(c[0],c[1]+r2);ctx.lineTo(c[0]-r2*.35,c[1]+r2*.35);ctx.lineTo(c[0]-r2,c[1]);ctx.lineTo(c[0]-r2*.35,c[1]-r2*.35);ctx.fill()}}
     // フリック・スクラッチの矢印：紫で縁取った太い「＜」「＞」を、凹みに次の先端がはまるように隙間なく重ねる。
     // フリックは中央を空けて左右へ。スクラッチは進行方向の端まで埋め、反対側は2〜3個分空ける。光は矢印の向きへゆっくり流れる
-    if((kind==2||sc5)&&!miss){const M0=Q(0,.66),M1=Q(1,.66),tw=M1[0]-M0[0],hh=A[1]-D[1],h=hh*.95,T=h*.33,aa=h*.14,GAP=h*.11,PT=T+GAP,half=aa+T/2,y0=M0[1],ym=y0-h/2,one=sc5&&ad,ph=(performance.now()/900)%1;
+    if((kind==2||sc5)&&!miss){const M0=Q(0,.66),M1=Q(1,.66),tw=M1[0]-M0[0],hh=A[1]-D[1],h=hh*.95,T=h*.33,aa=h*.14,GAP=h*.11,PT=T+GAP,half=aa+T/2,y0=M0[1],ym=y0-h/2,one=(sc5||kind==2)&&ad,ph=(performance.now()/900)%1;
       const runs=[];const fit=w=>Math.max(1,Math.floor((w-2*half)/PT+1e-6)+1);
       if(one){const n=fit(tw-2.5*PT);runs.push([ad>0?M1[0]-half:M0[0]+half,ad,n])}
       else{const n=fit(tw*.4);runs.push([M0[0]+half,-1,n]);runs.push([M1[0]-half,1,n])}
@@ -818,7 +818,7 @@ function buildPreset(p){const mb=60000/p.bpm,BP=p.bpms||[[0,p.bpm]],out=[];
   const T=b=>{let t=LEAD+p.off,pb=0,cb=BP[0][1];for(let i=1;i<BP.length&&BP[i][0]<b;i++){t+=(BP[i][0]-pb)*60000/cb;pb=BP[i][0];cb=BP[i][1]}return t+(b-pb)*60000/cb};
   for(const a of p.notes){const k=a[0],t=T(a[1]/48),u0=a[2]/3,u1=a[3]/3,n={t,b0:a[1]/48,l:Math.min(3,Math.floor(u0)),u0,u1,k,d:0,st:0};
     if(k==1||k==3)n.d=T(a[4]/48)-t;if(k==0&&a[5])n.g=1;
-    if(k==1)n.hd=a[5]!==0;if(k==4&&a[4]!=null)n.dv=a[4];
+    if(k==1)n.hd=a[5]!==0;if((k==4||k==2)&&a[4]!=null)n.dv=a[4];if(k==2&&a[4])n.ad=a[4];
     if(k==3){n.path=a[5].map(q=>({t:T(q[0]/48),u0:q[1]/3,u1:q[2]/3}));if(a[6]!==0)out.push({t,l:n.l,u0:n.path[0].u0,u1:n.path[0].u1,k:0,d:0,st:0});n.hd=false}
     out.push(n)}
   // スプリット：その区間はレーンが区切られる（境目のラインが光る）。ランダムがオンなら区間ごとにレーンを入れ替える
