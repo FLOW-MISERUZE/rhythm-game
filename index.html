@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 23</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 24</div></div>
 </div>
 </div>
 <script>
@@ -176,7 +176,7 @@ if(!S.v2){S.v2=1;if(S.lnw<=110)S.lnw=130}
 if(!S.v3){S.v3=1;S.lnw=0}
 if(S.yspeed==null)S.yspeed=5.5;if(S.yspawn==null)S.yspawn=0;if(S.yacc==null)S.yacc=1;
 const cv=$("cv"),ctx=cv.getContext("2d");
-let KB={},ysSplits=[],lastPend=null,OUT=null,ys=false,preset=null,lanesBak=0,unlocked=false,ysBuf=null,ysAn=null;
+let ysOk=false,KB={},ysSplits=[],lastPend=null,OUT=null,ys=false,preset=null,lanesBak=0,unlocked=false,ysBuf=null,ysAn=null;
 let actx,t0=0,run=false,N=[],cnt=[0,0,0,0,0,0],combo=0,maxc=0,score=0,lastJ=null,rnd,last=[],lh=[];
 function fit(){const vv=window.visualViewport;W0=Math.round(vv&&vv.width?vv.width:window.innerWidth);H=Math.round(vv&&vv.height?vv.height:window.innerHeight);
   JY=ys?Math.round(H*.745):H-Math.round(H*.24);NZ=JY*.047;HZ=H*.05;SC=Math.max(.8,Math.min(1.6,H/620,W0/760));
@@ -581,7 +581,7 @@ function drawYS(now){
   // ノーツ
   ctx.save();ctx.beginPath();ctx.rect(-lw,sy,W+2*lw,H-sy);ctx.clip();
   const NB2=NZ*.95,X=u=>u*lw,mg=3;
-  const bar=(z,xa,xb,kind,miss,ad)=>{const sc5=kind==5;if(sc5)kind=3;const th=(kind==2||sc5)?NB2*.55:NB2,pl=plate(xa,xb,z,(kind==2||sc5)?.6:1);
+  const bar=(z,xa,xb,kind,miss,ad)=>{const sc5=kind==5;if(sc5)kind=3;const th=NB2,pl=plate(xa,xb,z,1),pinkS=sc5&&!ysOk;
     const [A,B,C,D]=pl.q.map(p=>lift(p,pl.r));
     // 本家風のノーツ：角の丸い板、黄色の縁取り、両端の黄色い棒と小さな星、下に黄色い厚み
     const Q=(u,v)=>{const bx=A[0]+(B[0]-A[0])*u,by=A[1]+(B[1]-A[1])*u,tx=D[0]+(C[0]-D[0])*u,ty=D[1]+(C[1]-D[1])*u;return[bx+(tx-bx)*v,by+(ty-by)*v]};
@@ -590,18 +590,24 @@ function drawYS(now){
       const arc=(cu,cv,a0)=>{for(let k=0;k<=4;k++){const a=a0+k*Math.PI/8;pts.push(Q(cu+Math.cos(a)*ru,cv+Math.sin(a)*rv))}};
       arc(u1-ru,v0+rv,-Math.PI/2);arc(u1-ru,v1-rv,0);arc(u0+ru,v1-rv,Math.PI/2);arc(u0+ru,v0+rv,Math.PI);P(pts)};
     // v=0が手前の下端、v=1が上端
-    const col=miss?["#777","#555","#888"]:[["#ff9cc2","#ef5a92","#ffb3cf"],["#62b2ff","#2c66e6","#8cc8ff"],["#b48cff","#6a3cf0","#d2bcff"],["#ff8af0","#c43cff","#ffc0f6"],["#ffd36a","#ff9e1a","#ffe7a0"]][kind];
+    const col=miss?["#777","#555","#888"]:[["#ff9cc2","#ef5a92","#ffb3cf"],["#62b2ff","#2c66e6","#8cc8ff"],["#9c88ff","#5530dc","#b6a4ff"],pinkS?["#ff8af0","#c43cff","#ffc0f6"]:["#9c88ff","#5530dc","#b6a4ff"],["#ffd36a","#ff9e1a","#ffe7a0"]][kind];
     const rad=ph*.1;
-    if(!miss){const dy=pl.q[0][1]-A[1];for(const k of[1,.66,.33]){ctx.save();ctx.translate(0,dy*k);rr(0,0,1,1,rad);ctx.fillStyle=kind==2||sc5?"#7a5ad0":"#d9a43c";ctx.fill();ctx.restore()}}
-    rr(0,0,1,1,rad);ctx.fillStyle=miss?"#666":kind==2||sc5?"#a58cf0":"#f4c65a";ctx.fill();
+    if(!miss){const dy=pl.q[0][1]-A[1];for(const k of[1,.66,.33]){ctx.save();ctx.translate(0,dy*k);rr(0,0,1,1,rad);ctx.fillStyle=pinkS?"#b04ad0":kind==2||sc5?"#4a2bb0":"#d9a43c";ctx.fill();ctx.restore()}}
+    rr(0,0,1,1,rad);ctx.fillStyle=miss?"#666":"#f4c65a";ctx.fill();
     rr(.004,.08,.996,1,rad);ctx.fillStyle=lg(D[1],A[1],col[2],col[1]);ctx.fill();
-    if(!miss&&kind!=2&&!sc5){
+    if(!miss){
       rr(.035,.22,.965,.86,rad*.6);ctx.lineWidth=Math.max(1,ph*.07);ctx.strokeStyle=kind==4?"#fff0b0":"#ffd84a";ctx.stroke();
       ctx.fillStyle=kind==4?"#fff4c8":"#ffd84a";
       for(const f of[.085,.915]){const bw=Math.max(.004,ph*.09/pw);rr(f-bw,.46,f+bw,.76,ph*.05);ctx.fill();
         const c=Q(f,.34),r2=ph*.07;ctx.beginPath();ctx.moveTo(c[0],c[1]-r2);ctx.lineTo(c[0]+r2*.35,c[1]-r2*.35);ctx.lineTo(c[0]+r2,c[1]);ctx.lineTo(c[0]+r2*.35,c[1]+r2*.35);ctx.lineTo(c[0],c[1]+r2);ctx.lineTo(c[0]-r2*.35,c[1]+r2*.35);ctx.lineTo(c[0]-r2,c[1]);ctx.lineTo(c[0]-r2*.35,c[1]-r2*.35);ctx.fill()}}
-    if((kind==2||sc5)&&!miss){const za=z+th*1.1,zb=z+th*2.6,m=(xa+xb)/2,n=Math.max(1,Math.round((xb-xa)/lw*3));ctx.strokeStyle=sc5?"rgba(255,215,250,.95)":"rgba(240,230,255,.95)";ctx.lineWidth=Math.max(1.5,2.2*SC*(B[0]-A[0])/(xb-xa||1));ctx.lineJoin="round";
-      for(let i=0;i<n;i++){for(const dir of(sc5&&ad?[ad]:[-1,1])){const fx=sc5&&ad?.5+dir*(-.3+.6*i/Math.max(1,n-1)):.5+dir*(.12+.3*i/n),tw=C[0]-D[0],hh=A[1]-D[1],x2=D[0]+tw*fx,wv=tw*.06*dir,y0=D[1]-hh*.15,y1=D[1]-hh*1.25,p1=[x2-wv,y0],p2=[x2+wv,(y0+y1)/2],p3=[x2-wv,y1];ctx.beginPath();ctx.moveTo(p1[0],p1[1]);ctx.lineTo(p2[0],p2[1]);ctx.lineTo(p3[0],p3[1]);ctx.stroke()}}}};
+    // フリック・スクラッチの矢印：板の上に、白い「＜」「＞」をすき間なく並べて立てる（本家風）
+    if((kind==2||sc5)&&!miss){const tw=C[0]-D[0],hh=A[1]-D[1],cells=Math.max(1,(xb-xa)/lw*3),n=Math.max(3,Math.round(cells*4)),sp=tw/n,h=hh*1.15,y0=D[1]-hh*.05,lw2=Math.max(1.2,sp*.38);
+      ctx.lineJoin="miter";ctx.lineCap="butt";ctx.lineWidth=lw2;
+      for(let i=0;i<n;i++){const fx=(i+.5)/n,dir=sc5&&ad?ad:(fx<.5?-1:1),x=D[0]+tw*fx,w=sp*.42;
+        const fade=sc5&&ad?(ad<0?1-.55*fx:.45+.55*fx):(fx<.5?1-.6*(fx/.5):.4+.6*((fx-.5)/.5));
+        ctx.strokeStyle=`rgba(255,255,255,${.95*Math.max(.35,fade)})`;
+        ctx.beginPath();ctx.moveTo(x-dir*w,y0);ctx.lineTo(x+dir*w,y0-h/2);ctx.lineTo(x-dir*w,y0-h);ctx.stroke()}
+      ctx.strokeStyle="rgba(150,120,255,.55)";ctx.lineWidth=Math.max(1,hh*.06);ctx.beginPath();ctx.moveTo(D[0],y0);ctx.lineTo(C[0],y0);ctx.stroke()}};
   const body=(z0,z1,xa,xb,xa2,xb2,kind,hd,miss)=>{z1=Math.min(z1,JY);if(z1<=z0)return;const A=pj(xa,z0),B=pj(xb,z0),C=pj(xb2,z1),D=pj(xa2,z1);P([A,B,C,D]);
     ctx.fillStyle=miss?"rgba(110,110,120,.5)":kind==1?lg(D[1],A[1],hd?"rgba(120,235,255,.85)":"rgba(40,200,245,.72)",hd?"rgba(170,250,255,1)":"rgba(60,215,255,.92)"):lg(D[1],A[1],hd?"rgba(210,120,255,.85)":"rgba(150,50,240,.75)",hd?"rgba(255,150,255,1)":"rgba(225,70,240,.92)");ctx.fill();
     ctx.strokeStyle=miss?"rgba(150,150,150,.5)":kind==1?"rgba(170,250,255,.85)":"rgba(255,170,255,.85)";ctx.lineWidth=1.5;ctx.stroke()};
@@ -798,7 +804,7 @@ $("songFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;$("songN
     $("songName").textContent=f.name;$("songInfo").textContent=`長さ ${Math.floor(songAn.dur/60000)}:${String(Math.floor(songAn.dur/1000)%60).padStart(2,"0")} ／ 検出したBPM ${songAn.bpm.toFixed(1)}。テンポが半分や倍になっているときは ÷2 / ×2 で直してください。`}
   catch(err){songBuf=null;songAn=null;$("songName").textContent="読み込めませんでした（別のファイル形式を試してください）"}};
 // ---- 既存曲 ----
-const SONGS=[{id:"s1",diff:"OLIVIER VIII",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",diff:"OLIVIER VI",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",diff:"OLIVIER VI",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"},{id:"s4",diff:"OLIVIER VII",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",chart:"songs/s4.json"},{id:"s5",diff:"OLIVIER VIII",name:"INTERNET YAMERO",sub:"BPM 185",mp3:"songs/s5.mp3",chart:"songs/s5.json"}];
+const SONGS=[{id:"s1",ok:1,diff:"OLIVIER VIII",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",ok:1,diff:"OLIVIER VI",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",ok:1,diff:"OLIVIER VI",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"},{id:"s4",ok:1,diff:"OLIVIER VII",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",chart:"songs/s4.json"},{id:"s5",diff:"OLIVIER VIII",name:"INTERNET YAMERO",sub:"BPM 185",mp3:"songs/s5.mp3",chart:"songs/s5.json"}];
 const PWH=1750149348695010;
 function cyrb53(str,seed){let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}
   h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
@@ -837,7 +843,7 @@ function buildPreset(p){const mb=60000/p.bpm,BP=p.bpms||[[0,p.bpm]],out=[];
 const ovl=$("ovl"),showOv=v=>{ovl.classList.remove("hide");$("pwView").classList.toggle("hide",v!="pw");$("listView").classList.toggle("hide",v!="list")},hideOv=()=>ovl.classList.add("hide");
 function showList(){const box=$("songList");box.innerHTML="";$("listMsg").textContent="";
   const DO=["OLIVIER VI","OLIVIER VII","OLIVIER VIII"];let lastD="";[...SONGS].sort((x,y)=>DO.indexOf(x.diff)-DO.indexOf(y.diff)).forEach(sg=>{if(sg.diff!=lastD){lastD=sg.diff;const h=document.createElement("div");h.className="difHead";h.textContent=sg.diff;box.appendChild(h)}const b=document.createElement("button");b.type="button";b.className="songItem";b.innerHTML=`<span style="font-size:26px">📀</span><span>${sg.name}<small><b class="dif">${sg.diff}</b> ${sg.sub}</small></span>`;b.onclick=()=>loadPreset(sg);box.appendChild(b)});showOv("list")}
-async function loadPreset(sg){$("listMsg").textContent="読み込み中…";
+async function loadPreset(sg){ysOk=!!sg.ok;$("listMsg").textContent="読み込み中…";
   let stage="";
   try{const get=async(u,kind)=>{stage=u;let r=null;
       // songs/ フォルダになくても、index.html と同じ場所にあれば読み込む
