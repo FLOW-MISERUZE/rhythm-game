@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 14</div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 16</div></div>
 </div>
 </div>
 <script>
@@ -176,7 +176,7 @@ if(!S.v2){S.v2=1;if(S.lnw<=110)S.lnw=130}
 if(!S.v3){S.v3=1;S.lnw=0}
 if(S.yspeed==null)S.yspeed=5.5;if(S.yspawn==null)S.yspawn=0;if(S.yacc==null)S.yacc=1;
 const cv=$("cv"),ctx=cv.getContext("2d");
-let ysSplits=[],lastPend=null,OUT=null,ys=false,preset=null,lanesBak=0,unlocked=false,ysBuf=null,ysAn=null;
+let KB={},ysSplits=[],lastPend=null,OUT=null,ys=false,preset=null,lanesBak=0,unlocked=false,ysBuf=null,ysAn=null;
 let actx,t0=0,run=false,N=[],cnt=[0,0,0,0,0,0],combo=0,maxc=0,score=0,lastJ=null,rnd,last=[],lh=[];
 function fit(){const vv=window.visualViewport;W0=Math.round(vv&&vv.width?vv.width:window.innerWidth);H=Math.round(vv&&vv.height?vv.height:window.innerHeight);
   JY=ys?Math.round(H*.745):H-Math.round(H*.24);NZ=JY*.047;HZ=H*.05;SC=Math.max(.8,Math.min(1.6,H/620,W0/760));
@@ -557,12 +557,23 @@ function drawYS(now){
   P([pj(0,JY),pj(W,JY),pj(W,-JY),pj(0,-JY)]);{const g=ctx.createLinearGradient(0,TOP,0,H);g.addColorStop(0,"rgba(8,8,20,.55)");g.addColorStop(.35,"rgba(8,8,20,.78)");g.addColorStop(.75,"rgba(10,9,22,.9)");g.addColorStop(1,"rgba(6,6,14,.95)");ctx.fillStyle=g}ctx.fill();
   const rail=(x,a)=>{const p0=pj(x,JY),p1=pj(x,-JY);ctx.strokeStyle=a;ctx.beginPath();ctx.moveTo(p0[0],p0[1]);ctx.lineTo(p1[0],p1[1]);ctx.stroke()};
   // 通常は真ん中の細い線だけ。スプリット中はレーンの境目と両端のラインが光る（フェードで切り替え）
-  ctx.lineWidth=1.2;rail(W/2,"rgba(255,255,255,.2)");
+  // 通常はレーンを6つに分ける線をうっすら表示。スプリット中はそれを消して、スプリットの線を光らせる（フェードで切り替え）
+  let sfa=0,spNow=null;
+  for(const spl of ysSplits){const a0=now-(spl.t0+S.off),a1=(spl.t1+S.off)-now;if(a0<-250||a1<-250)continue;const fa=Math.max(0,Math.min(1,(a0+250)/250,(a1+250)/250));if(fa>sfa){sfa=fa;spNow=spl}}
+  ctx.lineWidth=1.2;for(let k=1;k<6;k++)rail(k*W/6,`rgba(255,255,255,${.16*(1-sfa)})`);
   ctx.lineWidth=1;rail(0,"rgba(0,0,0,.6)");rail(W,"rgba(0,0,0,.6)");
-  for(const spl of ysSplits){const a0=now-(spl.t0+S.off),a1=(spl.t1+S.off)-now;if(a0<-250||a1<-250)continue;const fa=Math.max(0,Math.min(1,(a0+250)/250,(a1+250)/250));
-    const RB=["255,70,70","255,150,40","255,235,60","80,230,90","60,220,220","70,110,255","190,90,255"];
-    spl.b.forEach((u,i)=>{const col=spl.c=="rainbow"?RB[Math.round(i*(RB.length-1)/(spl.b.length-1))]:"255,215,245";
-      ctx.lineWidth=9*SC;rail(u*lw,`rgba(${col},${.18*fa})`);ctx.lineWidth=4*SC;rail(u*lw,`rgba(${col},${.35*fa})`);ctx.lineWidth=1.6*SC;rail(u*lw,`rgba(${spl.c=="rainbow"?col:"255,255,255"},${.95*fa})`)})}
+  if(spNow){const spl=spNow,fa=sfa,RB=["255,60,80","255,150,40","255,235,60","90,235,90","60,225,225","70,120,255","200,90,255"];
+    spl.b.forEach((u,i)=>{// 色は本家の動画に合わせる：通常は白、情熱リベレイションは青、きゅうくらりんの一部は虹色
+      const col=spl.c=="rainbow"?RB[Math.round(i*(RB.length-1)/(spl.b.length-1))]:spl.c=="blue"?"40,70,255":"235,228,255",core=spl.c=="rainbow"?col:spl.c=="blue"?"95,125,255":"255,255,255";
+      ctx.lineWidth=7*SC;rail(u*lw,`rgba(${col},${.16*fa})`);ctx.lineWidth=3.2*SC;rail(u*lw,`rgba(${col},${.5*fa})`);ctx.lineWidth=1.4*SC;rail(u*lw,`rgba(${core},${fa})`)})}
+  // キービーム：押している所の判定ライン付近から上へ伸びる光
+  {const tk=performance.now(),seg=u=>{if(spNow&&sfa>.5){const b=spNow.b;for(let i=0;i+1<b.length;i++)if(u>=b[i]&&u<b[i+1]+1e-6)return[b[i],b[i+1]]}const k=Math.max(0,Math.min(5,Math.floor(u*1.5)));return[k/1.5,(k+1)/1.5]};
+    if(run){for(const u of ptr.values()){const g=seg(u),key=g.join();KB[key]={a:g[0],b:g[1],t:tk}}for(let l=0;l<4;l++)if(kh[l])KB["k"+l]={a:l,b:l+1,t:tk}}
+    ctx.save();ctx.globalCompositeOperation="lighter";
+    for(const key in KB){const o=KB[key],v=1-(tk-o.t)/160;if(v<=0){delete KB[key];continue}
+      const A=pj(o.a*lw,0),B=pj(o.b*lw,0),C=pj(o.b*lw,JY*.5),D=pj(o.a*lw,JY*.5);P([A,B,C,D]);ctx.fillStyle=lg(D[1],A[1],"rgba(170,210,255,0)",`rgba(200,225,255,${.42*Math.min(1,v)})`);ctx.fill();
+      const E=pj(o.a*lw,JY*.06),F=pj(o.b*lw,JY*.06);P([A,B,F,E]);ctx.fillStyle=`rgba(255,255,255,${.35*Math.min(1,v)})`;ctx.fill()}
+    ctx.restore()}
   const t0p=pj(0,JY),t1p=pj(W,JY);ctx.fillStyle="rgba(255,255,255,.18)";ctx.fillRect(t0p[0],t0p[1]-2,t1p[0]-t0p[0],3);
   // ノーツ
   ctx.save();ctx.beginPath();ctx.rect(-lw,sy,W+2*lw,H-sy);ctx.clip();
