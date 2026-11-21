@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 33</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 34</div></div>
 </div>
 </div>
 <script>
@@ -606,12 +606,12 @@ function drawYS(now){
       const runs=[];const fit=w=>Math.max(1,Math.floor((w-2*half)/PT+1e-6)+1);
       if(one){const n=fit(tw-2.5*PT);runs.push([ad>0?M1[0]-half:M0[0]+half,ad,n])}
       else{const n=fit(tw*.4);runs.push([M0[0]+half,-1,n]);runs.push([M1[0]-half,1,n])}
-      ctx.lineJoin="miter";ctx.lineWidth=Math.max(1,T*.16);ctx.strokeStyle="rgba(140,100,248,.92)";
+      ctx.lineJoin="miter";ctx.lineWidth=Math.max(.8,T*.08);ctx.strokeStyle="rgba(140,100,248,.92)";
       for(const[x0,dir,n]of runs)for(let k=n-1;k>=0;k--){const x=x0-dir*k*PT,xb_=x-dir*half,xt=x+dir*(aa-T/2);
         const pr=n>1?1-k/(n-1):1;let dd=pr-ph;dd-=Math.round(dd);const g=Math.exp(-dd*dd/.015),al=.3+.3*pr;
         ctx.fillStyle=`rgba(${222+Math.round(33*g)},${212+Math.round(43*g)},255,${Math.min(.95,al+.35*g)})`;
         // 奥へ倒して立体的に：上へ行くほど消失点に寄せ、高さを縮める
-        const tf=(x,y)=>{const f=(y0-y)/h,b=Q((x-M0[0])/tw,.66+.45*f);return[b[0],b[1]-(y0-y)*.6]};const P6=[[xb_,y0],[xb_+dir*T,y0],[xt+dir*T,ym],[xb_+dir*T,y0-h],[xb_,y0-h],[xt,ym]].map(q=>tf(q[0],q[1]));
+        const tf=(x,y)=>{const f=(y0-y)/h,b=Q((x-M0[0])/tw,.66+.8*f);return[b[0],b[1]-(y0-y)*.25]};const P6=[[xb_,y0],[xb_+dir*T,y0],[xt+dir*T,ym],[xb_+dir*T,y0-h],[xb_,y0-h],[xt,ym]].map(q=>tf(q[0],q[1]));
         ctx.beginPath();ctx.moveTo(P6[0][0],P6[0][1]);for(let j=1;j<6;j++)ctx.lineTo(P6[j][0],P6[j][1]);ctx.closePath();ctx.fill();ctx.stroke()}}};
   const body=(z0,z1,xa,xb,xa2,xb2,kind,hd,miss)=>{z1=Math.min(z1,JY);if(z1<=z0)return;const A=pj(xa,z0),B=pj(xb,z0),C=pj(xb2,z1),D=pj(xa2,z1);P([A,B,C,D]);
     ctx.fillStyle=miss?"rgba(110,110,120,.5)":kind==1?lg(D[1],A[1],hd?"rgba(120,235,255,.85)":"rgba(40,200,245,.72)",hd?"rgba(170,250,255,1)":"rgba(60,215,255,.92)"):lg(D[1],A[1],hd?"rgba(210,120,255,.85)":"rgba(150,50,240,.75)",hd?"rgba(255,150,255,1)":"rgba(225,70,240,.92)");ctx.fill();
