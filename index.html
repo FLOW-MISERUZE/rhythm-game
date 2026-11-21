@@ -155,7 +155,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 10</div>
+<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 11</div>
 </div>
 </div>
 <script>
@@ -762,7 +762,7 @@ $("songFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;$("songN
     $("songName").textContent=f.name;$("songInfo").textContent=`長さ ${Math.floor(songAn.dur/60000)}:${String(Math.floor(songAn.dur/1000)%60).padStart(2,"0")} ／ 検出したBPM ${songAn.bpm.toFixed(1)}。テンポが半分や倍になっているときは ÷2 / ×2 で直してください。`}
   catch(err){songBuf=null;songAn=null;$("songName").textContent="読み込めませんでした（別のファイル形式を試してください）"}};
 // ---- 既存曲 ----
-const SONGS=[{id:"s1",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"}];
+const SONGS=[{id:"s1",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"},{id:"s4",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",chart:"songs/s4.json"}];
 const PWH=1750149348695010;
 function cyrb53(str,seed){let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}
   h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
