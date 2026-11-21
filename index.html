@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 31</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 32</div></div>
 </div>
 </div>
 <script>
@@ -596,17 +596,17 @@ function drawYS(now){
     rr(0,0,1,1,rad);ctx.fillStyle=miss?"#666":"#f4c65a";ctx.fill();
     rr(.004,.08,.996,1,rad);ctx.fillStyle=lg(D[1],A[1],col[2],col[1]);ctx.fill();
     if(!miss){
-      rr(.018,.22,.982,.86,rad*.6);ctx.lineWidth=Math.max(1,ph*.07);ctx.strokeStyle=kind==4?"#fff0b0":"#ffd84a";ctx.stroke();
+      (kind==2||sc5?rr(.018,.22,.982,.86,rad*.6):rr(.035,.22,.965,.86,rad*.6));ctx.lineWidth=Math.max(1,ph*.07);ctx.strokeStyle=kind==4?"#fff0b0":"#ffd84a";ctx.stroke();
       ctx.fillStyle=kind==4?"#fff4c8":"#ffd84a";
-      for(const f of[.045,.955]){const bw=Math.max(.004,ph*.09/pw);rr(f-bw,.46,f+bw,.76,ph*.05);ctx.fill();
+      for(const f of(kind==2||sc5?[.045,.955]:[.085,.915])){const bw=Math.max(.004,ph*.09/pw);rr(f-bw,.46,f+bw,.76,ph*.05);ctx.fill();
         const c=Q(f,.34),r2=ph*.07;ctx.beginPath();ctx.moveTo(c[0],c[1]-r2);ctx.lineTo(c[0]+r2*.35,c[1]-r2*.35);ctx.lineTo(c[0]+r2,c[1]);ctx.lineTo(c[0]+r2*.35,c[1]+r2*.35);ctx.lineTo(c[0],c[1]+r2);ctx.lineTo(c[0]-r2*.35,c[1]+r2*.35);ctx.lineTo(c[0]-r2,c[1]);ctx.lineTo(c[0]-r2*.35,c[1]-r2*.35);ctx.fill()}}
     // フリック・スクラッチの矢印：紫で縁取った太い「＜」「＞」を、凹みに次の先端がはまるように隙間なく重ねる。
     // フリックは中央を空けて左右へ。スクラッチは進行方向の端まで埋め、反対側は2〜3個分空ける。光は矢印の向きへゆっくり流れる
-    if((kind==2||sc5)&&!miss){const M0=Q(0,.66),M1=Q(1,.66),tw=M1[0]-M0[0],hh=A[1]-D[1],h=hh*1.3,T=h*.33,aa=h*.14,GAP=h*.17,PT=T+GAP,half=aa+T/2,y0=M0[1],ym=y0-h/2,one=sc5&&ad,ph=(performance.now()/900)%1;
+    if((kind==2||sc5)&&!miss){const M0=Q(0,.66),M1=Q(1,.66),tw=M1[0]-M0[0],hh=A[1]-D[1],h=hh*1.15,T=h*.33,aa=h*.14,GAP=h*.11,PT=T+GAP,half=aa+T/2,y0=M0[1],ym=y0-h/2,one=sc5&&ad,ph=(performance.now()/900)%1;
       const runs=[];const fit=w=>Math.max(1,Math.floor((w-2*half)/PT+1e-6)+1);
       if(one){const n=fit(tw-2.5*PT);runs.push([ad>0?M1[0]-half:M0[0]+half,ad,n])}
       else{const n=fit(tw*.4);runs.push([M0[0]+half,-1,n]);runs.push([M1[0]-half,1,n])}
-      ctx.lineJoin="miter";ctx.lineWidth=Math.max(1,T*.16);ctx.strokeStyle="rgba(110,60,240,.95)";
+      ctx.lineJoin="miter";ctx.lineWidth=Math.max(1,T*.16);ctx.strokeStyle="rgba(170,140,255,.9)";
       for(const[x0,dir,n]of runs)for(let k=n-1;k>=0;k--){const x=x0-dir*k*PT,xb_=x-dir*half,xt=x+dir*(aa-T/2);
         const pr=n>1?1-k/(n-1):1;let dd=pr-ph;dd-=Math.round(dd);const g=Math.exp(-dd*dd/.015),al=.3+.3*pr;
         ctx.fillStyle=`rgba(${222+Math.round(33*g)},${212+Math.round(43*g)},255,${Math.min(.95,al+.35*g)})`;
