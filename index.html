@@ -155,7 +155,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 4</div>
+<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 5</div>
 </div>
 </div>
 <script>
@@ -176,7 +176,7 @@ const cv=$("cv"),ctx=cv.getContext("2d");
 let lastPend=null,OUT=null,ys=false,preset=null,lanesBak=0,unlocked=false,ysBuf=null,ysAn=null;
 let actx,t0=0,run=false,N=[],cnt=[0,0,0,0,0,0],combo=0,maxc=0,score=0,lastJ=null,rnd,last=[],lh=[];
 function fit(){const vv=window.visualViewport;W0=Math.round(vv&&vv.width?vv.width:window.innerWidth);H=Math.round(vv&&vv.height?vv.height:window.innerHeight);
-  JY=H-Math.round(H*.24);NZ=JY*.047;HZ=H*.05;SC=Math.max(.8,Math.min(1.6,H/620,W0/760));
+  JY=ys?Math.round(H*.745):H-Math.round(H*.24);NZ=JY*.047;HZ=H*.05;SC=Math.max(.8,Math.min(1.6,H/620,W0/760));
   if(ys){LWe=Math.max(40,Math.floor(Math.min(W0*.84,H*1.3)/4));X0=Math.round((W0-4*LWe)/2);bgC=null}else LWe=S.lnw?Math.max(20,Math.min(S.lnw,Math.floor(W0/S.lanes))):Math.max(20,Math.floor(Math.min(W0*.6,H*.95)/S.lanes));if(!ys)X0=Math.round((W0-S.lanes*LWe)/2);
   const dpr=window.devicePixelRatio||1;cv.width=W0*dpr;cv.height=H*dpr;cv.style.width=W0+"px";cv.style.height=H+"px";ctx.setTransform(dpr,0,0,dpr,0,0)}
 function apply(){
@@ -490,15 +490,44 @@ function draw(now){
 // ---- シークレットモードの描画（舞台・12マスの判定ボックス・ノーツ・エフェクト）----
 let bgC=null;
 function buildBg(){const c=document.createElement("canvas"),dpr=window.devicePixelRatio||1;c.width=W0*dpr;c.height=H*dpr;const g=c.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);
-  let gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,"#0c0b2e");gr.addColorStop(.45,"#1d0f3d");gr.addColorStop(.75,"#2a0f38");gr.addColorStop(1,"#120714");g.fillStyle=gr;g.fillRect(0,0,W0,H);
-  let sd=7;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
-  for(let i=0;i<140;i++){const x=rnd()*W0,y=rnd()*H*.55,r=rnd()*1.4+.3;g.fillStyle=`rgba(255,255,255,${.25+rnd()*.6})`;g.beginPath();g.arc(x,y,r,0,7);g.fill()}
-  const cur2=(x0,dir)=>{const w=W0*.17;for(let i=0;i<7;i++){const x=x0+dir*i*w/7;gr=g.createLinearGradient(x,0,x+dir*w/7,0);gr.addColorStop(0,"rgba(120,20,110,.9)");gr.addColorStop(.5,"rgba(220,60,190,.85)");gr.addColorStop(1,"rgba(90,10,90,.9)");g.fillStyle=gr;g.fillRect(Math.min(x,x+dir*w/7),0,w/7+1,H*.8)}
-    g.fillStyle="rgba(40,0,40,.6)";g.beginPath();g.moveTo(x0,0);g.lineTo(x0+dir*w*1.3,0);g.quadraticCurveTo(x0+dir*w*.9,H*.08,x0+dir*w*.2,H*.12);g.lineTo(x0,H*.12);g.fill()};
-  cur2(0,1);cur2(W0,-1);
-  const spot=(x,y,dx,col)=>{gr=g.createLinearGradient(x,y,x+dx*.6,H*.75);gr.addColorStop(0,`rgba(${col},.55)`);gr.addColorStop(1,`rgba(${col},0)`);g.fillStyle=gr;g.beginPath();g.moveTo(x-6,y);g.lineTo(x+6,y);g.lineTo(x+dx+W0*.06,H*.75);g.lineTo(x+dx-W0*.06,H*.75);g.fill()};
-  spot(W0*.12,H*.12,W0*.03,"90,220,255");spot(W0*.88,H*.12,-W0*.03,"90,220,255");spot(W0*.2,H*.05,W0*.12,"200,120,255");spot(W0*.8,H*.05,-W0*.12,"200,120,255");
-  gr=g.createLinearGradient(0,H*.7,0,H);gr.addColorStop(0,"rgba(255,170,90,.18)");gr.addColorStop(1,"rgba(0,0,0,0)");g.fillStyle=gr;g.fillRect(0,H*.7,W0,H*.3);
+  // 本家の背景：星空・紫の幕・上の幕飾り・吊りライトの水色の光・金の房・舞台の足元ライト（中央の絵の壁は図形で表現）
+  let sd=7;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};const cxw=W0/2;
+  let gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,"#0d0b33");gr.addColorStop(.35,"#1a1250");gr.addColorStop(.7,"#140c2a");gr.addColorStop(1,"#07060e");g.fillStyle=gr;g.fillRect(0,0,W0,H);
+  gr=g.createRadialGradient(cxw,H*.12,0,cxw,H*.12,W0*.35);gr.addColorStop(0,"rgba(120,80,255,.45)");gr.addColorStop(.5,"rgba(70,40,200,.25)");gr.addColorStop(1,"rgba(40,20,120,0)");g.fillStyle=gr;g.fillRect(0,0,W0,H*.6);
+  for(let i=0;i<260;i++){const x=cxw+(rnd()-.5)*W0*.75,y=rnd()*H*.5,r=rnd()<.06?1.8+rnd()*1.5:rnd()*1.1+.3;g.fillStyle=`rgba(${rnd()<.3?"190,200,255":"255,255,255"},${.3+rnd()*.7})`;g.beginPath();g.arc(x,y,r,0,7);g.fill();
+    if(r>1.8){g.strokeStyle="rgba(255,255,255,.5)";g.lineWidth=.6;g.beginPath();g.moveTo(x-r*3,y);g.lineTo(x+r*3,y);g.moveTo(x,y-r*3);g.lineTo(x,y+r*3);g.stroke()}}
+  // 中央奥の絵の壁（額縁のパネル）
+  const pw=Math.min(W0,H*1.6)*.075,px0=cxw-pw*1.6,py0=H*.11;
+  [[0,0,1,1.1],[1.05,0,1.1,.9],[-.2,1.15,1.2,1],[1.05,.95,1.3,1.2],[.1,2.2,1.2,1],[1.3,2.2,1,.9],[2.2,.6,.6,1.4]].forEach(([x,y,w,h],i)=>{const X=px0+x*pw,Y=py0+y*pw*.85,Wd=w*pw,Hd=h*pw*.85;
+    gr=g.createLinearGradient(X,Y,X+Wd,Y+Hd);const hs=[[255,170,200],[170,200,255],[255,220,170],[200,170,255],[170,240,230],[255,190,150],[220,180,255]][i];gr.addColorStop(0,`rgba(${hs},.55)`);gr.addColorStop(1,`rgba(${hs.map(v=>v*.5|0)},.5)`);
+    g.fillStyle=gr;g.fillRect(X,Y,Wd,Hd);g.strokeStyle="#0a0812";g.lineWidth=Math.max(2,pw*.05);g.strokeRect(X,Y,Wd,Hd)});
+  g.fillStyle="rgba(40,36,60,.9)";g.fillRect(cxw-W0*.14,H*.085,W0*.28,Math.max(3,H*.008));
+  // 幕（左右）
+  const curtain=(dir)=>{const x0=dir>0?0:W0,w=W0*.36;
+    for(let i=0;i<40;i++){const f=i/40,x=x0+dir*w*f,ww=w/40+1;const v=Math.pow(.5+.5*Math.sin(f*Math.PI*11+Math.sin(f*23)*1.2+(dir>0?0:1.3)),1.6)*.85;
+      gr=g.createLinearGradient(0,0,0,H*.85);gr.addColorStop(0,`rgb(${22+40*v|0},${5+6*v|0},${45+55*v|0})`);gr.addColorStop(.5,`rgb(${45+120*v|0},${8+16*v|0},${85+110*v|0})`);gr.addColorStop(1,`rgb(${18+45*v|0},${4+6*v|0},${32+45*v|0})`);
+      g.fillStyle=gr;
+      // 房で幕を外側に絞る
+      g.beginPath();const pinch=y=>{const t=Math.max(0,1-Math.abs(y-H*.52)/(H*.22));return 1-.45*t*t*(f)};g.moveTo(x0+dir*w*f*pinch(0),0);for(let y=0;y<=H*.86;y+=H/40)g.lineTo(x0+dir*w*f*pinch(y),y);for(let y=H*.86;y>=0;y-=H/40)g.lineTo(x0+dir*(w*f*pinch(y)+ww),y);g.fill()}
+    // 房
+    const tx=x0+dir*w*.42,ty=H*.52;g.strokeStyle="#d8b45a";g.lineWidth=2.5;g.beginPath();g.moveTo(tx-dir*w*.12,ty-H*.03);g.quadraticCurveTo(tx-dir*w*.05,ty+H*.02,tx,ty);g.stroke();
+    g.fillStyle="#e0bd60";g.beginPath();g.moveTo(tx-4,ty);g.lineTo(tx+4,ty);g.lineTo(tx+7,ty+H*.07);g.lineTo(tx-7,ty+H*.07);g.fill();g.beginPath();g.arc(tx,ty,5,0,7);g.fill();
+    // 上の幕飾り（波形）
+    g.fillStyle="#2a0a48";g.beginPath();g.moveTo(x0,0);const vw=W0*.42;for(let i=0;i<=6;i++){const xx=x0+dir*vw*i/6,yy=H*(.16-.11*i/6);g.quadraticCurveTo(x0+dir*vw*(i-.5)/6,yy+H*.05,xx,yy)}g.lineTo(x0+dir*vw,0);g.fill();
+    g.strokeStyle="rgba(200,60,200,.7)";g.lineWidth=2;g.stroke();
+    // 吊りライトと水色の光
+    for(const [lx,ly,ex,ey] of[[.035,.27,.2,.62],[.13,.15,.26,.5]]){const X=dir>0?W0*lx:W0*(1-lx),EX=dir>0?W0*ex:W0*(1-ex);
+      g.strokeStyle="#111";g.lineWidth=2;g.beginPath();g.moveTo(X,0);g.lineTo(X,H*ly);g.stroke();
+      gr=g.createLinearGradient(X,H*ly,EX,H*ey);gr.addColorStop(0,"rgba(170,240,255,.85)");gr.addColorStop(.6,"rgba(110,210,255,.35)");gr.addColorStop(1,"rgba(110,210,255,0)");g.fillStyle=gr;
+      const nx=-(H*ey-H*ly),ny=EX-X,nl=Math.hypot(nx,ny),bw=W0*.045;g.beginPath();g.moveTo(X+nx/nl*6,H*ly+ny/nl*6);g.lineTo(X-nx/nl*6,H*ly-ny/nl*6);g.lineTo(EX-nx/nl*bw,H*ey-ny/nl*bw);g.lineTo(EX+nx/nl*bw,H*ey+ny/nl*bw);g.fill();
+      g.fillStyle="#15131c";g.save();g.translate(X,H*ly);g.rotate(Math.atan2(H*ey-H*ly,EX-X)-Math.PI/2);g.fillRect(-W0*.014,-H*.03,W0*.028,H*.04);g.restore()}
+    // 足元のライト
+    const fx=dir>0?W0*.02:W0*.98,fy=H*.74;gr=g.createRadialGradient(fx,fy,0,fx,fy,W0*.09);gr.addColorStop(0,"rgba(255,200,90,.75)");gr.addColorStop(1,"rgba(255,160,60,0)");g.fillStyle=gr;g.fillRect(fx-W0*.1,fy-W0*.1,W0*.2,W0*.2);
+    g.fillStyle="#16141d";g.beginPath();g.moveTo(fx-dir*W0*.02,fy+H*.02);g.lineTo(fx+dir*W0*.035,fy+H*.005);g.lineTo(fx+dir*W0*.04,fy+H*.04);g.lineTo(fx-dir*W0*.015,fy+H*.05);g.fill()};
+  curtain(1);curtain(-1);
+  // 舞台の床
+  gr=g.createLinearGradient(0,H*.78,0,H);gr.addColorStop(0,"#15111f");gr.addColorStop(1,"#08070c");g.fillStyle=gr;g.fillRect(0,H*.78,W0,H*.22);
+  g.strokeStyle="rgba(120,100,160,.25)";g.lineWidth=1;g.beginPath();g.moveTo(0,H*.78);g.lineTo(W0,H*.78);g.stroke();
   return c}
 const YSD=[7400,7050,20000/3,6300,17800/3,16700/3,15550/3,14450/3,4450,12250/3,3700,10000/3,8900/3,2600,6650/3,1850,4450/3,3350/3,2200/3,1100/3,0];
 function ysDist(p){p=Math.max(0,Math.min(100,+p||0));const i=Math.min(19,Math.floor(p/5)),f=p/5-i;return YSD[i]+(YSD[i+1]-YSD[i])*f}
@@ -520,10 +549,10 @@ function drawYS(now){
   if(!bgC)bgC=buildBg();ctx.drawImage(bgC,0,0,W0,H);
   ctx.save();ctx.translate(X0,0);
   // 道
-  P([pj(0,JY),pj(W,JY),pj(W,-JY),pj(0,-JY)]);ctx.fillStyle=lg(TOP,H,"rgba(10,8,24,.92)","rgba(18,10,26,.95)");ctx.fill();
+  P([pj(0,JY),pj(W,JY),pj(W,-JY),pj(0,-JY)]);{const g=ctx.createLinearGradient(0,TOP,0,H);g.addColorStop(0,"rgba(8,8,20,.55)");g.addColorStop(.35,"rgba(8,8,20,.78)");g.addColorStop(.75,"rgba(10,9,22,.9)");g.addColorStop(1,"rgba(6,6,14,.95)");ctx.fillStyle=g}ctx.fill();
   const rail=(x,a)=>{const p0=pj(x,JY),p1=pj(x,-JY);ctx.strokeStyle=a;ctx.beginPath();ctx.moveTo(p0[0],p0[1]);ctx.lineTo(p1[0],p1[1]);ctx.stroke()};
-  ctx.lineWidth=1;for(let l=1;l<K;l++)rail(l*lw,"rgba(255,255,255,.13)");
-  ctx.lineWidth=2.5*SC;rail(0,"rgba(255,140,220,.55)");rail(W,"rgba(255,140,220,.55)");
+  ctx.lineWidth=1.2;for(let l=1;l<K;l++)rail(l*lw,"rgba(255,255,255,.22)");
+  ctx.lineWidth=1;rail(0,"rgba(0,0,0,.6)");rail(W,"rgba(0,0,0,.6)");
   const t0p=pj(0,JY),t1p=pj(W,JY);ctx.fillStyle="rgba(255,255,255,.18)";ctx.fillRect(t0p[0],t0p[1]-2,t1p[0]-t0p[0],3);
   // ノーツ
   ctx.save();ctx.beginPath();ctx.rect(-lw,sy,W+2*lw,H-sy);ctx.clip();
@@ -559,8 +588,8 @@ function drawYS(now){
   const lit=new Array(12).fill(0);
   for(const f of FX){const a=1-(tn-f.t)/420;if(a<=0)continue;for(let c=Math.floor(f.u0*3+.01);c<Math.ceil(f.u1*3-.01);c++)if(c>=0&&c<12)lit[c]=Math.max(lit[c],a)}
   // 判定ボックスも道と同じ角度で（手前に向かって広がる台形）
-  let zb=0;{let lo=-JY*.35,hi=0;for(let i=0;i<30;i++){const m=(lo+hi)/2;if(pj(0,m)[1]-JY>bh)lo=m;else hi=m}zb=(lo+hi)/2}
-  const cell=(x0,x1,ins)=>{const a=pj(x0+ins,-ins*.4),b=pj(x1-ins,-ins*.4),c=pj(x1-ins,zb+ins*.4),d=pj(x0+ins,zb+ins*.4);P([a,b,c,d])};
+  let zb=0,zt=0;{let lo=-JY*.35,hi=0;for(let i=0;i<30;i++){const m=(lo+hi)/2;if(pj(0,m)[1]-JY>bh*.55)lo=m;else hi=m}zb=(lo+hi)/2;lo=0;hi=JY*.3;for(let i=0;i<30;i++){const m=(lo+hi)/2;if(JY-pj(0,m)[1]>bh*.45)hi=m;else lo=m}zt=(lo+hi)/2}
+  const cell=(x0,x1,ins)=>{const a=pj(x0+ins,zt-ins*.4),b=pj(x1-ins,zt-ins*.4),c=pj(x1-ins,zb+ins*.4),d=pj(x0+ins,zb+ins*.4);P([a,b,c,d])};
   for(let c=0;c<12;c++){const l=Math.floor(c/3),hl=held(l)?.35:0;const x0=c*lw/3,x1=(c+1)*lw/3;
     cell(x0,x1,2.5);ctx.fillStyle=`rgba(255,255,255,${Math.max(hl*.5,lit[c]*.55)})`;ctx.fill();
     cell(x0,x1,1.5);ctx.strokeStyle=lit[c]>0?`rgba(255,255,255,${.6+lit[c]*.4})`:"rgba(255,130,200,.9)";ctx.lineWidth=(lit[c]>0?3:2)*SC*.8;ctx.stroke()}
@@ -584,7 +613,7 @@ function drawYS(now){
   // 判定の文字とコンボ
   ctx.textAlign="center";
   if(run&&lastJ){const age=tn-lastJ.t;if(age<500&&lastJ.j>=0){const a=1-age/500,y=JY*.62-(1-a)*8;ctx.globalAlpha=a;ctx.font=`900 ${34*SC}px system-ui`;ctx.lineWidth=6*SC;ctx.strokeStyle="rgba(60,10,80,.85)";ctx.strokeText(jname(lastJ.j),W/2,y);
-      const g=ctx.createLinearGradient(W/2-120*SC,0,W/2+120*SC,0);g.addColorStop(0,"#ffd1f0");g.addColorStop(.5,lastJ.j==0?"#fff6b0":JC[lastJ.j]);g.addColorStop(1,"#c9f4ff");ctx.fillStyle=g;ctx.fillText(jname(lastJ.j),W/2,y);
+      let g;if(lastJ.j<=1){g=ctx.createLinearGradient(0,y-30*SC,0,y+2*SC);g.addColorStop(0,"#8fdcfb");g.addColorStop(.28,"#b6fbea");g.addColorStop(.52,"#fff8d2");g.addColorStop(.75,"#ffd2d8");g.addColorStop(1,"#ff9fd4")}else g=JC[lastJ.j];ctx.fillStyle=g;ctx.fillText(jname(lastJ.j),W/2,y);
       if(lastJ.fl){ctx.font=`bold ${15*SC}px system-ui`;ctx.fillStyle=lastJ.fl[0]=="F"||lastJ.fl[0]=="E"?"#7cc4ff":"#ff9a7a";ctx.fillText(lastJ.fl,W/2,y+22*SC)}ctx.globalAlpha=1}}
   if(paused){ctx.fillStyle="rgba(0,0,0,.45)";ctx.fillRect(-X0,0,W0,H);if(cdNum>0){ctx.font=`bold ${130*SC}px system-ui`;ctx.lineWidth=6;ctx.strokeStyle="rgba(90,30,110,.9)";ctx.strokeText(cdNum,W/2,H*.48);ctx.fillStyle="#fff";ctx.fillText(cdNum,W/2,H*.48);ctx.font=`bold ${18*SC}px system-ui`;ctx.fillText("再開まで",W/2,H*.48-110*SC)}}
   ctx.restore();
@@ -592,12 +621,12 @@ function drawYS(now){
   if(run&&combo>1){ctx.save();ctx.textAlign="center";const x=X0+W+Math.min(90*SC,(W0-X0-W)/2+30*SC),xx=Math.min(W0-70*SC,x);
     // ALL PERFECT✦→虹色＋✦、ALL PERFECT→虹色、フルコンボ→GREATの色、コンボを切った→黄色
     const st=cnt[1]+cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?2:cnt[3]+cnt[4]+cnt[5]==0?1:0;
-    const rb=(y0,y1,x0,x1)=>{const g=ctx.createLinearGradient(x0,y0,x1,y1);g.addColorStop(0,"#ff8fd6");g.addColorStop(.35,"#ffc2e6");g.addColorStop(.55,"#fff4b8");g.addColorStop(.78,"#a8f0ff");g.addColorStop(1,"#b9a8ff");return g};
-    const col=(y0,y1,x0,x1)=>st>=2?rb(y0,y1,x0,x1):st==1?JC[2]:"#ffe14d";
+    const rb=(y0,y1)=>{const g=ctx.createLinearGradient(0,y0,0,y1);g.addColorStop(0,"#8fdcfb");g.addColorStop(.28,"#b6fbea");g.addColorStop(.52,"#fff8d2");g.addColorStop(.75,"#ffd2d8");g.addColorStop(1,"#ff9fd4");return g};
+    const col=(y0,y1)=>st>=2?rb(y0,y1):st==1?JC[2]:"#ffe14d";
     ctx.shadowColor=st>=2?"rgba(255,255,255,.9)":st==1?"rgba(111,227,255,.8)":"rgba(255,225,77,.7)";ctx.shadowBlur=10*SC;
-    ctx.font=`900 ${17*SC}px system-ui`;const cw=ctx.measureText("COMBO").width;ctx.fillStyle=col(H*.3,H*.32,xx-cw/2,xx+cw/2);ctx.fillText("COMBO",xx,H*.32);
+    ctx.font=`900 ${17*SC}px system-ui`;const cw=ctx.measureText("COMBO").width;ctx.fillStyle=col(H*.32-13*SC,H*.32);ctx.fillText("COMBO",xx,H*.32);
     if(st==3){const sx=xx-cw/2-12*SC,sy2=H*.32-6*SC,r=8*SC;ctx.fillStyle=rb(sy2-r,sy2+r,sx-r,sx+r);ctx.beginPath();ctx.moveTo(sx,sy2-r);ctx.lineTo(sx+r*.28,sy2-r*.28);ctx.lineTo(sx+r,sy2);ctx.lineTo(sx+r*.28,sy2+r*.28);ctx.lineTo(sx,sy2+r);ctx.lineTo(sx-r*.28,sy2+r*.28);ctx.lineTo(sx-r,sy2);ctx.lineTo(sx-r*.28,sy2-r*.28);ctx.fill()}
-    ctx.font=`900 ${54*SC}px system-ui`;const nw=ctx.measureText(String(combo)).width;ctx.fillStyle=col(H*.33,H*.41,xx-nw/2,xx+nw/2);ctx.fillText(combo,xx,H*.4);ctx.restore()}
+    ctx.font=`900 ${54*SC}px system-ui`;const nw=ctx.measureText(String(combo)).width;ctx.fillStyle=col(H*.4-40*SC,H*.4);ctx.fillText(combo,xx,H*.4);ctx.restore()}
   if(run)drawHUDys();
 }
 function drawHUDys(){const u=SC,tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,life=Math.max(0,1000-cnt[MISS]*80-cnt[4]*50);
