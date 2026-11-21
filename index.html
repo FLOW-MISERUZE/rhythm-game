@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 25</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 27</div></div>
 </div>
 </div>
 <script>
@@ -601,9 +601,9 @@ function drawYS(now){
       for(const f of[.085,.915]){const bw=Math.max(.004,ph*.09/pw);rr(f-bw,.46,f+bw,.76,ph*.05);ctx.fill();
         const c=Q(f,.34),r2=ph*.07;ctx.beginPath();ctx.moveTo(c[0],c[1]-r2);ctx.lineTo(c[0]+r2*.35,c[1]-r2*.35);ctx.lineTo(c[0]+r2,c[1]);ctx.lineTo(c[0]+r2*.35,c[1]+r2*.35);ctx.lineTo(c[0],c[1]+r2);ctx.lineTo(c[0]-r2*.35,c[1]+r2*.35);ctx.lineTo(c[0]-r2,c[1]);ctx.lineTo(c[0]-r2*.35,c[1]-r2*.35);ctx.fill()}}
     // フリック・スクラッチの矢印：板の上に太い「＜」「＞」を並べ、矢印の向きへ光が流れる（本家風）
-    if((kind==2||sc5)&&!miss){const tw=C[0]-D[0],hh=A[1]-D[1],cells=Math.max(1,(xb-xa)/lw*3),n=Math.max(2,Math.round(cells*1.5)),sp=tw/n,h=hh*1.25,y0=D[1]-hh*.05,lw2=Math.max(2,Math.min(sp*.34,hh*.5)),ph=(performance.now()/420)%1;
+    if((kind==2||sc5)&&!miss){const tw=C[0]-D[0],hh=A[1]-D[1],cells=Math.max(1,(xb-xa)/lw*3),n=Math.max(2,Math.round(cells*1.5)),sp=tw/n,h=hh*.8,y0=D[1]-hh*.05,lw2=Math.max(1.6,Math.min(sp*.2,hh*.3)),ph=(performance.now()/420)%1;
       ctx.lineJoin="miter";ctx.lineCap="butt";ctx.lineWidth=lw2;
-      for(let i=0;i<n;i++){const fx=(i+.5)/n,one=sc5&&ad,dir=one?ad:(fx<.5?-1:1),x=D[0]+tw*fx,w=sp*.3;
+      for(let i=0;i<n;i++){const fx=(i+.5)/n,one=sc5&&ad,dir=one?ad:(fx<.5?-1:1),x=D[0]+tw*fx,w=sp*.19;
         const pos=one?(ad>0?fx:1-fx):Math.abs(fx-.5)*2;let dd=pos-ph;dd-=Math.round(dd);const g=Math.exp(-dd*dd/.018);
         ctx.strokeStyle=`rgba(${255-Math.round(60*(1-g))},${255-Math.round(40*(1-g))},255,${.55+.45*g})`;
         ctx.beginPath();ctx.moveTo(x-dir*w,y0);ctx.lineTo(x+dir*w,y0-h/2);ctx.lineTo(x-dir*w,y0-h);ctx.stroke()}
@@ -804,7 +804,7 @@ $("songFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;$("songN
     $("songName").textContent=f.name;$("songInfo").textContent=`長さ ${Math.floor(songAn.dur/60000)}:${String(Math.floor(songAn.dur/1000)%60).padStart(2,"0")} ／ 検出したBPM ${songAn.bpm.toFixed(1)}。テンポが半分や倍になっているときは ÷2 / ×2 で直してください。`}
   catch(err){songBuf=null;songAn=null;$("songName").textContent="読み込めませんでした（別のファイル形式を試してください）"}};
 // ---- 既存曲 ----
-const SONGS=[{id:"s1",ok:1,diff:"OLIVIER VIII",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",ok:1,diff:"OLIVIER VI",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",ok:1,diff:"OLIVIER VI",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"},{id:"s4",ok:1,diff:"OLIVIER VII",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",chart:"songs/s4.json"},{id:"s5",diff:"OLIVIER VIII",name:"INTERNET YAMERO",sub:"BPM 185",mp3:"songs/s5.mp3",chart:"songs/s5.json"}];
+const SONGS=[{id:"s1",ok:1,diff:"OLIVIER VIII",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",ok:1,diff:"OLIVIER VI",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",ok:1,diff:"OLIVIER VI",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"},{id:"s4",ok:1,diff:"OLIVIER VII",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",chart:"songs/s4.json"},{id:"s5",ok:1,diff:"OLIVIER VIII",name:"INTERNET YAMERO",sub:"BPM 185",mp3:"songs/s5.mp3",chart:"songs/s5.json"}];
 const PWH=1750149348695010;
 function cyrb53(str,seed){let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}
   h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
