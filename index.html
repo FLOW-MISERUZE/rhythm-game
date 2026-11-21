@@ -155,7 +155,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 7</div>
+<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 8</div>
 </div>
 </div>
 <script>
@@ -612,7 +612,7 @@ function drawYS(now){
   ctx.restore();
   // 判定の文字とコンボ
   ctx.textAlign="center";
-  if(run&&lastJ){const age=tn-lastJ.t;if(age<500&&lastJ.j>=0){const a=1-age/500,y=JY*.62-(1-a)*8;ctx.globalAlpha=a;ctx.font=`900 ${34*SC}px system-ui`;ctx.lineWidth=6*SC;ctx.strokeStyle="rgba(60,10,80,.85)";ctx.strokeText(jname(lastJ.j),W/2,y);
+  if(run&&lastJ){const age=tn-lastJ.t;if(age<500&&lastJ.j>=0){const a=1-age/500,y=JY*.62-(1-a)*8;ctx.globalAlpha=a;ctx.font=`900 ${34*SC}px system-ui`;
       // 本家の色：PERFECT✦＝青→白→ピンク、PERFECT＝紫→薄紫→水色、GREAT＝黄色
       const vg=(cs,glow)=>{const g=ctx.createLinearGradient(0,y-30*SC,0,y+2*SC);cs.forEach((c,i)=>g.addColorStop(i/(cs.length-1),c));ctx.shadowColor=glow;ctx.shadowBlur=12*SC;return g};
       const j=lastJ.j;ctx.fillStyle=j==0?vg(["#8fdcfb","#b6fbea","#fff8d2","#ffd2d8","#ff9fd4"],"rgba(255,255,255,.7)"):j==1?vg(["#b98ef6","#d6b4f8","#ebcff9","#cde6fa","#b5f4fb"],"rgba(150,110,255,.8)"):j==2?vg(["#fbf39a","#f6ed7f","#f7d575"],"rgba(255,200,60,.8)"):JC[j];
