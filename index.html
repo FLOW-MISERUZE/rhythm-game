@@ -26,6 +26,7 @@ body.playing #bar{display:none}
 .hero{text-align:center;padding:6px 0 0}
 .logo{font-size:30px;font-weight:800;letter-spacing:.12em;background:linear-gradient(90deg,#ff6a9a,#8a7bff,#4fc3ff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{color:var(--mut);font-size:13px}
+.dif{display:inline-block;padding:1px 8px;margin-right:6px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.06em;color:#6a2bd8;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .actions{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
 @media(max-width:520px){.actions{grid-template-columns:1fr}}
 .big{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 12px;font-size:20px;font-weight:700;border-radius:18px;text-align:left}
@@ -155,7 +156,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 11</div>
+<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 12</div>
 </div>
 </div>
 <script>
@@ -762,7 +763,7 @@ $("songFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;$("songN
     $("songName").textContent=f.name;$("songInfo").textContent=`長さ ${Math.floor(songAn.dur/60000)}:${String(Math.floor(songAn.dur/1000)%60).padStart(2,"0")} ／ 検出したBPM ${songAn.bpm.toFixed(1)}。テンポが半分や倍になっているときは ÷2 / ×2 で直してください。`}
   catch(err){songBuf=null;songAn=null;$("songName").textContent="読み込めませんでした（別のファイル形式を試してください）"}};
 // ---- 既存曲 ----
-const SONGS=[{id:"s1",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"},{id:"s4",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",chart:"songs/s4.json"}];
+const SONGS=[{id:"s1",diff:"OLIVIER VIII",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",diff:"OLIVIER VI",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",diff:"OLIVIER VI",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"},{id:"s4",diff:"OLIVIER VII",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",chart:"songs/s4.json"}];
 const PWH=1750149348695010;
 function cyrb53(str,seed){let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}
   h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
@@ -786,7 +787,7 @@ function buildPreset(p){const mb=60000/p.bpm,BP=p.bpms||[[0,p.bpm]],out=[];
   return out.sort((x,y)=>x.t-y.t)}
 const ovl=$("ovl"),showOv=v=>{ovl.classList.remove("hide");$("pwView").classList.toggle("hide",v!="pw");$("listView").classList.toggle("hide",v!="list")},hideOv=()=>ovl.classList.add("hide");
 function showList(){const box=$("songList");box.innerHTML="";$("listMsg").textContent="";
-  SONGS.forEach(sg=>{const b=document.createElement("button");b.type="button";b.className="songItem";b.innerHTML=`<span style="font-size:26px">📀</span><span>${sg.name}<small>${sg.sub}</small></span>`;b.onclick=()=>loadPreset(sg);box.appendChild(b)});showOv("list")}
+  SONGS.forEach(sg=>{const b=document.createElement("button");b.type="button";b.className="songItem";b.innerHTML=`<span style="font-size:26px">📀</span><span>${sg.name}<small><b class="dif">${sg.diff}</b> ${sg.sub}</small></span>`;b.onclick=()=>loadPreset(sg);box.appendChild(b)});showOv("list")}
 async function loadPreset(sg){$("listMsg").textContent="読み込み中…";
   let stage="";
   try{const get=async(u,kind)=>{stage=u;let r=null;
