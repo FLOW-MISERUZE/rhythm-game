@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 29</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 30</div></div>
 </div>
 </div>
 <script>
@@ -816,7 +816,7 @@ function buildPreset(p){const mb=60000/p.bpm,BP=p.bpms||[[0,p.bpm]],out=[];
   const T=b=>{let t=LEAD+p.off,pb=0,cb=BP[0][1];for(let i=1;i<BP.length&&BP[i][0]<b;i++){t+=(BP[i][0]-pb)*60000/cb;pb=BP[i][0];cb=BP[i][1]}return t+(b-pb)*60000/cb};
   for(const a of p.notes){const k=a[0],t=T(a[1]/48),u0=a[2]/3,u1=a[3]/3,n={t,b0:a[1]/48,l:Math.min(3,Math.floor(u0)),u0,u1,k,d:0,st:0};
     if(k==1||k==3)n.d=T(a[4]/48)-t;if(k==0&&a[5])n.g=1;
-    if(k==1)n.hd=a[5]!==0;
+    if(k==1)n.hd=a[5]!==0;if(k==4&&a[4]!=null)n.dv=a[4];
     if(k==3){n.path=a[5].map(q=>({t:T(q[0]/48),u0:q[1]/3,u1:q[2]/3}));if(a[6]!==0)out.push({t,l:n.l,u0:n.path[0].u0,u1:n.path[0].u1,k:0,d:0,st:0});n.hd=false}
     out.push(n)}
   // スプリット：その区間はレーンが区切られる（境目のラインが光る）。ランダムがオンなら区間ごとにレーンを入れ替える
@@ -833,8 +833,8 @@ function buildPreset(p){const mb=60000/p.bpm,BP=p.bpms||[[0,p.bpm]],out=[];
       if(h){const a=spanAt(h,n.t-2),b=spanAt(h,n.t+2);n.u0=Math.min(a[0],b[0]);n.u1=Math.max(a[1],b[1])}else{const r=mp(n.u0,n.u1);if(r){n.u0=r[0];n.u1=r[1]}}n.l=Math.min(3,Math.floor(n.u0))}}
   const scs=out.filter(n=>n.k==3);
   // スクラッチの終点にあるフリックは、弾かなくても擦ればよい（スクラッチの矢印として扱う）
-  for(const n of out)if(n.k==2&&scs.some(h=>Math.abs(h.t+h.d-n.t)<5&&(sp=>Math.min(n.u1,sp[1])-Math.max(n.u0,sp[0])>0)(spanAt(h,n.t-2))))n.k=4;
-  for(const n of out)if(n.k==4){const h=scs.find(s=>s.t-5<=n.t&&n.t<=s.t+s.d+5);n.ad=0;if(h){const a=spanAt(h,n.t-2),b=spanAt(h,n.t+2),c=(b[0]+b[1])-(a[0]+a[1]);n.ad=c>.05?1:c<-.05?-1:0}if(!n.ad)n.ad=(n.u0+n.u1)/2<2-.01?-1:1}
+  for(const n of out)if(n.k==2&&scs.some(h=>Math.abs(h.t+h.d-n.t)<5&&(sp=>Math.min(n.u1,sp[1])-Math.max(n.u0,sp[0])>0)(spanAt(h,n.t-2)))){n.k=4;n.dv=0}
+  for(const n of out)if(n.k==4){const h=scs.find(s=>s.t-5<=n.t&&n.t<=s.t+s.d+5);n.ad=0;if(h){const a=spanAt(h,n.t-2),b=spanAt(h,n.t+2),c=(b[0]+b[1])-(a[0]+a[1]);n.ad=c>.05?1:c<-.05?-1:0}if(n.dv!=null)n.ad=n.dv}
   for(const n of out)if(n.k==3||n.k==1)n.tapHead=out.some(m=>m.k==0&&Math.abs(m.t-n.t)<5&&Math.min(m.u1,U1(n))-Math.max(m.u0,U0(n))>0);
   // ロング判定：曲の8分の拍ごとに押下中か判定（押していればPERFECT✦、離していればMISS）。終点の判定はなし
   // 直後や同時にフリックがある所は判定しない
