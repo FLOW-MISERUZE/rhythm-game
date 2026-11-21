@@ -158,7 +158,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 18</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 19</div></div>
 </div>
 </div>
 <script>
@@ -284,7 +284,7 @@ const noSel=e=>e.preventDefault();for(const ev of ["selectstart","dragstart","co
 const plog=[];const plg=(l,x)=>{plog.unshift("L"+(l+1)+":"+x);plog.length=Math.min(plog.length,6);dbg()};
 let tcnt=0,tmax=0,tcan=0,tlast="-",tdl=0;const dbg=()=>{$("dbg").textContent=`入力モニター：同時タッチ ${tcnt}（最大 ${tmax}）／ キャンセル ${tcan}回 ／ 直前 ${tlast} ／ イベント時刻差 ${tdl}ms`+(plog.length?`\n直近の入力: ${plog.join(" ／ ")}`:"")};
 const tsync=e=>{const ids=new Set(Array.from(e.touches).map(t=>"t"+t.identifier));for(const k of [...ptr.keys()])if(typeof k=="string"&&!ids.has(k))ptr.delete(k)};
-cv.addEventListener("touchstart",e=>{e.preventDefault();tsync(e);tcnt=e.touches.length;tmax=Math.max(tmax,tcnt);tlast="start";tdl=Math.round(performance.now()-e.timeStamp);dbg();for(const t of Array.from(e.changedTouches)){if(hudHit(t.clientX,t.clientY)){hudPause();continue}const u=laneAt(t);ptr.set("t"+t.identifier,u);tps.set("t"+t.identifier,{fk:flickNear(u),t0:performance.now(),h:[[performance.now(),t.clientX,t.clientY]]});fl[LN(u)]=performance.now();lastPend=null;press(u,u,false);tps.get("t"+t.identifier).fn=lastPend}},{passive:false});
+cv.addEventListener("touchstart",e=>{e.preventDefault();if(actx&&actx.state!="running"&&run&&!paused)try{actx.resume()}catch(_){}tsync(e);tcnt=e.touches.length;tmax=Math.max(tmax,tcnt);tlast="start";tdl=Math.round(performance.now()-e.timeStamp);dbg();for(const t of Array.from(e.changedTouches)){if(hudHit(t.clientX,t.clientY)){hudPause();continue}const u=laneAt(t);ptr.set("t"+t.identifier,u);tps.set("t"+t.identifier,{fk:flickNear(u),t0:performance.now(),h:[[performance.now(),t.clientX,t.clientY]]});fl[LN(u)]=performance.now();lastPend=null;press(u,u,false);tps.get("t"+t.identifier).fn=lastPend}},{passive:false});
 cv.addEventListener("touchmove",e=>{e.preventDefault();for(const t of Array.from(e.changedTouches))if(ptr.has("t"+t.identifier)){const u=laneAt(t);ptr.set("t"+t.identifier,u);moved("t"+t.identifier,t.clientX,t.clientY,u)}},{passive:false});
 for(const ev of ["touchend","touchcancel"])cv.addEventListener(ev,e=>{e.preventDefault();tsync(e);tcnt=e.touches.length;if(e.type=="touchcancel")tcan++;tlast=e.type.slice(5);dbg()},{passive:false});
 addEventListener("blur",()=>{ptr.clear();kh.fill(0)});
@@ -563,7 +563,7 @@ function drawYS(now){
   // 通常はレーンを6つに分ける線をうっすら表示。スプリット中はそれを消して、スプリットの線を光らせる（フェードで切り替え）
   let sfa=0,spNow=null;
   for(const spl of ysSplits){const a0=now-(spl.t0+S.off),a1=(spl.t1+S.off)-now;if(a0<-250||a1<-250)continue;const fa=Math.max(0,Math.min(1,(a0+250)/250,(a1+250)/250));if(fa>sfa){sfa=fa;spNow=spl}}
-  ctx.lineWidth=1.2;for(let k=1;k<6;k++)rail(k*W/6,`rgba(255,255,255,${.16*(1-sfa)})`);
+  ctx.lineWidth=1.2;for(let k=1;k<6;k++)rail(k*W/6,`rgba(255,255,255,${.06*(1-sfa)})`);
   ctx.lineWidth=1;rail(0,"rgba(0,0,0,.6)");rail(W,"rgba(0,0,0,.6)");
   if(spNow){const spl=spNow,fa=sfa,RB=["255,60,80","255,150,40","255,235,60","90,235,90","60,225,225","70,120,255","200,90,255"];
     spl.b.forEach((u,i)=>{// 色は本家の動画に合わせる：通常は白、情熱リベレイションは青、きゅうくらりんの一部は虹色
@@ -689,7 +689,10 @@ function hud(fin,msg){if(!fin)return;
 }
 function loop(){
   if(!run)return;
-  if(paused){const tn=performance.now();if(cdEnd){const left=cdEnd-tn;if(left<=0){p0+=tn-pauseAt;t0+=actx.currentTime-pauseAC;paused=false;cdEnd=0;cdNum=0;try{actx.resume()}catch(e){}}else cdNum=Math.ceil(left/1000)}
+  if(paused){const tn=performance.now();if(cdEnd){const left=cdEnd-tn;if(left<=0){p0+=tn-pauseAt;paused=false;cdEnd=0;cdNum=0;try{actx.resume()}catch(e){}
+      if(reAudio){reAudio=false;t0=actx.currentTime-(actx.outputLatency||actx.baseLatency||0)-frozen/1000;
+        if(musicRun){const buf=ys?ysBuf:songBuf;try{songSrc&&songSrc.stop()}catch(e){}songSrc=actx.createBufferSource();songSrc.buffer=buf;songSrc.connect(OUT);const st=t0+LEAD/1000;if(st>actx.currentTime)songSrc.start(st);else songSrc.start(0,(frozen-LEAD)/1000)}}
+      else t0+=actx.currentTime-pauseAC}else cdNum=Math.ceil(left/1000)}
     if(paused){draw(frozen);requestAnimationFrame(loop);return}}
   sync();if(actx.state!="running")actx.resume();const now=cur();
   try{metro(now);fill(now);update(now)}catch(e){console.error(e)}
@@ -697,8 +700,18 @@ function loop(){
   if(musicRun&&now>LEAD+(ys?ysAn:songAn).dur+1500){quitRun("曲が終わりました");return}
   draw(now);if(cal){if(now>LEAD+16*BEAT+800){endCal(true);draw(now);return}calMsg=`調整モード：音とノーツに合わせてタップ（${calD.length}/16）`+(calD.length?` 平均ズレ ${Math.round(calD.reduce((a,b)=>a+b,0)/calD.length)}ms`:"")}else hud(false);requestAnimationFrame(loop);
 }
+// 音が出なくなる対策：iPhone/iPadは画面を消したり他のアプリに移ると、音の出口(AudioContext)が
+// 「中断」状態になったり、動いているように見えて無音のままになることがある。
+// 一度でも画面が隠れたら古い出口を捨てて、次に触った時に新しく作り直す。
+let acStale=false,reAudio=false;
+const markStale=()=>{acStale=true};
+document.addEventListener("visibilitychange",()=>{if(document.hidden)markStale()});
+addEventListener("pagehide",markStale);addEventListener("pageshow",e=>{if(e.persisted)markStale()});
+function freshAC(){try{actx&&actx.close()}catch(e){}actx=new(window.AudioContext||window.webkitAudioContext)();acStale=false;lastAC=-1;
+  actx.onstatechange=()=>{if(actx.state=="interrupted")markStale()};
+  try{actx.resume()}catch(e){}try{const b=actx.createBuffer(1,1,22050),sn=actx.createBufferSource();sn.buffer=b;sn.connect(actx.destination);sn.start(0)}catch(e){}}
 function startRun(isCal){
-  if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();
+  if(!actx||acStale||actx.state=="closed"||actx.state=="interrupted")freshAC();
   try{OUT&&OUT.disconnect()}catch(e){}try{songSrc&&songSrc.stop()}catch(e){}OUT=actx.createGain();OUT.connect(actx.destination);
   if(cal)S.off=calOff;cal=isCal;if(isCal){calOff=S.off;S.off=0;calD=[];calGen=0}
   actx.resume&&actx.resume();try{const b=actx.createBuffer(1,1,22050),sn=actx.createBufferSource();sn.buffer=b;sn.connect(OUT);sn.start(0)}catch(e){}
@@ -724,7 +737,7 @@ const setPlaying=b=>{try{document.body.classList.toggle("playing",b)}catch(e){}}
 const hudHit=(x,y)=>run&&!paused&&(ys?Math.hypot(x-(W0-46*SC),y-46*SC)<40*SC:Math.abs(x-44*SC)<46*SC&&Math.abs(y-48*SC)<46*SC),hudPause=()=>$("stop").onclick();
 function pauseGame(){if(!run||cal)return;if(paused){if(cdEnd){cdEnd=0;cdNum=0;pauseEl.classList.remove("hide")}return}
   paused=true;pauseAt=performance.now();pauseAC=actx.currentTime;frozen=cur();ptr.clear();kh.fill(0);try{actx.suspend()}catch(e){}pauseEl.classList.remove("hide");$("retry").classList.toggle("hide",!ys)}
-function resumeGame(){if(!paused||cdEnd)return;pauseEl.classList.add("hide");cdEnd=performance.now()+3000;cdNum=3}
+function resumeGame(){if(!paused||cdEnd)return;if(acStale||actx.state=="closed"||actx.state=="interrupted"){freshAC();OUT=actx.createGain();OUT.connect(actx.destination);reAudio=true}pauseEl.classList.add("hide");cdEnd=performance.now()+3000;cdNum=3}
 function restoreLanes(){if(lanesBak){S.lanes=lanesBak;lanesBak=0;fit()}}
 function retryRun(){$("result").classList.add("hide");if(run){run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");try{songSrc&&songSrc.stop()}catch(e){}restoreLanes();ys=false;setPal(false)}closeMenu();startRun(false)}
 function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,rk=acc>=.95?"S":acc>=.85?"A":acc>=.7?"B":acc>=.5?"C":"D";
