@@ -155,7 +155,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 9</div>
+<div style="text-align:center;opacity:.6;font-size:12px;margin:18px 0 6px">アプデ回数: 10</div>
 </div>
 </div>
 <script>
@@ -568,7 +568,7 @@ function drawYS(now){
       arc(u1-ru,v0+rv,-Math.PI/2);arc(u1-ru,v1-rv,0);arc(u0+ru,v1-rv,Math.PI/2);arc(u0+ru,v0+rv,Math.PI);P(pts)};
     // v=0が手前の下端、v=1が上端
     const col=miss?["#777","#555","#888"]:[["#ff9cc2","#ef5a92","#ffb3cf"],["#62b2ff","#2c66e6","#8cc8ff"],["#b48cff","#6a3cf0","#d2bcff"],["#ff8af0","#c43cff","#ffc0f6"],["#ffd36a","#ff9e1a","#ffe7a0"]][kind];
-    const rad=ph*.32;
+    const rad=ph*.1;
     if(!miss){const dy=pl.q[0][1]-A[1];for(const k of[1,.66,.33]){ctx.save();ctx.translate(0,dy*k);rr(0,0,1,1,rad);ctx.fillStyle=kind==2||sc5?"#7a5ad0":"#d9a43c";ctx.fill();ctx.restore()}}
     rr(0,0,1,1,rad);ctx.fillStyle=miss?"#666":kind==2||sc5?"#a58cf0":"#f4c65a";ctx.fill();
     rr(.004,.08,.996,1,rad);ctx.fillStyle=lg(D[1],A[1],col[2],col[1]);ctx.fill();
