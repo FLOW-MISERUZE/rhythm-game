@@ -131,6 +131,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div class="hint" id="ysInfo">とにかくシークレットなモードです。曲を遊ぶには、パスワードが必要です。</div>
 </section>
 <section class="card"><h3>🎨 見た目</h3>
+<div class="row"><span>タップエフェクト</span><select id="tapfx" class="seg"><option value="0">なし</option><option value="1">控えめ</option><option value="2">通常</option></select></div>
 <div class="row"><span>ノーツのスキン</span><select id="skin" class="seg"><option value="0">ノーマル</option><option value="1">シンプル</option><option value="2">高品質</option></select></div>
 <div class="row"><span>ノーツの落ち方</span><select id="view" class="seg"><option value="0">斜め</option><option value="1">垂直</option></select></div>
 <label class="sl"><div class="top"><span>レーン幅（0で自動）</span><b id="vlnw"></b></div><input id="lnw" type="range" min="0" max="400" step="1"></label>
@@ -158,7 +159,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 37</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 38</div></div>
 </div>
 </div>
 <script>
@@ -169,8 +170,8 @@ let BEAT=400,nb=0,gb=0,gcur=0,gbar=-1,gsub=16,pend=[],cal=false,calOff=0,calD=[]
 const DD=[{sub:16,pr:.6,hold:.18,hmin:1,hmax:2,chord:.18,pin:.12},{sub:0,pr:.85,hold:.25,hmin:.5,hmax:2,chord:.4,pin:.25}];
 const DIFF=JSON.parse(JSON.stringify(DD));
 try{JSON.parse(localStorage.getItem("g20d2")||"[]").forEach((d,i)=>{if(DIFF[i]&&d)Object.assign(DIFF[i],d)})}catch(e){}
-const SK=["speed","yspeed","yspawn","off","spawn","lnw","lanes","diff","bpm","key","skin","tapsnd","view","mode"];
-const S={speed:10,yspeed:5.5,yspawn:0,yacc:1,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0,mode:0};
+const SK=["speed","yspeed","yspawn","off","spawn","lnw","lanes","diff","bpm","key","skin","tapsnd","view","mode","tapfx"];
+const S={speed:10,yspeed:5.5,yspawn:0,yacc:1,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0,mode:0,tapfx:1};
 try{Object.assign(S,JSON.parse(localStorage.getItem("g20")||"{}"))}catch(e){}
 if(!S.v2){S.v2=1;if(S.lnw<=110)S.lnw=130}
 if(!S.v3){S.v3=1;S.lnw=0}
@@ -181,7 +182,7 @@ let actx,t0=0,run=false,N=[],cnt=[0,0,0,0,0,0],combo=0,maxc=0,score=0,lastJ=null
 function fit(){const vv=window.visualViewport;W0=Math.round(vv&&vv.width?vv.width:window.innerWidth);H=Math.round(vv&&vv.height?vv.height:window.innerHeight);
   JY=ys?Math.round(H*.745):H-Math.round(H*.24);NZ=JY*.047;HZ=H*.05;SC=Math.max(.8,Math.min(1.6,H/620,W0/760));
   if(ys){LWe=Math.max(40,Math.floor(Math.min(W0*.84,H*1.3)/4));X0=Math.round((W0-4*LWe)/2);bgC=null}else LWe=S.lnw?Math.max(20,Math.min(S.lnw,Math.floor(W0/S.lanes))):Math.max(20,Math.floor(Math.min(W0*.6,H*.95)/S.lanes));if(!ys)X0=Math.round((W0-S.lanes*LWe)/2);
-  const dpr=window.devicePixelRatio||1;cv.width=W0*dpr;cv.height=H*dpr;cv.style.width=W0+"px";cv.style.height=H+"px";ctx.setTransform(dpr,0,0,dpr,0,0)}
+  const dpr=Math.min(2,window.devicePixelRatio||1);cv.width=W0*dpr;cv.height=H*dpr;cv.style.width=W0+"px";cv.style.height=H+"px";ctx.setTransform(dpr,0,0,dpr,0,0)}
 function apply(){
   for(const k of SK){S[k]=+$(k).value;const v=$("v"+k);if(v)v.textContent=S[k]}
   $("vlnw").textContent=S.lnw||"自動";
@@ -304,7 +305,7 @@ function reg(j,fl,q){if(fl=="FAST")fc++;else if(fl=="LATE")lc++;cnt[j]++;score+=
 const jname=j=>ys&&j==0?"PERFECT✦":JN[j];
 const U0=n=>n.u0!=null?n.u0:n.l,U1=n=>n.u1!=null?n.u1:n.l+1;
 const FXC=["255,70,150","70,220,255","180,110,255","200,110,255","255,190,70"],FX=[];
-function fx(n){if(!ys)return;const k=n.k==0&&n.g?4:n.k==4?2:n.k;const sp=n.path?spanAt(n,cur()):[U0(n),U1(n)];FX.push({t:performance.now(),u0:sp[0],u1:sp[1],c:FXC[k]});if(FX.length>40)FX.shift()}
+function fx(n){if(!ys)return;const k=n.k==0&&n.g?4:n.k==4?2:n.k;const sp=n.path?spanAt(n,cur()):[U0(n),U1(n)];FX.push({t:performance.now(),u0:sp[0],u1:sp[1],c:FXC[k]});if(FX.length>24)FX.shift()}
 function fxMiss(n){}
 function hitN(n,a,b,tol){const x0=U0(n),x1=U1(n);return a==b?(a>=x0-tol&&a<x1+tol):Math.min(b,x1)-Math.max(a,x0)>0}
 function judgeSlide(n,d,l){if(d>50||d<-50)return false;n.st=1;reg(0,"");fx(n);plg(l,"SCRATCH PERFECT✦");if(S.tap)tapSnd();return true}
@@ -496,7 +497,7 @@ function draw(now){
 
 // ---- シークレットモードの描画（舞台・12マスの判定ボックス・ノーツ・エフェクト）----
 let bgC=null;
-function buildBg(){const c=document.createElement("canvas"),dpr=window.devicePixelRatio||1;c.width=W0*dpr;c.height=H*dpr;const g=c.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);
+function buildBg(){const c=document.createElement("canvas"),dpr=Math.min(2,window.devicePixelRatio||1);c.width=W0*dpr;c.height=H*dpr;const g=c.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);
   // 本家の背景：星空・紫の幕・上の幕飾り・吊りライトの水色の光・金の房・舞台の足元ライト（中央の絵の壁は図形で表現）
   let sd=7;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};const cxw=W0/2;
   let gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,"#0d0b33");gr.addColorStop(.35,"#1a1250");gr.addColorStop(.7,"#140c2a");gr.addColorStop(1,"#07060e");g.fillStyle=gr;g.fillRect(0,0,W0,H);
@@ -607,12 +608,14 @@ function drawYS(now){
       if(one){const n=fit(tw-2.5*PT);runs.push([ad>0?M1[0]-half:M0[0]+half,ad,n])}
       else{const n=fit(tw*.4);runs.push([M0[0]+half,-1,n]);runs.push([M1[0]-half,1,n])}
       ctx.lineJoin="miter";ctx.lineWidth=Math.max(.8,T*.08);ctx.strokeStyle="rgba(140,100,248,.92)";
-      for(const[x0,dir,n]of runs)for(let k=n-1;k>=0;k--){const x=x0-dir*k*PT,xb_=x-dir*half,xt=x+dir*(aa-T/2);
-        const pr=n>1?1-k/(n-1):1;let dd=pr-ph;dd-=Math.round(dd);const g=Math.exp(-dd*dd/.015),al=.3+.3*pr;
-        ctx.fillStyle=`rgba(${222+Math.round(33*g)},${212+Math.round(43*g)},255,${Math.min(.95,al+.35*g)})`;
-        // 奥へ倒して立体的に：上へ行くほど消失点に寄せ、高さを縮める
-        const tf=(x,y)=>{const f=(y0-y)/h,b=Q((x-M0[0])/tw,.66+.8*f);return[b[0],b[1]-(y0-y)*.25]};const P6=[[xb_,y0],[xb_+dir*T,y0],[xt+dir*T,ym],[xb_+dir*T,y0-h],[xb_,y0-h],[xt,ym]].map(q=>tf(q[0],q[1]));
-        ctx.beginPath();ctx.moveTo(P6[0][0],P6[0][1]);for(let j=1;j<6;j++)ctx.lineTo(P6[j][0],P6[j][1]);ctx.closePath();ctx.fill();ctx.stroke()}}};
+      // 軽量化：矢印は1ノーツにつき「本体1回＋光1回」でまとめて描く
+      const tf=(x,y)=>{const f=(y0-y)/h,b=Q((x-M0[0])/tw,.66+.8*f);return[b[0],b[1]-(y0-y)*.25]};
+      const chev=(x,dir)=>{const xb_=x-dir*half,xt=x+dir*(aa-T/2);let q=tf(xb_,y0);ctx.moveTo(q[0],q[1]);q=tf(xb_+dir*T,y0);ctx.lineTo(q[0],q[1]);q=tf(xt+dir*T,ym);ctx.lineTo(q[0],q[1]);
+        q=tf(xb_+dir*T,y0-h);ctx.lineTo(q[0],q[1]);q=tf(xb_,y0-h);ctx.lineTo(q[0],q[1]);q=tf(xt,ym);ctx.lineTo(q[0],q[1]);ctx.closePath()};
+      for(const[x0,dir,n]of runs){const xe=x0-dir*(n-1)*PT;const gr=ctx.createLinearGradient(xe,0,x0,0);gr.addColorStop(0,"rgba(222,212,255,.3)");gr.addColorStop(1,"rgba(222,212,255,.62)");
+        ctx.beginPath();for(let k=0;k<n;k++)chev(x0-dir*k*PT,dir);ctx.fillStyle=gr;ctx.fill();ctx.stroke();
+        ctx.beginPath();let any=0;for(let k=0;k<n;k++){const pr=n>1?1-k/(n-1):1;let dd=pr-ph;dd-=Math.round(dd);if(dd*dd<.02){chev(x0-dir*k*PT,dir);any=1}}
+        if(any){ctx.fillStyle="rgba(255,255,255,.45)";ctx.fill()}}}};
   const body=(z0,z1,xa,xb,xa2,xb2,kind,hd,miss)=>{z1=Math.min(z1,JY);if(z1<=z0)return;const A=pj(xa,z0),B=pj(xb,z0),C=pj(xb2,z1),D=pj(xa2,z1);P([A,B,C,D]);
     ctx.fillStyle=miss?"rgba(110,110,120,.5)":kind==1?lg(D[1],A[1],hd?"rgba(120,235,255,.85)":"rgba(40,200,245,.72)",hd?"rgba(170,250,255,1)":"rgba(60,215,255,.92)"):lg(D[1],A[1],hd?"rgba(210,120,255,.85)":"rgba(150,50,240,.75)",hd?"rgba(255,150,255,1)":"rgba(225,70,240,.92)");ctx.fill();
     ctx.strokeStyle=miss?"rgba(150,150,150,.5)":kind==1?"rgba(170,250,255,.85)":"rgba(255,170,255,.85)";ctx.lineWidth=1.5;ctx.stroke()};
@@ -645,17 +648,17 @@ function drawYS(now){
   // タッチエフェクト（本家風）：判定マスの白い光、上へ伸びる光の柱、縦の光の筋、舞い上がる✦、判定ラインより下の床の色
   ctx.save();ctx.globalCompositeOperation="lighter";
   const pillar=(xa,xb,col,a,hgt,seed,age)=>{const A=pj(xa,0),B=pj(xb,0),zz=JY*hgt,C=pj(xb,zz),D=pj(xa,zz),E=pj(xb,-JY*.6),F=pj(xa,-JY*.6);
-    P([A,B,E,F]);ctx.fillStyle=lg(A[1],E[1],`rgba(${col},${.45*a})`,`rgba(${col},0)`);ctx.fill();
-    P([A,B,C,D]);ctx.fillStyle=lg(D[1],A[1],`rgba(${col},0)`,`rgba(${col},${.8*a})`);ctx.fill();
+    if(TFX>1){P([A,B,E,F]);ctx.fillStyle=lg(A[1],E[1],`rgba(${col},${.45*a})`,`rgba(${col},0)`);ctx.fill()}
+    P([A,B,C,D]);ctx.fillStyle=lg(D[1],A[1],`rgba(${col},0)`,`rgba(${col},${.8*a})`);ctx.fill();if(TFX<2)return;
     const k=pj(xa,JY*hgt*.35),k2=pj(xb,JY*hgt*.35);P([A,B,k2,k]);ctx.fillStyle=lg(k[1],A[1],"rgba(255,255,255,0)",`rgba(255,255,255,${.75*a})`);ctx.fill();
     let sd=seed%997+1;const rr=()=>{sd=(sd*48271)%2147483647;return sd/2147483647};
-    ctx.lineWidth=1.4*SC;for(let i=0;i<9;i++){const fx0=rr(),len=hgt*(.35+rr()*.65)*(.7+.3*(1-a)),p0=pj(xa+(xb-xa)*fx0,0),p1=pj(xa+(xb-xa)*fx0,JY*len);
-      ctx.strokeStyle=lg(p1[1],p0[1],`rgba(${col},0)`,`rgba(255,255,255,${.7*a*(.4+rr()*.6)})`);ctx.beginPath();ctx.moveTo(p0[0],p0[1]);ctx.lineTo(p1[0],p1[1]);ctx.stroke()}
-    for(let i=0;i<12;i++){const fx0=rr(),sp0=rr(),up=Math.min(1,age/420)*(.4+sp0*.8),q=pj(xa+(xb-xa)*fx0,JY*(hgt*(.05+rr()*.5)+up*hgt*.5)),r=(1.5+rr()*3.5)*SC*a;
+    ctx.lineWidth=1.4*SC;for(let i=0;i<5;i++){const fx0=rr(),len=hgt*(.35+rr()*.65)*(.7+.3*(1-a)),p0=pj(xa+(xb-xa)*fx0,0),p1=pj(xa+(xb-xa)*fx0,JY*len);
+      ctx.strokeStyle=`rgba(255,255,255,${.5*a*(.4+rr()*.6)})`;ctx.beginPath();ctx.moveTo(p0[0],p0[1]);ctx.lineTo(p1[0],p1[1]);ctx.stroke()}
+    for(let i=0;i<6;i++){const fx0=rr(),sp0=rr(),up=Math.min(1,age/420)*(.4+sp0*.8),q=pj(xa+(xb-xa)*fx0,JY*(hgt*(.05+rr()*.5)+up*hgt*.5)),r=(1.5+rr()*3.5)*SC*a;
       ctx.fillStyle=i%3?`rgba(255,255,255,${a})`:`rgba(${col},${a})`;ctx.beginPath();ctx.moveTo(q[0],q[1]-r);ctx.lineTo(q[0]+r*.25,q[1]-r*.25);ctx.lineTo(q[0]+r,q[1]);ctx.lineTo(q[0]+r*.25,q[1]+r*.25);ctx.lineTo(q[0],q[1]+r);ctx.lineTo(q[0]-r*.25,q[1]+r*.25);ctx.lineTo(q[0]-r,q[1]);ctx.lineTo(q[0]-r*.25,q[1]-r*.25);ctx.fill()}};
-  for(const f of FX){const age=tn-f.t,a=1-age/420;if(a<=0)continue;const e=a*a*(3-2*a);pillar(X(f.u0),X(f.u1),f.c,e,.24+.08*(1-a),Math.floor(f.t),age)}
+  const TFX=S.tapfx==null?1:+S.tapfx;if(TFX>0)for(const f of FX){const age=tn-f.t,a=1-age/420;if(a<=0)continue;const e=a*a*(3-2*a);pillar(X(f.u0),X(f.u1),f.c,e,.24+.08*(1-a),Math.floor(f.t),age)}
   // 押さえているホールド・スクラッチは光り続ける
-  if(run)for(const n of N){const te=n.t+S.off;if(te>now)break;if((n.k!=1&&n.k!=3)||n.st!=1||now>te+n.d)continue;const sp=n.k==3?spanAt(n,now):[U0(n),U1(n)];if(!heldSpan(sp[0],sp[1],.3))continue;
+  if(run&&TFX>0)for(const n of N){const te=n.t+S.off;if(te>now)break;if((n.k!=1&&n.k!=3)||n.st!=1||now>te+n.d)continue;const sp=n.k==3?spanAt(n,now):[U0(n),U1(n)];if(!heldSpan(sp[0],sp[1],.3))continue;
     const fl=.75+.25*Math.sin(tn/45);pillar(X(sp[0]),X(sp[1]),n.k==1?"70,220,255":"190,110,255",.7*fl,.2,Math.floor(tn/90)*7+n.u0*31,(tn%420))}
   ctx.restore();
   // 判定の文字とコンボ
