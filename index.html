@@ -3,6 +3,7 @@
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>音ゲー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#07071a;--card:#14143a;--bd:#34346e;--fg:#eef0ff;--mut:#9aa0d0;--ac:#ff4f8b;--ac2:#6a5cff;box-sizing:border-box}
 *{box-sizing:border-box}
@@ -81,103 +82,156 @@ summary{cursor:pointer;color:#cfd4ff}
 .rtab b{text-align:right}
 .rbtns{display:flex;gap:12px;margin-top:12px}.rbtns button{flex:1;font-size:17px;padding:13px}
 .hide{display:none!important}
-/* 〇〇〇〇モード専用の画面（難易度選択 → 楽曲選択 → 最終確認 → 設定）。配置と動きは本家に合わせ、絵・音は自作 */
-#ysSel{position:fixed;inset:0;z-index:18;color:#333;font-family:system-ui,"Hiragino Sans",sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none}
-#ysSel button{width:auto;margin:0;color:inherit;font-family:inherit;-webkit-tap-highlight-color:transparent}
-.ybg{position:absolute;inset:0;z-index:0;transition:opacity .4s}
-.ybgHall{background:radial-gradient(60px 60px at 12% 22%,rgba(255,240,210,.55),transparent 70%),radial-gradient(80px 80px at 34% 12%,rgba(255,230,190,.5),transparent 70%),radial-gradient(70px 70px at 58% 18%,rgba(255,245,225,.55),transparent 70%),
-  radial-gradient(50px 50px at 70% 40%,rgba(255,255,255,.45),transparent 70%),radial-gradient(90px 90px at 22% 60%,rgba(255,170,120,.35),transparent 70%),radial-gradient(120px 90px at 46% 70%,rgba(255,120,90,.35),transparent 70%),
-  radial-gradient(1200px 500px at 50% 100%,rgba(150,40,40,.55),transparent),linear-gradient(180deg,#7d6a62 0%,#a28a7c 35%,#8a6156 62%,#5a3a36 100%)}
-.ybgRoom{background:radial-gradient(900px 300px at 50% -10%,rgba(255,255,255,.9),transparent),linear-gradient(180deg,#e9e6e9 0%,#d9d5d9 36%,#ffffff 36.2%,#ffffff 76%,#9c8f95 76.2%,#8a7d84 100%)}
-.ybgHall:after,.ybgRoom:after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.55) 0 2px,transparent 3px);background-size:180px 160px;opacity:.25;animation:ybok 18s linear infinite}
-@keyframes ybok{from{background-position:0 0}to{background-position:180px -160px}}
-.yscr{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column}
-.yh{display:flex;align-items:center;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));position:relative;z-index:4;gap:8px}
-.yback{width:62px!important;height:62px;border-radius:50%!important;padding:0!important;background:radial-gradient(circle at 35% 30%,#ff8f8f,#ec4d57)!important;border:4px solid #fff!important;color:#fff!important;font-size:30px;font-weight:900;box-shadow:0 3px 8px rgba(0,0,0,.3);z-index:2}
-.ylab{margin-left:-22px;padding:9px 34px 9px 30px;background:#353341;color:#fff;font-weight:900;font-size:20px;letter-spacing:.06em;clip-path:polygon(0 0,100% 0,95% 100%,0 100%);border-bottom:3px solid #ec4d57}
-.ylab:before{content:"✦";color:#ff5a64;margin-right:6px}
-.ypill{margin-left:auto;display:flex;gap:8px}.ypill span{background:rgba(40,38,50,.85);color:#ffd76a;border-radius:999px;padding:6px 16px;font-weight:800;font-size:14px}
-.ymenu{width:56px!important;height:56px;border-radius:50%!important;padding:0!important;background:radial-gradient(circle at 35% 30%,#ff8f8f,#ec4d57)!important;border:4px solid #fff!important;color:#fff!important;font-size:24px;font-weight:900}
-.ybody{flex:1;min-height:0;display:flex;position:relative}
+#menu.ysOnly .actions,#menu.ysOnly .mini,#menu.ysOnly section.card:not(#ysCard):not(:first-of-type),#menu.ysOnly details,#menu.ysOnly section.card:first-of-type .row:not(:first-of-type),#menu.ysOnly section.card:first-of-type label,#menu.ysOnly #ysOld{display:none!important}
+/* 〇〇〇〇モード専用の画面。配置・文字の大きさ・動きは本家の動画に合わせ、絵と音はすべて自作。寸法は横1210×縦834の基準画面に対する u 単位 */
+#ysSel{position:fixed;inset:0;z-index:18;overflow:hidden;color:#3a3844;font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans",system-ui,sans-serif;font-weight:500;user-select:none;-webkit-user-select:none;background:#3b2f2c}
+#ysSel button{margin:0;width:auto;font-family:inherit;color:inherit;-webkit-tap-highlight-color:transparent;cursor:pointer}
+#ysSel .hide{display:none!important}
+.ybg{position:absolute;inset:calc(var(--u)*-12);z-index:0;transition:opacity .45s;background-size:cover;background-position:center}
+.ybg svg{width:100%;height:100%;display:block;filter:blur(3.2px) saturate(1.05)}
+.yscr{position:absolute;inset:0;z-index:1}
 /* 押したときの動き */
-.yp{transition:transform .08s,filter .08s}.yp:active{transform:scale(.94);filter:brightness(1.12)}
-.ypop{animation:ypop .28s ease-out}@keyframes ypop{0%{transform:scale(.92)}55%{transform:scale(1.06)}100%{transform:scale(1)}}
-.yshake{animation:yshake .32s}@keyframes yshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
-.yflash{position:relative}.yflash:after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.7);animation:yfl .35s forwards;pointer-events:none}@keyframes yfl{from{opacity:1}to{opacity:0}}
-.yin{animation:yin .35s ease-out}@keyframes yin{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
-/* 一覧（難易度・楽曲共通） */
-.ylist{flex:0 0 52%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 10px 120px 26px;scrollbar-width:none}.ylist::-webkit-scrollbar{display:none}
-.ycard{position:relative;display:flex;align-items:stretch;height:112px;margin:0 0 12px;border-radius:6px;cursor:pointer;background:linear-gradient(90deg,rgba(255,255,255,.97),rgba(240,238,246,.93));
-  box-shadow:0 3px 8px rgba(30,20,40,.35);border:3px solid rgba(255,255,255,.9);transition:transform .2s,margin .2s,height .2s}
-.ycard.on{height:132px;background:linear-gradient(90deg,rgba(92,88,104,.97),rgba(70,66,84,.95));color:#fff;transform:translateX(-22px);margin:6px 0 18px;box-shadow:0 6px 16px rgba(0,0,0,.45)}
-.ycard .jk{flex:0 0 190px;height:100%;background:#222 center/cover no-repeat;clip-path:polygon(0 0,100% 0,88% 100%,0 100%)}
-.ycard.on .jk{flex-basis:220px}
-.ycard .lv{position:absolute;left:-12px;top:-10px;width:54px;height:54px;border-radius:50%;background:#2a2834;border:3px solid #e8c25c;color:#fff;font-weight:900;font-size:19px;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:0 2px 5px rgba(0,0,0,.4)}
-.ycard .tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:0 16px 0 6px}
-.ycard .nm{font-size:23px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.03em}
-.ycard.on .nm{font-size:27px}
-.ycard .ln{border-bottom:4px dotted currentColor;opacity:.3;margin:8px 0 6px}
-.ycard .sb{font-size:13px;opacity:.85;font-weight:700;letter-spacing:.05em;display:flex;justify-content:space-between}
-.ycard .sb i{font-style:normal;color:#d6a21c;font-weight:900}
-.ycard .okb{display:none}
-/* 右側のモニター */
-.ymon{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 14px 14px 4px;gap:10px}
-.ymonIn{width:min(100%,58vh);background:linear-gradient(180deg,#242330,#15141c);border-radius:28px 28px 10px 10px;padding:14px 16px 12px;border:8px solid #c9c9d2;border-bottom-width:14px;box-shadow:0 14px 30px rgba(0,0,0,.45),inset 0 0 0 2px #fff;transform:perspective(900px) rotateY(-9deg);transform-origin:left center}
-.ymonBar{display:flex;justify-content:space-between;color:#fff;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.06em;padding:2px 4px 10px}
-.ymonJ{position:relative;width:100%;aspect-ratio:1/1;border-radius:4px;overflow:hidden;background:#333}
-.ymonJ img{width:100%;height:100%;object-fit:cover;display:block}
-.ymonJ .big{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:Georgia,serif;font-weight:900;font-size:130px;line-height:1;text-shadow:0 4px 20px rgba(0,0,0,.5)}
-.ymonJ .big small{font-family:system-ui;font-size:22px;letter-spacing:.35em}
-.ymonCap{color:#fff;padding:10px 4px 0;display:flex;align-items:center;gap:10px}.ymonCap em{font-style:normal;font-size:11px;font-weight:900;background:linear-gradient(90deg,#8fb8ff,#e88cff);border-radius:4px;padding:2px 8px}
-.ymonCap b{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ydiffs{display:flex;gap:10px;justify-content:center;width:min(100%,58vh)}
-.ydf{width:68px!important;height:68px;border-radius:50%!important;padding:0!important;background:#fff!important;border:3px solid #ddd!important;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 3px 8px rgba(0,0,0,.25)}
-.ydf b{font-size:24px;color:#333}.ydf small{font-size:9px;font-weight:900;color:#555}
-.ydf.ol{background:#2a2834!important;border-color:#e8c25c!important}.ydf.ol b{color:#fff;font-family:Georgia,serif}.ydf.ol small{color:#fff}
-.yrow{display:flex;gap:10px;align-items:center;width:min(100%,58vh)}
-.ystat{flex:1;display:flex;justify-content:space-between;align-items:center;background:rgba(40,38,50,.88);color:#fff;border-radius:999px;padding:12px 18px;font-weight:800;font-size:14px}
-.ystat b{font-size:19px}
-.yok{min-width:170px;padding:14px 20px!important;border-radius:8px!important;background:linear-gradient(180deg,#ff7d7d,#ee4c56)!important;border:3px solid #ffc9c9!important;color:#fff!important;font-size:26px;font-weight:900;letter-spacing:.08em;box-shadow:0 4px 0 #b7323b}
+.yp{transition:transform .08s,filter .08s}.yp:active{transform:scale(.93);filter:brightness(1.12)}
+.ypop{animation:ypop .3s ease-out}@keyframes ypop{0%{transform:scale(.9)}55%{transform:scale(1.07)}100%{transform:scale(1)}}
+.yshake{animation:yshake .34s}@keyframes yshake{0%,100%{translate:0}18%{translate:calc(var(--u)*-7)}38%{translate:calc(var(--u)*7)}58%{translate:calc(var(--u)*-5)}78%{translate:calc(var(--u)*3)}}
+.yfl{position:relative}.yfl:after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.75);animation:yfl .38s forwards;pointer-events:none;z-index:9}@keyframes yfl{from{opacity:1}to{opacity:0}}
+.yin{animation:yin .38s cubic-bezier(.2,.8,.3,1)}@keyframes yin{from{opacity:0;translate:calc(var(--u)*-40) 0}to{opacity:1;translate:0}}
+.yinR{animation:yinR .45s cubic-bezier(.2,.8,.3,1)}@keyframes yinR{from{opacity:0;translate:calc(var(--u)*60) 0}to{opacity:1;translate:0}}
+/* 上のバー */
+.yback{position:absolute;left:calc(var(--u)*8);top:calc(var(--u)*8);z-index:6;width:calc(var(--u)*78)!important;height:calc(var(--u)*78);border-radius:50%;padding:0!important;border:calc(var(--u)*5) solid #fff!important;background:radial-gradient(circle at 34% 28%,#ff9a9a,#f2525c 62%,#e0404b)!important;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
+.yback svg{width:calc(var(--u)*44);height:calc(var(--u)*44)}
+.ylab{position:absolute;left:calc(var(--u)*62);top:calc(var(--u)*24);z-index:5;height:calc(var(--u)*50);display:flex;align-items:center;padding:0 calc(var(--u)*46) 0 calc(var(--u)*40);background:linear-gradient(180deg,#3a3846,#2a2833);color:#fff;font-weight:700;font-size:calc(var(--u)*30);letter-spacing:.04em;clip-path:polygon(0 0,100% 0,93% 100%,0 100%);box-shadow:inset 0 calc(var(--u)*-3) 0 #f2525c}
+.ylab i{font-style:normal;color:#ff4d5e;font-size:calc(var(--u)*26);margin-right:calc(var(--u)*6)}
+.yq{position:absolute;left:calc(var(--u)*318);top:calc(var(--u)*26);z-index:5;width:calc(var(--u)*48)!important;height:calc(var(--u)*48);border-radius:50%;padding:0!important;background:#fff!important;border:calc(var(--u)*3) solid #cfcfd6!important;font-weight:800;font-size:calc(var(--u)*28);color:#3a3844!important;box-shadow:0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,.3)}
+.ypl{position:absolute;top:calc(var(--u)*27);z-index:5;height:calc(var(--u)*44);border-radius:calc(var(--u)*22);padding:0 calc(var(--u)*22)!important;background:linear-gradient(180deg,#fff,#ebebef)!important;border:calc(var(--u)*3) solid #cfcfd6!important;font-size:calc(var(--u)*22);color:#44424e!important;display:flex;align-items:center;gap:calc(var(--u)*12);box-shadow:0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,.3)}
+.ypl i{width:calc(var(--u)*22);height:calc(var(--u)*22);border-radius:50%;background:#bdbdc6;border:calc(var(--u)*3) solid #d8d8de}
+.ymenu{position:absolute;right:calc(var(--u)*10);top:calc(var(--u)*8);z-index:6;width:calc(var(--u)*82)!important;height:calc(var(--u)*82);border-radius:50%;padding:0!important;border:calc(var(--u)*5) solid #fff!important;background:radial-gradient(circle at 34% 28%,#ff9a9a,#f2525c 62%,#e0404b)!important;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
+.ymenu svg{width:calc(var(--u)*42);height:calc(var(--u)*42)}
+/* 曲・難易度の一覧 */
+.ylist{position:absolute;left:0;top:0;bottom:0;width:calc(var(--u)*650);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(var(--u)*100) 0 calc(var(--u)*230);scrollbar-width:none;z-index:2}.ylist::-webkit-scrollbar{display:none}
+.ycard{position:relative;margin:0 0 calc(var(--u)*13) calc(var(--u)*46);width:calc(var(--u)*548);height:calc(var(--u)*106);border-radius:calc(var(--u)*8);cursor:pointer;background:linear-gradient(90deg,rgba(255,255,255,.98),rgba(246,245,250,.95) 60%,rgba(236,235,243,.92));box-shadow:0 calc(var(--u)*3) calc(var(--u)*7) rgba(20,10,20,.35);transition:width .22s,height .22s,margin .22s,background .2s;overflow:visible}
+.ycard .gh{position:absolute;left:calc(var(--u)*200);right:0;top:calc(var(--u)*-8);bottom:0;overflow:hidden;font-size:calc(var(--u)*66);font-weight:700;color:rgba(80,70,110,.06);white-space:nowrap;line-height:1.3;pointer-events:none;border-radius:0 calc(var(--u)*8) calc(var(--u)*8) 0}
+.ycard .jk{position:absolute;left:0;top:0;bottom:0;width:calc(var(--u)*208);border-radius:calc(var(--u)*8) 0 0 calc(var(--u)*8);background:#2a2830 center/cover no-repeat;clip-path:polygon(0 0,100% 0,84% 100%,0 100%)}
+.ycard .jkl{position:absolute;left:0;top:0;bottom:0;width:calc(var(--u)*208);pointer-events:none;clip-path:polygon(99% 0,100% 0,84.5% 100%,83.5% 100%);background:#fff}
+.ycard .lv{position:absolute;left:calc(var(--u)*-14);top:calc(var(--u)*-6);z-index:3;width:calc(var(--u)*58);height:calc(var(--u)*58);border-radius:50%;background:radial-gradient(circle at 40% 35%,#3c3a44,#25232b);color:#fff;font-weight:800;font-size:calc(var(--u)*28);font-family:"Times New Roman",Georgia,serif;display:flex;align-items:center;justify-content:center;box-shadow:0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,.45);border:calc(var(--u)*3) solid #25232b;outline:calc(var(--u)*2) solid rgba(232,194,92,.9);outline-offset:calc(var(--u)*-6)}
+.ycard .tag{position:absolute;left:calc(var(--u)*118);top:calc(var(--u)*4);z-index:3;font-size:calc(var(--u)*14);font-weight:700;color:#fff;padding:calc(var(--u)*1) calc(var(--u)*10);border-radius:calc(var(--u)*4);letter-spacing:.04em}
+.tag.orig{background:linear-gradient(90deg,#d58cff,#ff8fc8)}.tag.cov{background:#2a2830}
+.ycard .tx{position:absolute;left:calc(var(--u)*224);right:calc(var(--u)*16);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center}
+.ycard .nm{font-size:calc(var(--u)*29);font-weight:500;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#3b3946}
+.ycard .ar{font-size:calc(var(--u)*18);display:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:calc(var(--u)*2)}
+.ycard .ln{height:calc(var(--u)*4);margin:calc(var(--u)*9) 0 calc(var(--u)*7);background-image:radial-gradient(circle,#6e6c7a calc(var(--u)*1.6),transparent calc(var(--u)*2));background-size:calc(var(--u)*9) calc(var(--u)*4);opacity:.7}
+.ycard .bt{display:flex;align-items:center;justify-content:space-between;font-size:calc(var(--u)*16);font-weight:700;color:#5d5b68}
+.ycard .rk{font-family:Georgia,serif;font-style:italic;font-weight:900;font-size:calc(var(--u)*30);background:linear-gradient(180deg,#fff3a0,#f3b51f 55%,#c98a08);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 calc(var(--u)*1) 0 rgba(120,70,0,.6))}
+.ycard.on{margin:calc(var(--u)*4) 0 calc(var(--u)*17) calc(var(--u)*8);width:calc(var(--u)*604);height:calc(var(--u)*124);background:linear-gradient(90deg,rgba(84,82,92,.96),rgba(98,96,104,.93) 60%,rgba(110,108,116,.88))}
+.ycard.on .jk,.ycard.on .jkl{width:calc(var(--u)*232)}.ycard.on .tx{left:calc(var(--u)*250)}.ycard.on .tag{left:calc(var(--u)*140)}
+.ycard.on .nm{font-size:calc(var(--u)*36);color:#fff}.ycard.on .ar{display:block;color:#fff}.ycard.on .ln{display:none}.ycard.on .bt{color:#e8e6ee;margin-top:calc(var(--u)*8)}.ycard.on .gh{color:rgba(255,255,255,.06);left:calc(var(--u)*230)}
+.ycard .em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-right:calc(var(--u)*30);color:#fff;font:900 calc(var(--u)*56) "Times New Roman",Georgia,serif;text-shadow:0 calc(var(--u)*3) calc(var(--u)*10) rgba(0,0,0,.4)}
+.yplus{position:absolute;left:calc(var(--u)*600);z-index:3;width:calc(var(--u)*56)!important;height:calc(var(--u)*56);border-radius:50%;padding:0!important;background:#fff!important;border:calc(var(--u)*3) solid #cfcfd6!important;display:flex;align-items:center;justify-content:center;box-shadow:0 calc(var(--u)*2) calc(var(--u)*6) rgba(0,0,0,.3)}
+.yplus span{width:calc(var(--u)*30);height:calc(var(--u)*30);border-radius:calc(var(--u)*4);background:#3a3846;color:#fff;font-size:calc(var(--u)*28);line-height:calc(var(--u)*30);font-weight:700}
+.yud{position:absolute;left:calc(var(--u)*14);z-index:4;width:calc(var(--u)*84)!important;height:calc(var(--u)*60);padding:0!important;background:none!important;border:0!important}
+.yud svg{width:100%;height:100%;filter:drop-shadow(0 calc(var(--u)*2) calc(var(--u)*3) rgba(0,0,0,.35))}
+.ycircle{position:absolute;z-index:4;width:calc(var(--u)*84)!important;height:calc(var(--u)*84);border-radius:50%;padding:0!important;background:#fff!important;border:calc(var(--u)*4) solid #dcdce2!important;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
+.ycircle svg{width:calc(var(--u)*46);height:calc(var(--u)*46)}
+/* 右のアーケード筐体 */
+.ycab{position:absolute;right:0;top:0;bottom:0;width:calc(var(--u)*620);z-index:1;pointer-events:none}
+.ycab>*{pointer-events:auto}
+.ycWood{position:absolute;right:calc(var(--u)*58);top:calc(var(--u)*320);width:calc(var(--u)*150);bottom:0;border-radius:calc(var(--u)*18) calc(var(--u)*18) 0 0;background:linear-gradient(90deg,#4a2a22,#7a4535 30%,#5a3328 60%,#3a201a);box-shadow:inset 0 0 0 calc(var(--u)*3) rgba(0,0,0,.25)}
+.ycBack{position:absolute;right:calc(var(--u)*120);top:calc(var(--u)*150);width:calc(var(--u)*150);height:calc(var(--u)*470);border-radius:calc(var(--u)*20);background:linear-gradient(90deg,#1a1a1f,#2c2c33);transform:skewY(4deg)}
+.ycBody{position:absolute;left:calc(var(--u)*30);right:0;top:calc(var(--u)*572);bottom:0;border-radius:calc(var(--u)*46) 0 0 0;background:linear-gradient(180deg,#45454d 0,#2c2c33 18%,#1f1f25 60%,#17171c);box-shadow:inset 0 calc(var(--u)*3) 0 rgba(255,255,255,.12)}
+.ycBody:before{content:"";position:absolute;left:calc(var(--u)*150);right:calc(var(--u)*170);top:calc(var(--u)*22);height:calc(var(--u)*30);border-radius:calc(var(--u)*8);background:linear-gradient(180deg,#151519,#2a2a30);box-shadow:inset 0 calc(var(--u)*2) calc(var(--u)*4) rgba(0,0,0,.6)}
+.ycNeck{position:absolute;left:calc(var(--u)*250);width:calc(var(--u)*200);top:calc(var(--u)*540);height:calc(var(--u)*60);background:linear-gradient(90deg,#2a2a30,#4a4a52,#2a2a30);border-radius:calc(var(--u)*8)}
+.ymon{position:absolute;left:calc(var(--u)*128);top:calc(var(--u)*96);width:calc(var(--u)*448);height:calc(var(--u)*516);transform:perspective(calc(var(--u)*1500)) rotateY(-11deg) rotateZ(1.2deg);transform-origin:30% 50%;border-radius:calc(var(--u)*46) calc(var(--u)*46) calc(var(--u)*22) calc(var(--u)*22);padding:calc(var(--u)*16) calc(var(--u)*16) calc(var(--u)*22);
+  background:linear-gradient(135deg,#fdfdfe,#c6c6ce 30%,#f1f1f4 52%,#a7a7b2 78%,#dedee4);box-shadow:0 calc(var(--u)*18) calc(var(--u)*30) rgba(0,0,0,.45),inset 0 0 0 calc(var(--u)*2) rgba(255,255,255,.8)}
+.ymonS{width:100%;height:100%;border-radius:calc(var(--u)*32) calc(var(--u)*32) calc(var(--u)*12) calc(var(--u)*12);background:#121117;overflow:hidden;display:flex;flex-direction:column;box-shadow:inset 0 0 0 calc(var(--u)*3) #050507}
+.ymonH{height:calc(var(--u)*52);display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*22);color:#fff;font-style:italic;font-weight:800}
+.ymonH b{font-size:calc(var(--u)*23);letter-spacing:.02em}.ymonH span{font-size:calc(var(--u)*15);letter-spacing:.06em;font-weight:700}
+.ymonJ{position:relative;flex:0 0 auto;height:calc(var(--u)*344);margin:0 calc(var(--u)*10);overflow:hidden;background:#222}
+.ymonJ img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ymonJ:before,.ymonJ:after{content:"";position:absolute;left:0;right:0;height:calc(var(--u)*14);z-index:2;background:repeating-linear-gradient(90deg,rgba(255,255,255,.75) 0 calc(var(--u)*7),transparent calc(var(--u)*7) calc(var(--u)*13));opacity:.8}
+.ymonJ:before{top:calc(var(--u)*4)}.ymonJ:after{bottom:calc(var(--u)*4)}
+.ymonJ .big{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font:900 calc(var(--u)*150) "Times New Roman",Georgia,serif;line-height:1;text-shadow:0 calc(var(--u)*6) calc(var(--u)*24) rgba(0,0,0,.45)}
+.ymonJ .big small{font:700 calc(var(--u)*24) "M PLUS Rounded 1c",system-ui;letter-spacing:.4em;margin-top:calc(var(--u)*6)}
+.ymonC{flex:1;display:flex;align-items:center;gap:calc(var(--u)*10);padding:0 calc(var(--u)*18);color:#fff;min-width:0}
+.ymonC .tag{font-size:calc(var(--u)*15);padding:calc(var(--u)*2) calc(var(--u)*10);border-radius:calc(var(--u)*4);flex:0 0 auto}
+.ymonC div{min-width:0}.ymonC b{display:block;font-size:calc(var(--u)*19);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ymonC small{display:block;font-size:calc(var(--u)*11);opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ydiffs{position:absolute;left:calc(var(--u)*60);top:calc(var(--u)*636);display:flex;gap:calc(var(--u)*16);z-index:3}
+.ydf{width:calc(var(--u)*84)!important;height:calc(var(--u)*84);border-radius:50%;padding:0!important;background:radial-gradient(circle at 40% 30%,#fff,#f0f0f3)!important;border:calc(var(--u)*4) solid #d5d5dc!important;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.4)}
+.ydf b{font-size:calc(var(--u)*40);font-weight:800;color:#3a3844;letter-spacing:-.02em}.ydf small{font-size:calc(var(--u)*12);font-weight:800;color:#3a3844;margin-top:calc(var(--u)*1)}
+.ydf.ol{background:radial-gradient(circle at 40% 30%,#3e3c46,#24222a)!important;border:calc(var(--u)*4) solid #24222a!important;outline:calc(var(--u)*3) solid rgba(232,194,92,.95);outline-offset:calc(var(--u)*-9)}.ydf.ol b{color:#fff;font-family:"Times New Roman",Georgia,serif;font-size:calc(var(--u)*40)}.ydf.ol small{color:#fff}
+.ystat{position:absolute;left:calc(var(--u)*14);bottom:calc(var(--u)*36);height:calc(var(--u)*58);width:calc(var(--u)*364);border-radius:calc(var(--u)*29);background:rgba(48,46,56,.92);display:flex;align-items:center;padding:0 calc(var(--u)*10) 0 calc(var(--u)*24);color:#fff;gap:calc(var(--u)*10);z-index:3;box-shadow:0 calc(var(--u)*3) calc(var(--u)*6) rgba(0,0,0,.35)}
+.ystat span{font-size:calc(var(--u)*20);font-weight:700}.ystat b{flex:1;text-align:right;font-size:calc(var(--u)*25);font-weight:700;letter-spacing:.02em}.ystat b small{font-size:calc(var(--u)*17)}
+.ystat i{width:calc(var(--u)*40);height:calc(var(--u)*40);border-radius:50%;background:#fff;color:#3a3844;font-style:normal;font-weight:900;font-size:calc(var(--u)*22);display:flex;align-items:center;justify-content:center}
+.yok{position:absolute;right:calc(var(--u)*13);bottom:calc(var(--u)*34);z-index:3;width:calc(var(--u)*202)!important;height:calc(var(--u)*62);padding:0!important;border-radius:calc(var(--u)*6);border:calc(var(--u)*3) solid #ffd6a0!important;background:radial-gradient(circle,rgba(255,255,255,.18) calc(var(--u)*1.2),transparent calc(var(--u)*1.6)) 0 0/calc(var(--u)*8) calc(var(--u)*8),linear-gradient(180deg,#ff8a84,#f2525c)!important;color:#fff!important;font-size:calc(var(--u)*31);font-weight:500;letter-spacing:.04em;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.35)}
 /* 最終確認 */
-.ycPanel{position:absolute;left:5%;right:0;top:20%;height:48%;background:#fff;border-radius:0 0 0 40px;box-shadow:0 8px 24px rgba(0,0,0,.18);display:flex;align-items:center;gap:30px;padding:0 4% 0 3%}
-#ycJk{height:86%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.3);background:#333}
-.ycInfo{flex:1;min-width:0}.ycInfo .t{font-size:12px;color:#888;font-weight:700;letter-spacing:.1em}.ycInfo h2{margin:2px 0 14px;font-size:30px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ycGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.ycGrid div{background:#f2f0f5;border-radius:10px;padding:10px;text-align:center}.ycGrid small{display:block;font-size:11px;color:#888;font-weight:700}.ycGrid b{font-size:22px}
-.ycBar{position:absolute;left:14px;bottom:20px;display:flex;align-items:center;gap:12px;background:rgba(53,51,65,.95);color:#fff;border-radius:999px;padding:8px 30px 8px 8px;max-width:50%}
-.ylvB{width:58px;height:58px;border-radius:50%;background:#2a2834;border:3px solid #e8c25c;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:900;font-size:21px;line-height:1;flex:0 0 auto}
-.ylvB small{font-family:system-ui;font-size:8px;letter-spacing:.08em}
-.ycBar b{display:block;font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ycBar small{opacity:.75;font-size:12px}
-.ycAct{position:absolute;right:16px;bottom:20px;display:flex;align-items:center;gap:16px}
-.ygear{width:70px!important;height:70px;border-radius:50%!important;padding:0!important;background:#fff!important;border:3px solid #ddd!important;font-size:34px;color:#555!important;box-shadow:0 3px 8px rgba(0,0,0,.25)}
-.ystart{min-width:250px;padding:18px 30px!important;border-radius:8px!important;background:linear-gradient(180deg,#ff7d7d,#ee4c56)!important;border:3px solid #ffc9c9!important;color:#fff!important;font-size:34px;font-weight:900;letter-spacing:.25em;box-shadow:0 4px 0 #b7323b}
-#ycMsg{position:absolute;right:20px;bottom:110px;font-size:14px;color:#c0303a;font-weight:800;background:rgba(255,255,255,.85);padding:4px 10px;border-radius:8px}#ycMsg:empty{display:none}
+.ycfBand{position:absolute;left:0;right:0;top:calc(var(--u)*178);height:calc(var(--u)*454);background:rgba(255,255,255,.86);box-shadow:0 calc(var(--u)*4) calc(var(--u)*16) rgba(0,0,0,.12);z-index:2}
+.ycfHd{position:absolute;left:calc(var(--u)*103);right:calc(var(--u)*46);top:calc(var(--u)*10);height:calc(var(--u)*48);display:flex;align-items:center;gap:calc(var(--u)*16)}
+.ycfHd .gn{width:calc(var(--u)*190)}.ycfHd .gn small{display:block;font-size:calc(var(--u)*14);color:#6c6a76;letter-spacing:.06em;font-weight:700}.ycfHd .gn b{display:block;font-size:calc(var(--u)*16);font-weight:500}
+.yicb{width:calc(var(--u)*44)!important;height:calc(var(--u)*44);border-radius:50%;padding:0!important;background:#fff!important;border:calc(var(--u)*3) solid #c9c9d2!important;display:flex;align-items:center;justify-content:center;font-size:calc(var(--u)*20)}
+.ycfHd .sp{flex:1}
+.ypill2{height:calc(var(--u)*44);padding:0 calc(var(--u)*22)!important;border-radius:calc(var(--u)*22);background:linear-gradient(180deg,#fff,#efeff3)!important;border:calc(var(--u)*3) solid #c9c9d2!important;font-size:calc(var(--u)*17);font-weight:700;color:#3a3844!important}
+.ycfCards{position:absolute;left:calc(var(--u)*103);right:calc(var(--u)*46);top:calc(var(--u)*70);height:calc(var(--u)*316);display:flex;gap:calc(var(--u)*15)}
+.ycfC{flex:0 0 calc(var(--u)*200);height:calc(var(--u)*312);border-radius:calc(var(--u)*8);border:calc(var(--u)*2) solid #cfcfd8;background:linear-gradient(180deg,rgba(245,245,250,.9),rgba(235,235,242,.9));position:relative;overflow:hidden;cursor:pointer}
+.ycfC .ic1,.ycfC .ic2{position:absolute;left:calc(var(--u)*8);width:calc(var(--u)*30);height:calc(var(--u)*30);border-radius:50%;background:#d9d9e0}.ycfC .ic1{top:calc(var(--u)*8)}.ycfC .ic2{top:calc(var(--u)*44);border-radius:calc(var(--u)*6);transform:rotate(45deg) scale(.8)}
+.ycfC .c1,.ycfC .c2{position:absolute;right:calc(var(--u)*-4);width:calc(var(--u)*76);height:calc(var(--u)*76);border-radius:50%;background:rgba(200,200,208,.85);border:calc(var(--u)*3) solid rgba(255,255,255,.8)}.ycfC .c1{top:calc(var(--u)*152)}.ycfC .c2{top:calc(var(--u)*234)}
+.ycfC .st{position:absolute;left:0;bottom:0;width:calc(var(--u)*108);height:calc(var(--u)*118);border-radius:0 calc(var(--u)*30) 0 calc(var(--u)*6);background:rgba(150,170,235,.45);padding:calc(var(--u)*12) calc(var(--u)*10);font-size:calc(var(--u)*15);color:#4a4a60;line-height:1.55}
+.ycfC .em{position:absolute;left:0;right:0;top:calc(var(--u)*110);text-align:center;color:#b5b5c2;font-size:calc(var(--u)*15);font-weight:700}
+.ycfC.lead:after{content:"リーダー";position:absolute;right:calc(var(--u)*-26);top:calc(var(--u)*14);transform:rotate(45deg);background:#ef4f5a;color:#fff;font-size:calc(var(--u)*12);padding:calc(var(--u)*2) calc(var(--u)*30);font-weight:800}
+.ycfRow{position:absolute;left:calc(var(--u)*103);right:calc(var(--u)*46);top:calc(var(--u)*400);height:calc(var(--u)*44);display:flex;align-items:center;gap:calc(var(--u)*14)}
+.ycfRow .ypill2{width:calc(var(--u)*152);font-size:calc(var(--u)*19);font-weight:500}
+.yround{width:calc(var(--u)*44)!important;height:calc(var(--u)*44);border-radius:50%;padding:0!important;border:calc(var(--u)*3) solid #fff!important;box-shadow:0 calc(var(--u)*2) calc(var(--u)*4) rgba(0,0,0,.25)}
+.yarr{width:calc(var(--u)*34)!important;height:calc(var(--u)*44);padding:0!important;background:none!important;border:0!important;color:#c83c48!important;font-size:calc(var(--u)*38);font-weight:900;line-height:1}
+.ytabs{flex:0 0 calc(var(--u)*492);height:calc(var(--u)*38);display:flex;background:#3e3c48;border-radius:calc(var(--u)*8);overflow:hidden;box-shadow:inset 0 calc(var(--u)*2) calc(var(--u)*3) rgba(0,0,0,.4)}
+.ytabs button{flex:1;padding:0!important;border:0!important;border-left:calc(var(--u)*2) solid #2a2833!important;background:transparent!important;color:#fff!important;font-size:calc(var(--u)*20);font-weight:500}
+.ytabs button.on{background:#fff!important;color:#3a3844!important}
+.ysideA{position:absolute;top:calc(var(--u)*388);z-index:3;width:calc(var(--u)*40)!important;height:calc(var(--u)*60);padding:0!important;background:none!important;border:0!important;color:#f05a66!important;font-size:calc(var(--u)*52);font-weight:900;text-shadow:0 0 calc(var(--u)*4) #fff}
+.ycfBar{position:absolute;left:calc(var(--u)*55);top:calc(var(--u)*716);z-index:3;width:calc(var(--u)*524);height:calc(var(--u)*58);border-radius:calc(var(--u)*29);background:rgba(48,46,56,.9);display:flex;align-items:center;gap:calc(var(--u)*12);padding:0 calc(var(--u)*8) 0 calc(var(--u)*4);color:#fff}
+.ylvB{width:calc(var(--u)*50);height:calc(var(--u)*50);border-radius:50%;flex:0 0 auto;background:radial-gradient(circle at 40% 35%,#3c3a44,#1f1d24);border:calc(var(--u)*2) solid #1f1d24;outline:calc(var(--u)*2) solid rgba(232,194,92,.95);outline-offset:calc(var(--u)*-6);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font:800 calc(var(--u)*22) "Times New Roman",Georgia,serif;line-height:.9}
+.ylvB small{font:700 calc(var(--u)*7) system-ui;letter-spacing:.04em}
+.ycfBar .nm{flex:1;min-width:0}.ycfBar .nm b{display:block;font-size:calc(var(--u)*20);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ycfBar .nm small{display:block;font-size:calc(var(--u)*14);opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.yauto{height:calc(var(--u)*40);width:calc(var(--u)*150)!important;border-radius:calc(var(--u)*20);padding:0 calc(var(--u)*14)!important;background:#fff!important;border:calc(var(--u)*3) solid #c9c9d2!important;display:flex;align-items:center;gap:calc(var(--u)*12);color:#3a3844!important;font-size:calc(var(--u)*20)}
+.yauto i{width:calc(var(--u)*22);height:calc(var(--u)*22);border-radius:50%;background:#b5b5be}
+.ygear{width:calc(var(--u)*48)!important;height:calc(var(--u)*48);border-radius:50%;padding:0!important;background:#fff!important;border:calc(var(--u)*3) solid #c9c9d2!important;display:flex;align-items:center;justify-content:center}
+.ygear svg{width:calc(var(--u)*32);height:calc(var(--u)*32)}
+.ygearB{position:absolute;right:calc(var(--u)*202);top:calc(var(--u)*713);z-index:3;width:calc(var(--u)*66)!important;height:calc(var(--u)*66)}.ygearB svg{width:calc(var(--u)*42);height:calc(var(--u)*42)}
+.ystart{position:absolute;right:0;top:calc(var(--u)*704);z-index:3;width:calc(var(--u)*188)!important;height:calc(var(--u)*66);padding:0!important;border-radius:calc(var(--u)*8) 0 0 calc(var(--u)*8);border:calc(var(--u)*3) solid #ffd6a0!important;border-right:0!important;background:radial-gradient(circle,rgba(255,255,255,.18) calc(var(--u)*1.2),transparent calc(var(--u)*1.6)) 0 0/calc(var(--u)*8) calc(var(--u)*8),linear-gradient(180deg,#ff8a84,#f2525c)!important;color:#fff!important;font-size:calc(var(--u)*30);font-weight:500;letter-spacing:.08em;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.3)}
+#ycMsg{position:absolute;right:calc(var(--u)*16);top:calc(var(--u)*660);z-index:4;font-size:calc(var(--u)*16);color:#c0303a;font-weight:800;background:rgba(255,255,255,.9);padding:calc(var(--u)*4) calc(var(--u)*12);border-radius:calc(var(--u)*8)}#ycMsg:empty{display:none}
 /* 設定 */
-#ysSet{position:absolute;inset:0;z-index:6;background:rgba(20,15,30,.55);display:flex;align-items:center;justify-content:center;padding:10px}
-.ysbox{width:min(820px,100%);height:min(560px,100%);display:flex;flex-direction:column;background:linear-gradient(180deg,#ff8686,#ef6a72);border-radius:26px;padding:0 16px 14px;box-shadow:0 20px 50px rgba(0,0,0,.4);animation:ypop .3s}
-.ysbox h3{margin:0;text-align:center;color:#fff;font-size:24px;padding:12px;letter-spacing:.1em}
-.ysIn{display:flex;background:#fff;border-radius:16px;min-height:0;overflow:hidden;flex:1}
-.ysTabsL{flex:0 0 160px;background:#e9e8ee;display:flex;flex-direction:column;padding-top:40px}
-.ysTabsL button{padding:22px 6px!important;border-radius:0!important;background:transparent!important;border:0!important;border-bottom:2px solid #fff!important;font-weight:800;color:#555!important;font-size:15px}
-.ysTabsL button.on{background:linear-gradient(90deg,#ff7d7d,#ef6a72)!important;color:#fff!important}
-.ysBody2{flex:1;overflow-y:auto;padding:14px 20px 24px}
-.ysSec{background:#3d3a4a;color:#fff;text-align:center;font-weight:800;border-radius:999px;padding:6px;margin:4px 0 6px}
-.ysT{color:#e8484f;font-weight:900;font-size:19px;margin:16px 0 8px}.ysT:before{content:"✦ "}
-.ysRow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.ysRow button{min-width:62px;padding:10px 8px!important;border-radius:8px!important;background:#fff!important;border:2px solid #bbb!important;color:#333!important;font-weight:900;font-size:19px;box-shadow:0 3px 0 #ccc}
-.ysRow .val{min-width:130px;text-align:center;background:#46435a;color:#fff;border-radius:8px;padding:11px 10px;font-size:26px;font-weight:900}
-.ysDisp{display:inline-block;margin-top:12px;border:3px solid #ef6a72;border-radius:12px;overflow:hidden;text-align:center;min-width:240px}
-.ysDisp div{background:#ef6a72;color:#fff;font-weight:800;font-size:14px;padding:4px}.ysDisp b{display:block;font-size:32px;padding:6px;color:#333}
-.ysRad{display:flex;gap:18px;flex-wrap:wrap}.ysRad button{display:flex;align-items:center;gap:6px;background:transparent!important;border:0!important;padding:4px!important;font-weight:800;color:#444!important}
-.ysRad button:before{content:"";width:22px;height:22px;border-radius:50%;border:3px solid #bbb;background:#fff}.ysRad button.on:before{border-color:#ef6a72;background:radial-gradient(circle,#ef6a72 0 45%,#fff 50%)}
-.ysBtns{display:flex;justify-content:center;gap:18px;padding-top:12px}
-.ysBtns button{min-width:190px;padding:14px!important;border-radius:8px!important;font-size:21px;font-weight:900}
-#ysCancel{background:#fff!important;border:3px solid #ddd!important;color:#555!important}#ysSetOk{background:linear-gradient(180deg,#ff7d7d,#ee4c56)!important;border:3px solid #ffc9c9!important;color:#fff!important}
-@media (max-width:820px){.ylist{flex:1;padding-left:20px}.ymon{display:none}.ycard{height:90px}.ycard.on{height:104px;transform:translateX(-8px)}.ycard .jk{flex-basis:120px}.ycard.on .jk{flex-basis:130px}.ycard .nm{font-size:17px}.ycard.on .nm{font-size:19px}
- .ycard.on .okb{display:block;align-self:center;margin-right:10px;padding:8px 16px!important;border-radius:8px!important;background:linear-gradient(180deg,#ff7d7d,#ee4c56)!important;border:0!important;color:#fff!important;font-weight:900}
- .ycard .lv{width:40px;height:40px;font-size:14px}.ypill{display:none}.ycPanel{left:0;top:16%;height:auto;bottom:130px;flex-direction:column;justify-content:center;gap:10px;padding:10px;border-radius:0}#ycJk{height:auto;width:min(44vw,34vh)}
- .ycInfo h2{font-size:20px;text-align:center}.ycGrid b{font-size:17px}.ystart{min-width:150px;font-size:24px;padding:14px 18px!important}.ycBar{max-width:calc(100% - 28px);bottom:100px}
- .ysTabsL{flex-basis:100px}.ysTabsL button{font-size:12px}.ysRow button{min-width:48px;font-size:15px}.ysRow .val{min-width:84px;font-size:20px}}
-@media (max-width:500px){.ycard .sb{font-size:10px}.ycard .jk{flex-basis:84px}.ycard.on{transform:none}.ylab{font-size:16px}.ysbox{height:100%}.ysBtns button{min-width:120px}}
+#ysSet{position:absolute;inset:0;z-index:8;background:rgba(30,25,35,.55);display:flex;align-items:center;justify-content:center}
+.ysbox{position:relative;width:calc(var(--u)*836);height:calc(var(--u)*622);border-radius:calc(var(--u)*30);background:radial-gradient(circle,rgba(255,255,255,.14) calc(var(--u)*1.5),transparent calc(var(--u)*2)) 0 0/calc(var(--u)*10) calc(var(--u)*10),linear-gradient(180deg,#ff8b86,#f36a70);box-shadow:0 calc(var(--u)*20) calc(var(--u)*50) rgba(0,0,0,.45);animation:ypop .3s}
+.ysbox:after{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*120);border-radius:0 0 calc(var(--u)*30) calc(var(--u)*30);background:#fff;z-index:0}
+.ysbox h3{position:relative;z-index:1;margin:0;height:calc(var(--u)*58);display:flex;align-items:center;justify-content:center;color:#fff;font-size:calc(var(--u)*28);font-weight:700;letter-spacing:.08em}
+.ysIn{position:absolute;z-index:1;left:calc(var(--u)*14);right:calc(var(--u)*14);top:calc(var(--u)*58);height:calc(var(--u)*470);display:flex;background:#fff;border-radius:calc(var(--u)*22);overflow:hidden;box-shadow:0 calc(var(--u)*2) calc(var(--u)*6) rgba(0,0,0,.15)}
+.ysTabsL{flex:0 0 calc(var(--u)*164);background:repeating-linear-gradient(135deg,#e7e7ec 0 calc(var(--u)*26),#eeeef2 calc(var(--u)*26) calc(var(--u)*52));display:flex;flex-direction:column;padding-top:calc(var(--u)*52)}
+.ysTabsL button{height:calc(var(--u)*72);padding:0!important;border:0!important;border-bottom:calc(var(--u)*3) solid #fff!important;border-radius:0!important;background:transparent!important;color:#3a3844!important;font-size:calc(var(--u)*19);font-weight:500}
+.ysTabsL button.on{background:radial-gradient(circle,rgba(255,255,255,.22) calc(var(--u)*1.3),transparent calc(var(--u)*1.8)) 0 0/calc(var(--u)*8) calc(var(--u)*8),linear-gradient(90deg,#ff8f8a,#f36a70)!important;color:#fff!important}
+.ysBody2{flex:1;overflow-y:auto;padding:calc(var(--u)*18) calc(var(--u)*30) calc(var(--u)*30) calc(var(--u)*30);scrollbar-color:#f36a70 #e8e8ee}
+.ysBody2::-webkit-scrollbar{width:calc(var(--u)*6)}.ysBody2::-webkit-scrollbar-thumb{background:#f36a70;border-radius:calc(var(--u)*3)}.ysBody2::-webkit-scrollbar-track{background:#e8e8ee}
+.ysSec{background:#3e3c48;color:#fff;text-align:center;font-size:calc(var(--u)*17);font-weight:700;border-radius:calc(var(--u)*16);height:calc(var(--u)*30);line-height:calc(var(--u)*30);margin:calc(var(--u)*14) 0 calc(var(--u)*6)}
+.ysT{color:#e64a55;font-weight:700;font-size:calc(var(--u)*23);margin:calc(var(--u)*18) 0 calc(var(--u)*10);white-space:nowrap}.ysT:before{content:"✦";margin-right:calc(var(--u)*4);font-size:calc(var(--u)*20)}
+.ysRow{display:flex;gap:calc(var(--u)*12);align-items:center}
+.ysRow button{width:auto;min-width:calc(var(--u)*68);height:calc(var(--u)*50);padding:0 calc(var(--u)*10)!important;border-radius:calc(var(--u)*8)!important;background:linear-gradient(180deg,#fff,#f2f2f5)!important;border:calc(var(--u)*2) solid #9a98a6!important;color:#3a3844!important;font-weight:500;font-size:calc(var(--u)*26);box-shadow:0 calc(var(--u)*3) 0 #b8b6c2}
+.ysRow button.dis{background:#9a98a6!important;color:#3a3844!important}
+.ysRow .val{min-width:calc(var(--u)*198);height:calc(var(--u)*50);line-height:calc(var(--u)*50);text-align:center;background:#46444f;color:#fff;border-radius:calc(var(--u)*8);font-size:calc(var(--u)*32);font-weight:500}
+.ysRow.sm button{min-width:calc(var(--u)*68)}.ysRow.sm .val{min-width:calc(var(--u)*100)}
+.ysDisp{display:inline-block;margin-top:calc(var(--u)*14);border:calc(var(--u)*3) solid #f36a70;border-radius:calc(var(--u)*14);overflow:hidden;text-align:center;width:calc(var(--u)*410)}
+.ysDisp div{background:#f36a70;color:#fff;font-weight:700;font-size:calc(var(--u)*20);height:calc(var(--u)*34);line-height:calc(var(--u)*34)}.ysDisp b{display:block;font-size:calc(var(--u)*40);font-weight:500;height:calc(var(--u)*62);line-height:calc(var(--u)*62);color:#3a3844}
+.yg2{display:grid;grid-template-columns:1fr 1fr;gap:0 calc(var(--u)*26)}
+.ysRad{display:flex;gap:calc(var(--u)*46);flex-wrap:wrap}.ysRad button{display:flex;align-items:center;gap:calc(var(--u)*12);padding:0!important;background:transparent!important;border:0!important;font-size:calc(var(--u)*18);font-weight:500;color:#3a3844!important}
+.ysRad button:before{content:"";width:calc(var(--u)*34);height:calc(var(--u)*34);border-radius:50%;background:radial-gradient(circle at 40% 35%,#d6d6dc,#a9a9b3);border:calc(var(--u)*3) solid #fff;box-shadow:0 0 0 calc(var(--u)*2) #9a98a6}
+.ysRad button.on:before{background:radial-gradient(circle at 40% 35%,#ff9c98,#f04d58);box-shadow:0 0 0 calc(var(--u)*2) #e0404b}
+.ysNote{font-size:calc(var(--u)*13);color:#e64a55;margin-top:calc(var(--u)*6)}
+.ysOff{opacity:.45;pointer-events:none}
+.ysBtns{position:absolute;z-index:2;left:0;right:0;bottom:calc(var(--u)*16);display:flex;justify-content:center;gap:calc(var(--u)*18)}
+.ysBtns button{width:calc(var(--u)*202)!important;height:calc(var(--u)*64);padding:0!important;border-radius:calc(var(--u)*6);font-size:calc(var(--u)*28);font-weight:500}
+#ysCancel{background:linear-gradient(180deg,#fff,#efeff3)!important;border:calc(var(--u)*3) solid #c9c9d2!important;color:#3a3844!important;box-shadow:0 calc(var(--u)*3) calc(var(--u)*6) rgba(0,0,0,.2)}
+#ysSetOk{background:radial-gradient(circle,rgba(255,255,255,.18) calc(var(--u)*1.2),transparent calc(var(--u)*1.6)) 0 0/calc(var(--u)*8) calc(var(--u)*8),linear-gradient(180deg,#ff8a84,#f2525c)!important;border:calc(var(--u)*3) solid #ffd6a0!important;color:#fff!important;box-shadow:0 calc(var(--u)*3) calc(var(--u)*6) rgba(0,0,0,.25)}
+/* 縦向きの画面 */
+@media (orientation:portrait){.ycab{display:none}.ylist{width:100%}.ycard{width:calc(100% - calc(var(--u)*70))}.ycard.on{width:calc(100% - calc(var(--u)*20))}.ypl,.yq{display:none}
+ .yokP{display:block!important}.ycfCards{overflow-x:auto;right:0}.ycfBar{width:auto;right:calc(var(--u)*10)}.ysbox{width:100%;height:100%;border-radius:0}}
+.yokP{display:none!important}
+.ycard.on .sb{display:none}.ycard.on .lv{left:calc(var(--u)*-2)}.ycard.on .nm{letter-spacing:.01em;font-size:calc(var(--u)*34)}.ypl{white-space:nowrap}
+#gPw{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:16px}
+
 @media (max-width:760px){.ysCard.on .pl{display:block;align-self:center;margin-right:10px;width:auto;padding:8px 14px;border-radius:999px;background:linear-gradient(135deg,#ff4f8b,#6a5cff);border:0;color:#fff;font-weight:900}}
 
 .ovl{position:fixed;inset:0;z-index:20;background:rgba(5,5,20,.72);display:flex;align-items:center;justify-content:center;padding:16px}
@@ -196,35 +250,120 @@ summary{cursor:pointer;color:#cfd4ff}
 <div id="pwView"><div class="ptitle">🔒</div><div>パスワードを入力してください。</div><input id="pwIn" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="pwErr" class="hint"></div><button id="pwOk" type="button">OK</button><button id="pwCancel" type="button" class="sub2">キャンセル</button></div>
 <div id="listView" class="hide"><div class="ptitle">📀 既存曲</div><div id="songList"></div><div id="listMsg" class="hint"></div><button id="listClose" type="button" class="sub2">閉じる</button></div>
 </div></div>
-<div id="ysSel" class="hide"><div id="ybg1" class="ybg ybgHall"></div><div id="ybg2" class="ybg ybgRoom" style="opacity:0"></div>
-<div class="yscr"><div class="yh"><button id="ysBack" class="yback yp" type="button">‹</button><div class="ylab" id="ysHead">難易度選択</div><div class="ypill" id="ysPill"></div></div>
-<div class="ybody" id="yvList"><div class="ylist" id="ysList"></div>
- <div class="ymon"><div class="ymonIn"><div class="ymonBar"><span>♪</span><span>MUSIC INFORMATION</span></div><div class="ymonJ" id="ysJkBox"></div><div class="ymonCap"><em id="ysTag">OLIVIER</em><b id="ysDName"></b></div></div>
+<div id="ysSel" class="hide">
+<div id="ybg1" class="ybg"><svg viewBox="0 0 1210 834" preserveAspectRatio="xMidYMid slice"><defs>
+<linearGradient id="yl1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9c6b2"/><stop offset=".42" stop-color="#b89a86"/><stop offset=".43" stop-color="#6b3e36"/><stop offset=".7" stop-color="#8a3a32"/><stop offset="1" stop-color="#5a2a26"/></linearGradient>
+<radialGradient id="yl2"><stop offset="0" stop-color="#fffaf0"/><stop offset=".5" stop-color="#ffe9c8" stop-opacity=".7"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
+<linearGradient id="yl3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe0ea"/><stop offset="1" stop-color="#8fa6b6"/></linearGradient>
+<linearGradient id="yl4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a1e1a"/><stop offset=".5" stop-color="#6a3428"/><stop offset="1" stop-color="#2a1612"/></linearGradient></defs>
+<rect width="1210" height="834" fill="url(#yl1)"/>
+<rect x="0" y="0" width="1210" height="150" fill="#e8dccd"/>
+<g fill="#cbb7a2">
+<rect x="0" y="120" width="1210" height="14"/><rect x="0" y="236" width="1210" height="10"/></g>
+<g fill="url(#yl3)" opacity=".95"><rect x="40" y="150" width="140" height="86"/><rect x="200" y="150" width="140" height="86"/><rect x="360" y="150" width="140" height="86"/><rect x="520" y="150" width="140" height="86"/><rect x="680" y="150" width="140" height="86"/></g>
+<g stroke="#9b8573" stroke-width="5"><line x1="110" y1="150" x2="110" y2="236"/><line x1="270" y1="150" x2="270" y2="236"/><line x1="430" y1="150" x2="430" y2="236"/><line x1="590" y1="150" x2="590" y2="236"/><line x1="750" y1="150" x2="750" y2="236"/></g>
+<rect x="0" y="246" width="1210" height="110" fill="#a2806c"/>
+<rect x="840" y="140" width="370" height="420" fill="url(#yl4)"/>
+<g fill="#2a1814" opacity=".55"><rect x="880" y="190" width="70" height="320" rx="6"/><rect x="980" y="190" width="70" height="320" rx="6"/><rect x="1080" y="190" width="70" height="320" rx="6"/></g>
+<rect x="0" y="356" width="1210" height="230" fill="#7a3a30" opacity=".55"/>
+<g fill="#e6d3c0" opacity=".85"><rect x="60" y="370" width="200" height="150" rx="6"/><rect x="300" y="380" width="160" height="120" rx="6"/></g>
+<rect x="0" y="560" width="1210" height="274" fill="#6e2a26"/>
+<path d="M0 834 L380 600 L830 600 L1210 834 Z" fill="#b02a2e" opacity=".75"/>
+<path d="M0 834 L300 640 L900 640 L1210 834" fill="none" stroke="#e8c37a" stroke-width="6" opacity=".5"/>
+<g fill="#2a2228"><rect x="96" y="470" width="14" height="230"/><rect x="468" y="470" width="14" height="230"/><rect x="84" y="696" width="38" height="10" rx="4"/><rect x="456" y="696" width="38" height="10" rx="4"/></g>
+<path d="M110 500 Q290 560 470 500" fill="none" stroke="#7a1820" stroke-width="10"/>
+<g fill="url(#yl2)"><circle cx="70" cy="70" r="60"/><circle cx="240" cy="40" r="66"/><circle cx="420" cy="78" r="58"/><circle cx="600" cy="44" r="62"/><circle cx="760" cy="82" r="56"/><circle cx="920" cy="40" r="60"/><circle cx="1090" cy="76" r="58"/>
+<circle cx="640" cy="160" r="40"/><circle cx="320" cy="170" r="36"/><circle cx="1000" cy="300" r="70"/><circle cx="180" cy="420" r="50"/><circle cx="1150" cy="620" r="90"/></g>
+<g fill="#fff" opacity=".9"><circle cx="70" cy="70" r="14"/><circle cx="240" cy="40" r="15"/><circle cx="420" cy="78" r="13"/><circle cx="600" cy="44" r="14"/><circle cx="760" cy="82" r="13"/><circle cx="920" cy="40" r="14"/><circle cx="1090" cy="76" r="13"/></g>
+<rect width="1210" height="834" fill="#2a1410" opacity=".18"/></svg></div>
+<div id="ybg2" class="ybg" style="opacity:0"><svg viewBox="0 0 1210 834" preserveAspectRatio="xMidYMid slice"><defs>
+<linearGradient id="yr1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f2f2"/><stop offset="1" stop-color="#d8d4d6"/></linearGradient>
+<pattern id="yr2" width="120" height="60" patternUnits="userSpaceOnUse"><rect width="120" height="60" fill="#a2969a"/><rect width="60" height="30" fill="#83787d"/><rect x="60" y="30" width="60" height="30" fill="#83787d"/></pattern></defs>
+<rect width="1210" height="834" fill="#e4e0e1"/>
+<path d="M0 0 H1210 V300 L900 330 H310 L0 300 Z" fill="url(#yr1)"/>
+<g stroke="#c9c4c6" stroke-width="3" fill="none"><path d="M0 120 L310 230 M0 220 L310 290 M1210 120 L900 230 M1210 220 L900 290"/><path d="M200 0 L420 330 M480 0 L540 330 M730 0 L670 330 M1010 0 L790 330"/></g>
+<g fill="#fbfbfb"><rect x="250" y="40" width="200" height="22" rx="4"/><rect x="760" y="40" width="200" height="22" rx="4"/><rect x="180" y="160" width="160" height="18" rx="4"/><rect x="870" y="160" width="160" height="18" rx="4"/></g>
+<rect x="520" y="70" width="190" height="110" rx="8" fill="#f8f8f8" stroke="#bdb8ba" stroke-width="4"/><g fill="#d2cdcf"><rect x="545" y="95" width="140" height="10"/><rect x="545" y="115" width="140" height="10"/><rect x="545" y="135" width="140" height="10"/></g>
+<rect x="0" y="300" width="1210" height="330" fill="#eeeaea"/>
+<g fill="#fff" stroke="#c7c2c4" stroke-width="5"><rect x="380" y="330" width="200" height="190"/><rect x="630" y="330" width="200" height="190"/></g>
+<g fill="#6f8db8" opacity=".95"><rect x="0" y="300" width="90" height="534"/></g><g stroke="#4c6a95" stroke-width="4"><line x1="0" y1="430" x2="90" y2="430"/><line x1="0" y1="560" x2="90" y2="560"/><line x1="0" y1="690" x2="90" y2="690"/></g>
+<path d="M0 630 H1210 V834 H0 Z" fill="url(#yr2)"/>
+<g stroke="#8e8a90" stroke-width="6" fill="none"><path d="M700 560 L760 760 M760 560 L700 760 M690 560 H780"/><path d="M880 560 L940 760 M940 560 L880 760 M870 560 H960"/><path d="M260 580 L300 760 M300 580 L260 760"/></g>
+<rect x="620" y="520" width="420" height="16" fill="#c8c3c5"/>
+<rect width="1210" height="834" fill="#fff" opacity=".12"/></svg></div>
+
+<div class="yscr" id="yvList">
+<div class="ylist" id="ysList"></div>
+<button class="yud yp" id="ysUp" type="button" style="top:calc(var(--u)*128)"><svg viewBox="0 0 84 60"><path d="M8 44 L42 12 L76 44" fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 44 L42 12 L76 44" fill="none" stroke="#f05a66" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="yud yp" id="ysDn" type="button" style="top:calc(var(--u)*636)"><svg viewBox="0 0 84 60"><path d="M8 16 L42 48 L76 16" fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 16 L42 48 L76 16" fill="none" stroke="#f05a66" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="ycircle yp" id="ysShuf" type="button" style="left:calc(var(--u)*14);bottom:calc(var(--u)*34)"><svg viewBox="0 0 48 48" fill="none" stroke="#3a3844" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14h8l20 20h8M6 34h8l6-6M28 20l6-6h8M38 8l6 6-6 6M38 28l6 6-6 6"/></svg></button>
+<button class="ycircle yp" id="ysMark" type="button" style="left:calc(var(--u)*114);bottom:calc(var(--u)*34)" data-no="1"><svg viewBox="0 0 48 48"><path d="M12 6h24v36l-12-9-12 9z" fill="#3a3844"/><path d="M24 14l2.4 5 5.4.6-4 3.7 1.1 5.3-4.9-2.7-4.9 2.7 1.1-5.3-4-3.7 5.4-.6z" fill="#fff"/></svg></button>
+<div class="ycab">
+ <div class="ycBack"></div><div class="ycWood"></div><div class="ycNeck"></div><div class="ycBody"></div>
+ <div class="ymon"><div class="ymonS"><div class="ymonH"><b>♪ RHYTHM</b><span>MUSIC INFORMATION</span></div><div class="ymonJ" id="ysJkBox"></div><div class="ymonC"><span class="tag orig" id="ysTag">OLIVIER</span><div><b id="ysDName"></b><small id="ysDSub"></small></div></div></div></div>
  <div class="ydiffs" id="ysDiffs"></div>
- <div class="yrow"><div class="ystat"><span id="ysStatL">ベストスコア</span><b id="ysBest">-</b></div><button id="ysOk" class="yok yp" type="button">OK</button></div></div></div>
-<div class="ybody hide" id="yvConf"><div class="ycPanel"><img id="ycJk" alt=""><div class="ycInfo"><div class="t">MUSIC</div><h2 id="ycTitle"></h2>
- <div class="ycGrid"><div><small>ノーツの速さ</small><b id="ycSpd"></b></div><div><small>ノーツ表示時間</small><b id="ycDisp"></b></div><div><small>タイミング調整</small><b id="ycOff"></b></div></div></div></div>
- <div class="ycBar"><div class="ylvB" id="ycLvB"></div><div style="min-width:0"><b id="ycName"></b><small id="ycSub"></small></div></div>
- <div id="ycMsg"></div><div class="ycAct"><button id="ycGear" class="ygear yp" type="button">⚙</button><button id="ycStart" class="ystart yp" type="button">開演</button></div></div></div>
-<div id="ysSet" class="hide"><div class="ysbox"><h3>✦ 設定 ✦</h3><div class="ysIn"><div class="ysTabsL" id="ysTabsL"><button type="button" data-t="0" class="on">公演設定</button><button type="button" data-t="1">公演設定(詳細)</button><button type="button" data-t="2">音量</button></div>
-<div class="ysBody2">
-<div data-p="0"><div class="ysSec">公演設定</div>
-<div class="ysT">ノーツの速さ</div><div class="ysRow"><button type="button" data-k="spd" data-d="-1">−1</button><button type="button" data-k="spd" data-d="-0.1">−0.1</button><div class="val" id="ysvSpd"></div><button type="button" data-k="spd" data-d="0.1">+0.1</button><button type="button" data-k="spd" data-d="1">+1</button></div>
-<div class="ysDisp"><div>ノーツ表示時間</div><b id="ysvDisp"></b></div>
-<div class="ysT">タイミング調整（ms）</div><div class="ysRow"><button type="button" data-k="off" data-d="-10">−10</button><button type="button" data-k="off" data-d="-1">−1</button><div class="val" id="ysvOff"></div><button type="button" data-k="off" data-d="1">+1</button><button type="button" data-k="off" data-d="10">+10</button></div></div>
-<div data-p="1" class="hide"><div class="ysSec">配置設定</div>
-<div class="ysT">ノーツの表示開始位置</div><div class="ysRow"><button type="button" data-k="spn" data-d="-10">−10</button><button type="button" data-k="spn" data-d="-1">−1</button><div class="val" id="ysvSpn"></div><button type="button" data-k="spn" data-d="1">+1</button><button type="button" data-k="spn" data-d="10">+10</button></div>
-<div class="ysDisp"><div>ノーツ表示時間</div><b id="ysvDisp2"></b></div>
-<div class="ysSec" style="margin-top:18px">演出設定</div>
-<div class="ysT">ノーツ加速</div><div class="ysRad" data-r="acc"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div>
-<div class="ysT">スプリットランダム</div><div class="ysRad" data-r="sr"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div>
-<div class="ysT">タップエフェクト</div><div class="ysRad" data-r="fx"><button type="button" data-v="2">通常</button><button type="button" data-v="1">控えめ</button><button type="button" data-v="0">なし</button></div></div>
-<div data-p="2" class="hide"><div class="ysSec">音量</div>
-<div class="ysT">タップ音</div><div class="ysRad" data-r="tap"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div>
+ <div class="ystat"><span id="ysStatL">ベストスコア</span><b id="ysBest">-</b><i id="ysRank">-</i></div>
+ <button id="ysOk" class="yok yp" type="button">OK</button>
+</div>
+<button id="ysOkP" class="yok yokP yp" type="button" style="z-index:6">OK</button>
+</div>
+
+<div class="yscr hide" id="yvConf">
+ <div class="ycfBand"><div class="ycfHd"><div class="gn"><small>GROUP NAME</small><b id="ycGName">グループ1</b></div><button class="yicb yp" data-no="1" type="button">✎</button><span class="sp"></span>
+  <button class="ypill2 yp" data-no="1" type="button">配置変更</button><button class="ypill2 yp" data-no="1" type="button">自動売却設定</button><button class="ypill2 yp" data-no="1" type="button">一括強化</button></div>
+  <div class="ycfCards" id="ycCards"></div>
+  <div class="ycfRow"><button class="ypill2 yp" data-no="1" type="button">おまかせ</button><button class="yround yp" data-no="1" type="button" style="background:radial-gradient(circle at 40% 35%,#7fd0ff,#2f8fe0)!important"></button><button class="yround yp" data-no="1" type="button" style="background:radial-gradient(circle at 40% 35%,#ffd36a,#f0a01a)!important"></button>
+   <button class="yarr yp" id="ycTP" type="button">‹</button><div class="ytabs" id="ycTabs"></div><button class="yarr yp" id="ycTN" type="button">›</button></div></div>
+ <button class="ysideA yp" data-no="1" type="button" style="left:calc(var(--u)*30)">‹</button><button class="ysideA yp" data-no="1" type="button" style="right:calc(var(--u)*2)">›</button>
+ <div class="ycfBar"><div class="ylvB" id="ycLvB"></div><div class="nm"><b id="ycName"></b><small id="ycSub"></small></div><button class="yauto yp" data-no="1" type="button"><i></i>AUTO</button><button class="ygear yp" data-no="1" type="button"><svg viewBox="0 0 48 48"><use href="#ysGearI"/></svg></button></div>
+ <div id="ycMsg"></div>
+ <button class="ygear ygearB yp" id="ycGear" type="button"><svg viewBox="0 0 48 48"><use href="#ysGearI"/></svg></button>
+ <button class="ystart yp" id="ycStart" type="button">開演</button>
+</div>
+
+<button class="yback yp" id="ysBack" type="button"><svg viewBox="0 0 44 44"><path d="M26 8 L12 22 L26 36" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 16 l3 6 -3 6 -3 -6z" fill="#fff"/></svg></button>
+<div class="ylab"><i>✦</i><span id="ysHead">難易度選択</span></div>
+<button class="yq yp" data-no="1" type="button" id="ysQ">?</button>
+<button class="ypl yp" data-no="1" type="button" id="ysFil" style="left:calc(var(--u)*442);width:calc(var(--u)*154)"><i></i>フィルタ</button>
+<button class="ypl yp" data-no="1" type="button" id="ysLv" style="left:calc(var(--u)*606);width:calc(var(--u)*150);justify-content:center">Lv</button>
+<button class="ymenu yp" data-no="1" type="button"><svg viewBox="0 0 42 42" fill="#fff"><path d="M4 7l3-3 3 3-3 3z M4 21l3-3 3 3-3 3z M4 35l3-3 3 3-3 3z"/><rect x="14" y="4" width="25" height="6" rx="3"/><rect x="14" y="18" width="25" height="6" rx="3"/><rect x="14" y="32" width="25" height="6" rx="3"/></svg></button>
+<svg width="0" height="0" style="position:absolute"><symbol id="ysGearI" viewBox="0 0 48 48"><path fill="#4a4856" d="M27 4l1.5 5.2a15 15 0 0 1 4 1.7l4.8-2.6 4.2 4.2-2.6 4.8a15 15 0 0 1 1.7 4L45.8 23v6l-5.2 1.5a15 15 0 0 1-1.7 4l2.6 4.8-4.2 4.2-4.8-2.6a15 15 0 0 1-4 1.7L27 47.8h-6l-1.5-5.2a15 15 0 0 1-4-1.7l-4.8 2.6-4.2-4.2 2.6-4.8a15 15 0 0 1-1.7-4L2.2 29v-6l5.2-1.5a15 15 0 0 1 1.7-4L6.5 12.7l4.2-4.2 4.8 2.6a15 15 0 0 1 4-1.7L21 4z"/><circle cx="24" cy="26" r="7" fill="#fff"/></symbol></svg>
+
+<div id="ysSet" class="hide"><div class="ysbox"><h3>✦ 設定 ✦</h3><div class="ysIn"><div class="ysTabsL" id="ysTabsL"><button type="button" data-t="0">システム・通知</button><button type="button" data-t="1" class="on">公演設定</button><button type="button" data-t="2">公演設定(詳細)</button><button type="button" data-t="3">音量</button><button type="button" data-t="4">Bluetooth設定</button></div>
+<div class="ysBody2" id="ysBody2">
+<div data-p="0"><div class="ysSec">システム</div>
 <div class="ysT">画面の効果音</div><div class="ysRad" data-r="se"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div>
 <div class="ysT">楽曲選択の試聴</div><div class="ysRad" data-r="pv"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
+<div data-p="1"><div class="ysSec">公演設定</div>
+<div class="ysT">ノーツの速さ</div><div class="ysRow"><button type="button" data-k="spd" data-d="-1">−1</button><button type="button" data-k="spd" data-d="-0.1">−0.1</button><div class="val" id="ysvSpd"></div><button type="button" data-k="spd" data-d="0.1">+0.1</button><button type="button" data-k="spd" data-d="1">+1</button></div>
+<div class="ysDisp"><div>ノーツ表示時間</div><b id="ysvDisp"></b></div>
+<div class="ysT">タイミング調整（ms）</div><div class="ysRow"><button type="button" data-k="off" data-d="-10">−10</button><button type="button" data-k="off" data-d="-1">−1</button><div class="val" id="ysvOff"></div><button type="button" data-k="off" data-d="1">+1</button><button type="button" data-k="off" data-d="10">+10</button></div>
+<div class="ysT">レーンの暗さ</div><div class="ysRow sm"><button type="button" data-k="dark" data-d="-5">−</button><div class="val" id="ysvDark"></div><button type="button" data-k="dark" data-d="5">＋</button></div>
+<div class="yg2"><div><div class="ysT">カットイン演出</div><div class="ysRad" data-r="cut"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div></div>
+<div class="ysSec" style="margin-top:calc(var(--u)*26)">スプリット設定</div>
+<div class="ysT">ラインの濃さ</div><div class="ysRow sm"><button type="button" data-k="line" data-d="-10">−</button><div class="val" id="ysvLine"></div><button type="button" data-k="line" data-d="10">＋</button></div></div>
+<div data-p="2"><div class="ysSec">配置設定</div>
+<div class="ysT">レーンの幅</div><div class="ysRow sm"><button type="button" data-k="lw" data-d="-5">−</button><div class="val" id="ysvLw"></div><button type="button" data-k="lw" data-d="5">＋</button></div>
+<div class="ysT">ノーツの表示開始位置</div><div class="ysRow sm"><button type="button" data-k="spn" data-d="-1">−</button><div class="val" id="ysvSpn"></div><button type="button" data-k="spn" data-d="1">＋</button></div>
+<div class="ysDisp"><div>ノーツ表示時間</div><b id="ysvDisp2"></b></div>
+<div class="ysSec" style="margin-top:calc(var(--u)*26)">表示設定</div>
+<div class="ysT">ノーツの太さ</div><div class="ysRow sm"><button type="button" data-k="nth" data-d="-1">−</button><div class="val" id="ysvNth"></div><button type="button" data-k="nth" data-d="1">＋</button></div>
+<div class="ysT">FAST/SLOW表示</div><div class="ysRad" data-r="fs"><button type="button" data-v="0">PERFECT以下</button><button type="button" data-v="1">GREAT以下</button><button type="button" data-v="2">OFF</button></div>
+<div class="yg2"><div><div class="ysT">同時押しライン表示</div><div class="ysRad" data-r="sync"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
+<div><div class="ysT">キービーム表示</div><div class="ysRad" data-r="kb"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
+<div><div class="ysT">PERFECT✦表示</div><div class="ysRad" data-r="pf"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
+<div><div class="ysT">PERFECT✦継続表示</div><div class="ysRad" data-r="apk"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div></div>
+<div class="ysT">タップエフェクト表示</div><div class="ysRad" data-r="fx"><button type="button" data-v="2">通常</button><button type="button" data-v="1">控えめ</button><button type="button" data-v="0">なし</button></div>
+<div class="ysSec" style="margin-top:calc(var(--u)*26)">譜面オプション</div>
+<div class="ysT">スプリットランダム</div><div class="ysRad" data-r="sr"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
+<div data-p="3"><div class="ysSec">音量</div>
+<div class="ysT">ノーツタップ音</div><div class="ysRad" data-r="tap"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
+<div data-p="4"><div class="ysSec">Bluetooth設定</div><div class="ysOff">
+<div class="ysT">音声タイミング調整</div><div class="ysRow"><button type="button">−0.5</button><button type="button">−0.1</button><div class="val">0.0</div><button type="button">+0.1</button><button type="button">+0.5</button></div></div>
+<div class="ysNote">※ この設定はまだありません。タイミングは「公演設定」で調整してください。</div></div>
 </div></div><div class="ysBtns"><button id="ysCancel" class="yp" type="button">キャンセル</button><button id="ysSetOk" class="yp" type="button">OK</button></div></div></div>
 </div>
+
 <div id="result" class="hide"><div class="rbox"><div class="rtitle">RESULT</div><div id="rsong" class="sub"></div><div id="rrank" class="rrank"></div><div id="rscore" class="rscore"></div><div id="rtab" class="rtab"></div><div class="rbtns"><button id="rretry" type="button">↻ リトライ</button><button id="rback" type="button" style="background:rgba(255,255,255,.14)">← 戻る</button></div></div></div>
 <div id="menu">
 <div class="wrapm">
@@ -251,13 +390,15 @@ summary{cursor:pointer;color:#cfd4ff}
 <div class="hint" id="songInfo">音声ファイルを選ぶと、テンポと拍の位置を解析して、曲に合わせた譜面を作ります。ファイルは端末の外に送りません。</div>
 </section>
 <section class="card" id="ysCard" style="display:none"><h3>📀 〇〇〇〇モード</h3>
+<div id="ysGate"><div class="hint" style="margin-bottom:10px">とにかくシークレットなモードです。パスワードを入力してください。</div><div class="row" style="gap:8px"><input id="gPw" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="パスワード" style="flex:1;min-width:0"><button id="gOk" type="button" class="mini2 presetBtn">入る</button></div><div id="gErr" class="hint" style="color:#ff9db0"></div><button id="gIn" type="button" class="big go hide" style="width:100%;margin-top:6px"><span class="ic">▶</span><span>〇〇〇〇へ</span></button></div>
+<div id="ysOld">
 <div class="row"><span id="ysName">曲が選ばれていません</span><button id="presetBtn" type="button" class="mini2 presetBtn">📀 曲を選ぶ</button></div>
 <label class="sl"><div class="top"><span>ノーツの速さ（このモード専用）</span><b id="vyspeed"></b></div><input id="yspeed" type="range" min="1" max="20" step="0.1"></label>
 <label class="sl"><div class="top"><span>ノーツの表示開始位置（このモード専用）</span><b id="vyspawn"></b></div><input id="yspawn" type="range" min="0" max="80" step="1"></label>
 <div class="row"><span>ノーツ加速</span><label class="sw"><input id="yacc" type="checkbox"><i></i></label></div>
 <div class="row"><span>スプリットランダム</span><label class="sw"><input id="srand" type="checkbox"><i></i></label></div>
 <div class="hint" id="ysInfo">とにかくシークレットなモードです。曲を遊ぶには、パスワードが必要です。</div>
-</section>
+</div></section>
 <section class="card"><h3>🎨 見た目</h3>
 <div class="row"><span>タップエフェクト</span><select id="tapfx" class="seg"><option value="0">なし</option><option value="1">控えめ</option><option value="2">通常</option></select></div>
 <div class="row"><span>ノーツのスキン</span><select id="skin" class="seg"><option value="0">ノーマル</option><option value="1">シンプル</option><option value="2">高品質</option></select></div>
@@ -287,7 +428,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 42</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 43</div></div>
 </div>
 </div>
 <script>
@@ -299,7 +440,7 @@ const DD=[{sub:16,pr:.6,hold:.18,hmin:1,hmax:2,chord:.18,pin:.12},{sub:0,pr:.85,
 const DIFF=JSON.parse(JSON.stringify(DD));
 try{JSON.parse(localStorage.getItem("g20d2")||"[]").forEach((d,i)=>{if(DIFF[i]&&d)Object.assign(DIFF[i],d)})}catch(e){}
 const SK=["speed","yspeed","yspawn","off","spawn","lnw","lanes","diff","bpm","key","skin","tapsnd","view","mode","tapfx"];
-const S={speed:10,yspeed:5.5,yspawn:0,yacc:1,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0,mode:0,tapfx:1};
+const S={speed:10,yspeed:5.5,yspawn:0,yacc:1,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0,mode:0,tapfx:1,ydark:100,ysline:100,ycut:0,ylw:100,ynth:10,yfs:0,ysync:1,ykb:1,ypf:1,yapk:1};
 try{Object.assign(S,JSON.parse(localStorage.getItem("g20")||"{}"))}catch(e){}
 if(!S.v2){S.v2=1;if(S.lnw<=110)S.lnw=130}
 if(!S.v3){S.v3=1;S.lnw=0}
@@ -309,13 +450,14 @@ let ysOk=false,KB={},ysSplits=[],lastPend=null,OUT=null,ys=false,preset=null,lan
 let actx,t0=0,run=false,N=[],cnt=[0,0,0,0,0,0],combo=0,maxc=0,score=0,lastJ=null,rnd,last=[],lh=[];
 function fit(){const vv=window.visualViewport;W0=Math.round(vv&&vv.width?vv.width:window.innerWidth);H=Math.round(vv&&vv.height?vv.height:window.innerHeight);
   JY=ys?Math.round(H*.745):H-Math.round(H*.24);NZ=JY*.047;HZ=H*.05;SC=Math.max(.8,Math.min(1.6,H/620,W0/760));
-  if(ys){LWe=Math.max(40,Math.floor(Math.min(W0*.84,H*1.3)/4));X0=Math.round((W0-4*LWe)/2);bgC=null}else LWe=S.lnw?Math.max(20,Math.min(S.lnw,Math.floor(W0/S.lanes))):Math.max(20,Math.floor(Math.min(W0*.6,H*.95)/S.lanes));if(!ys)X0=Math.round((W0-S.lanes*LWe)/2);
+  if(ys){LWe=Math.max(40,Math.floor(Math.min(W0*.84,H*1.3)/4*(S.ylw||100)/100));LWe=Math.min(LWe,Math.floor(W0*.985/4));X0=Math.round((W0-4*LWe)/2);bgC=null}else LWe=S.lnw?Math.max(20,Math.min(S.lnw,Math.floor(W0/S.lanes))):Math.max(20,Math.floor(Math.min(W0*.6,H*.95)/S.lanes));if(!ys)X0=Math.round((W0-S.lanes*LWe)/2);
   const dpr=Math.min(2,window.devicePixelRatio||1);cv.width=W0*dpr;cv.height=H*dpr;cv.style.width=W0+"px";cv.style.height=H+"px";ctx.setTransform(dpr,0,0,dpr,0,0)}
 function apply(){
   for(const k of SK){S[k]=+$(k).value;const v=$("v"+k);if(v)v.textContent=S[k]}
   $("vlnw").textContent=S.lnw||"自動";
   $("vyspeed").textContent=S.yspeed.toFixed(1)+"（表示時間 "+ysTime()+"ms）";$("vyspawn").textContent=S.yspawn;S.yacc=$("yacc").checked?1:0;S.srand=$("srand").checked?1:0;
   $("speedRow").style.display=$("spawnRow").style.display=S.mode==2?"none":"";
+  $("menu").classList.toggle("ysOnly",S.mode==2);if($("gIn"))$("gIn").classList.toggle("hide",!unlocked);
   $("musicCard").style.display=S.mode==1?"":"none";$("ysCard").style.display=S.mode==2?"":"none";$("bpmRow").style.display=S.mode>=1?"none":"";
   S.tap=$("tap").checked?1:0;S.metro=$("metro").checked?1:0;kh.fill(0);
   fit();
@@ -671,7 +813,7 @@ function rhe(x){const r=Math.round(x);return Math.abs(x-Math.trunc(x))===.5&&r%2
 function ysTime(){return Math.max(1,rhe(ysDist(S.yspawn)/S.yspeed))}
 function glowT(t,x,y,c){ctx.save();ctx.lineJoin="round";ctx.strokeStyle=c;for(const [w,a] of[[7,.1],[3.5,.18]]){ctx.globalAlpha*=1;ctx.lineWidth=w*SC;const ga=ctx.globalAlpha;ctx.globalAlpha=ga*a;ctx.strokeText(t,x,y);ctx.globalAlpha=ga}ctx.restore()}
 function drawYS(now){
-  const K=4,lw=LWe,W=K*lw,ZS=JY*ysDist(S.yspawn)/7400,sp=ZS*1000/ysTime(),cx=W/2,KF=6,MN=S.yacc?3.8:6,TOP=0,SPN=JY-TOP;
+  const K=4,lw=LWe,W=K*lw,ZS=JY*ysDist(S.yspawn)/7400,sp=ZS*1000/ysTime(),cx=W/2,KF=6,MN=3.8,TOP=0,SPN=JY-TOP;
   const sMin=-(H-JY)/SPN-.12,uMin=sMin/(1+MN-MN*sMin);
   // ノーツの進み方 s=u(1+m)/(1+m·u)（m≈3.8, 加速なしは床と同じ k=6）、横幅は床の遠近 w=1-s·k/(1+k)
   const sOf=z=>{const u=Math.max(uMin,Math.min(1,z/JY));return u*(1+MN)/(1+MN*u)},wOf=s=>1-s*KF/(1+KF);
@@ -686,7 +828,7 @@ function drawYS(now){
   if(!bgC)bgC=buildBg();ctx.drawImage(bgC,0,0,W0,H);
   ctx.save();ctx.translate(X0,0);
   // 道
-  P([pj(0,JY),pj(W,JY),pj(W,-JY),pj(0,-JY)]);{const g=ctx.createLinearGradient(0,TOP,0,H);g.addColorStop(0,"rgba(8,8,20,.55)");g.addColorStop(.35,"rgba(8,8,20,.78)");g.addColorStop(.75,"rgba(10,9,22,.9)");g.addColorStop(1,"rgba(6,6,14,.95)");ctx.fillStyle=g}ctx.fill();
+  P([pj(0,JY),pj(W,JY),pj(W,-JY),pj(0,-JY)]);{const g=ctx.createLinearGradient(0,TOP,0,H);const dk=Math.max(0,Math.min(100,S.ydark==null?100:+S.ydark))/100;g.addColorStop(0,`rgba(8,8,20,${.55*dk})`);g.addColorStop(.35,`rgba(8,8,20,${.78*dk})`);g.addColorStop(.75,`rgba(10,9,22,${.9*dk})`);g.addColorStop(1,`rgba(6,6,14,${.95*dk})`);ctx.fillStyle=g}ctx.fill();
   const rail=(x,a)=>{const p0=pj(x,JY),p1=pj(x,-JY);ctx.strokeStyle=a;ctx.beginPath();ctx.moveTo(p0[0],p0[1]);ctx.lineTo(p1[0],p1[1]);ctx.stroke()};
   // 通常は真ん中の細い線だけ。スプリット中はレーンの境目と両端のラインが光る（フェードで切り替え）
   // 通常はレーンを6つに分ける線をうっすら表示。スプリット中はそれを消して、スプリットの線を光らせる（フェードで切り替え）
@@ -694,14 +836,14 @@ function drawYS(now){
   for(const spl of ysSplits){const a0=now-(spl.t0+S.off),a1=(spl.t1+S.off)-now;if(a0<-250||a1<-250)continue;const fa=Math.max(0,Math.min(1,(a0+250)/250,(a1+250)/250));if(fa>sfa){sfa=fa;spNow=spl}}
   ctx.lineWidth=1.2;for(let k=1;k<6;k++)rail(k*W/6,`rgba(255,255,255,${.06*(1-sfa)})`);
   ctx.lineWidth=1;rail(0,"rgba(0,0,0,.6)");rail(W,"rgba(0,0,0,.6)");
-  if(spNow){const spl=spNow,fa=sfa,RB=["255,60,80","255,150,40","255,235,60","90,235,90","60,225,225","70,120,255","200,90,255"];
+  if(spNow){const spl=spNow,fa=sfa*Math.max(0,Math.min(100,S.ysline==null?100:+S.ysline))/100,RB=["255,60,80","255,150,40","255,235,60","90,235,90","60,225,225","70,120,255","200,90,255"];
     spl.b.forEach((u,i)=>{// 色は本家の動画に合わせる：通常は白、情熱リベレイションは青、きゅうくらりんの一部は虹色
       const col=spl.c=="rainbow"?RB[Math.round(i*(RB.length-1)/(spl.b.length-1))]:spl.c=="blue"?"40,70,255":spl.c=="pink"?"255,40,200":"235,228,255",core=spl.c=="rainbow"?col:spl.c=="blue"?"95,125,255":spl.c=="pink"?"255,130,235":"255,255,255";
       ctx.lineWidth=7*SC;rail(u*lw,`rgba(${col},${.16*fa})`);ctx.lineWidth=3.2*SC;rail(u*lw,`rgba(${col},${.5*fa})`);ctx.lineWidth=1.4*SC;rail(u*lw,`rgba(${core},${fa})`)})}
   // キービーム：押している所の判定ライン付近から上へ伸びる光
   {const tk=performance.now(),seg=u=>{if(spNow&&sfa>.5){const b=spNow.b;for(let i=0;i+1<b.length;i++)if(u>=b[i]&&u<b[i+1]+1e-6)return[b[i],b[i+1]]}const k=Math.max(0,Math.min(5,Math.floor(u*1.5)));return[k/1.5,(k+1)/1.5]};
     ctx.save();ctx.globalCompositeOperation="lighter";
-    for(const key in KB){const o=KB[key],v=1-(tk-o.t)/220;if(v<=0){delete KB[key];continue}if(!o.key&&!o.sg){const g=seg(o.u);o.a=g[0];o.b=g[1];o.sg=1}
+    for(const key in KB){const o=KB[key],v=1-(tk-o.t)/220;if(v<=0||S.ykb===0){delete KB[key];continue}if(!o.key&&!o.sg){const g=seg(o.u);o.a=g[0];o.b=g[1];o.sg=1}
       // レーン全体を均一に光らせる（上端だけ少しぼかす）
       const al=.26*Math.min(1,v),A=pj(o.a*lw,0),B=pj(o.b*lw,0),C=pj(o.b*lw,JY*.85),D=pj(o.a*lw,JY*.85);P([A,B,C,D]);ctx.fillStyle=`rgba(200,225,255,${al})`;ctx.fill();
       const C2=pj(o.b*lw,JY),D2=pj(o.a*lw,JY);P([D,C,C2,D2]);ctx.fillStyle=lg(D2[1],D[1],"rgba(200,225,255,0)",`rgba(200,225,255,${al})`);ctx.fill()}
@@ -710,7 +852,7 @@ function drawYS(now){
   // ノーツ
   ctx.save();ctx.beginPath();ctx.rect(-lw,sy,W+2*lw,H-sy);ctx.clip();
   const NB2=NZ*.95,X=u=>u*lw,mg=3;
-  const bar=(z,xa,xb,kind,miss,ad)=>{const sc5=kind==5;if(sc5)kind=3;const th=NB2,pl=plate(xa,xb,z,1),pinkS=sc5&&!ysOk;
+  const bar=(z,xa,xb,kind,miss,ad)=>{const sc5=kind==5;if(sc5)kind=3;const th=NB2,pl=plate(xa,xb,z,(S.ynth||10)/10),pinkS=sc5&&!ysOk;
     const [A,B,C,D]=pl.q.map(p=>lift(p,pl.r));
     // 本家風のノーツ：角の丸い板、黄色の縁取り、両端の黄色い棒と小さな星、下に黄色い厚み
     const Q=(u,v)=>{const bx=A[0]+(B[0]-A[0])*u,by=A[1]+(B[1]-A[1])*u,tx=D[0]+(C[0]-D[0])*u,ty=D[1]+(C[1]-D[1])*u;return[bx+(tx-bx)*v,by+(ty-by)*v]};
@@ -747,6 +889,11 @@ function drawYS(now){
   const body=(z0,z1,xa,xb,xa2,xb2,kind,hd,miss)=>{z1=Math.min(z1,JY);if(z1<=z0)return;const A=pj(xa,z0),B=pj(xb,z0),C=pj(xb2,z1),D=pj(xa2,z1);P([A,B,C,D]);
     ctx.fillStyle=miss?"rgba(110,110,120,.5)":kind==1?lg(D[1],A[1],hd?"rgba(120,235,255,.85)":"rgba(40,200,245,.72)",hd?"rgba(170,250,255,1)":"rgba(60,215,255,.92)"):lg(D[1],A[1],hd?"rgba(210,120,255,.85)":"rgba(150,50,240,.75)",hd?"rgba(255,150,255,1)":"rgba(225,70,240,.92)");ctx.fill();
     ctx.strokeStyle=miss?"rgba(150,150,150,.5)":kind==1?"rgba(170,250,255,.85)":"rgba(255,170,255,.85)";ctx.lineWidth=1.5;ctx.stroke()};
+  // 同時押しライン：同じ時刻のノーツ（タップ・フリック・ホールドとスクラッチの始点）を白い線でつなぐ
+  if(S.ysync!==0){let gt=null,gz=0,gl=1e9,gr=-1e9,gc=0;const flush=()=>{if(gc>1&&gr>gl){const pa=plate(X(gl),X(gr),gz,(S.ynth||10)/10),A=lift(pa.q[0],pa.r),B=lift(pa.q[1],pa.r),D=lift(pa.q[3],pa.r),y=(A[1]+D[1])/2;
+      ctx.strokeStyle="rgba(255,255,255,.75)";ctx.lineWidth=Math.max(1.5,2.6*SC*pa.r);ctx.beginPath();ctx.moveTo(A[0],y);ctx.lineTo(B[0],y);ctx.stroke()}};
+    for(let i=0;i<N.length;i++){const n=N[i];if(n.st)continue;const te=n.t+S.off,z=(te-now)*sp/1000;if(z<uMin*JY)continue;if(z>JY)break;if(n.k==4)continue;if(n.k==1&&!n.hd)continue;
+      if(gt!==n.t){flush();gt=n.t;gz=z;gl=1e9;gr=-1e9;gc=0}const c=(U0(n)+U1(n))/2;gl=Math.min(gl,c);gr=Math.max(gr,c);gc++}flush()}
   for(const pass of[1,0])for(let i=N.length-1;i>=0;i--){const n=N[i],lng=n.k==1||n.k==3;if(pass!=(lng?1:0))continue;
     const te=n.t+S.off,z=(te-now)*sp/1000,miss=n.st==2;if(z>JY)continue;
     if(lng){const zt=z+n.d*sp/1000;if(n.st==1&&now>=te+n.d||zt<uMin*JY)continue;
@@ -791,12 +938,12 @@ function drawYS(now){
   ctx.restore();
   // 判定の文字とコンボ
   ctx.textAlign="center";
-  if(run&&lastJ){const age=tn-lastJ.t;if(age<500&&lastJ.j>=0){const a=1-age/500,y=JY*.62-(1-a)*8;ctx.globalAlpha=a;ctx.font=`900 ${34*SC}px system-ui`;
+  if(run&&lastJ){const age=tn-lastJ.t;if(age<500&&lastJ.j>=0&&!(lastJ.j==0&&S.ypf===0)){const a=1-age/500,y=JY*.62-(1-a)*8;ctx.globalAlpha=a;ctx.font=`900 ${34*SC}px system-ui`;
       // 本家の色：PERFECT✦＝青→白→ピンク、PERFECT＝紫→薄紫→水色、GREAT＝黄色
       let GL="rgba(0,0,0,0)";const vg=(cs,glow)=>{const g=ctx.createLinearGradient(0,y-30*SC,0,y+2*SC);cs.forEach((c,i)=>g.addColorStop(i/(cs.length-1),c));GL=glow;return g};
       const j=lastJ.j;ctx.fillStyle=j==0?vg(["#8fdcfb","#b6fbea","#fff8d2","#ffd2d8","#ff9fd4"],"rgba(255,255,255,.7)"):j==1?vg(["#b98ef6","#d6b4f8","#ebcff9","#cde6fa","#b5f4fb"],"rgba(150,110,255,.8)"):j==2?vg(["#fbf39a","#f6ed7f","#f7d575"],"rgba(255,200,60,.8)"):JC[j];
       glowT(jname(j),W/2,y,GL);ctx.fillText(jname(j),W/2,y);
-      if(lastJ.fl){const fast=lastJ.fl[0]=="F"||lastJ.fl[0]=="E",t=lastJ.fl=="LATE"?"SLOW":lastJ.fl,yy=y-36*SC;ctx.font=`900 ${20*SC}px system-ui`;
+      if(lastJ.fl&&(+S.yfs||0)!=2&&!(+S.yfs==1&&lastJ.j<2)){const fast=lastJ.fl[0]=="F"||lastJ.fl[0]=="E",t=lastJ.fl=="LATE"?"SLOW":lastJ.fl,yy=y-36*SC;ctx.font=`900 ${20*SC}px system-ui`;
         const g=ctx.createLinearGradient(0,yy-18*SC,0,yy);if(fast){g.addColorStop(0,"#dff1ff");g.addColorStop(1,"#94b2f7")}else{g.addColorStop(0,"#fde0f6");g.addColorStop(1,"#eeb0e3")}
         glowT(t,W/2,yy,fast?"rgba(90,140,255,.95)":"rgba(255,80,210,.95)");ctx.fillStyle=g;ctx.fillText(t,W/2,yy)}ctx.globalAlpha=1}}
   if(paused){ctx.fillStyle="rgba(0,0,0,.45)";ctx.fillRect(-X0,0,W0,H);if(cdNum>0){ctx.font=`bold ${130*SC}px system-ui`;ctx.lineWidth=6;ctx.strokeStyle="rgba(90,30,110,.9)";ctx.strokeText(cdNum,W/2,H*.48);ctx.fillStyle="#fff";ctx.fillText(cdNum,W/2,H*.48);ctx.font=`bold ${18*SC}px system-ui`;ctx.fillText("再開まで",W/2,H*.48-110*SC)}}
@@ -810,7 +957,7 @@ function drawYS(now){
     const col=(y0,y1)=>st>=2?rb(y0,y1):st==1?fcg(y0,y1):"#ffe14d";
     const CG=st>=2?"rgba(255,255,255,.9)":st==1?"rgba(255,90,200,.9)":"rgba(255,225,77,.7)";
     ctx.font=`900 ${17*SC}px system-ui`;const cw=ctx.measureText("COMBO").width;glowT("COMBO",xx,H*.32,CG);ctx.fillStyle=col(H*.32-13*SC,H*.32);ctx.fillText("COMBO",xx,H*.32);
-    if(st==3){const sx=xx-cw/2-12*SC,sy2=H*.32-6*SC,r=8*SC;ctx.fillStyle=rb(sy2-r,sy2+r,sx-r,sx+r);ctx.beginPath();ctx.moveTo(sx,sy2-r);ctx.lineTo(sx+r*.28,sy2-r*.28);ctx.lineTo(sx+r,sy2);ctx.lineTo(sx+r*.28,sy2+r*.28);ctx.lineTo(sx,sy2+r);ctx.lineTo(sx-r*.28,sy2+r*.28);ctx.lineTo(sx-r,sy2);ctx.lineTo(sx-r*.28,sy2-r*.28);ctx.fill()}
+    if(st==3&&S.yapk!==0){const sx=xx-cw/2-12*SC,sy2=H*.32-6*SC,r=8*SC;ctx.fillStyle=rb(sy2-r,sy2+r,sx-r,sx+r);ctx.beginPath();ctx.moveTo(sx,sy2-r);ctx.lineTo(sx+r*.28,sy2-r*.28);ctx.lineTo(sx+r,sy2);ctx.lineTo(sx+r*.28,sy2+r*.28);ctx.lineTo(sx,sy2+r);ctx.lineTo(sx-r*.28,sy2+r*.28);ctx.lineTo(sx-r,sy2);ctx.lineTo(sx-r*.28,sy2-r*.28);ctx.fill()}
     ctx.font=`900 ${54*SC}px system-ui`;const nw=ctx.measureText(String(combo)).width;glowT(String(combo),xx,H*.4,CG);ctx.fillStyle=col(H*.4-40*SC,H*.4);ctx.fillText(combo,xx,H*.4);ctx.restore()}
   if(run)drawHUDys();
 }
@@ -997,89 +1144,112 @@ $("presetBtn").onclick=()=>{if(unlocked)openSel();else{$("pwIn").value="";$("pwE
 $("pwOk").onclick=()=>{if(cyrb53($("pwIn").value,1888)===PWH){unlocked=true;openSel()}else{$("pwErr").textContent="パスワードが違います";$("pwIn").value=""}};
 $("pwIn").addEventListener("keydown",e=>{if(e.key=="Enter")$("pwOk").onclick()});
 $("pwCancel").onclick=hideOv;$("listClose").onclick=hideOv;
+// 最初の画面（〇〇〇〇モード）はパスワード入力だけ
+$("gOk").onclick=()=>{if(cyrb53($("gPw").value,1888)===PWH){unlocked=true;$("gErr").textContent="";$("gPw").value="";$("gIn").classList.remove("hide");openSel("diff")}else{$("gErr").textContent="パスワードが違います";$("gPw").value=""}};
+$("gPw").addEventListener("keydown",e=>{if(e.key=="Enter")$("gOk").onclick()});$("gIn").onclick=()=>openSel("diff");
 // ---- 〇〇〇〇モード専用の画面：難易度選択 → 楽曲選択 → 最終確認（⚙で設定）。効果音と試聴つき ----
-const YSDV=[["OLIVIER VI","VI",6],["OLIVIER VII","VII",7],["OLIVIER VIII","VIII",8]];let ysTab=0,ysPick=null,ysBusy=false,ysView="diff",ysTmp=null;
+const YSDV=[["OLIVIER VI","VI",6],["OLIVIER VII","VII",7],["OLIVIER VIII","VIII",8]];let ysTab=0,ysPick=null,ysBusy=false,ysView="diff",ysTmp=null,ysGrp=1;
 let YSE={se:1,pv:1};try{Object.assign(YSE,JSON.parse(localStorage.getItem("ysUI")||"{}"))}catch(e){}
 const ysSaveUI=()=>{try{localStorage.setItem("ysUI",JSON.stringify(YSE))}catch(e){}};
+const YTAG={s1:"cov",s2:"orig",s3:"orig",s4:"cov",s5:"cov"};
+// 画面の大きさに合わせて u（基準画面 1210×834 に対する 1px）を決める
+function ysU(){const w=innerWidth,h=innerHeight,u=w>=h?Math.min(w/1210,h/834):Math.min(w/700,h/1000);try{document.documentElement.style.setProperty("--u",u+"px")}catch(e){}}
+ysU();addEventListener("resize",ysU);
 // 効果音（WebAudioで合成）
 let seC=null;const seCtx=()=>{if(!seC)seC=new(window.AudioContext||window.webkitAudioContext)();if(seC.state!="running")seC.resume();return seC};
 function yse(k){if(!YSE.se)return;let c;try{c=seCtx()}catch(e){return}const t=c.currentTime+.005;
   const tone=(f,f2,d,v,ty,st)=>{const o=c.createOscillator(),g=c.createGain();o.type=ty||"sine";o.frequency.setValueAtTime(f,t+st);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+st+d);
     g.gain.setValueAtTime(0,t+st);g.gain.linearRampToValueAtTime(v,t+st+.006);g.gain.exponentialRampToValueAtTime(.0008,t+st+d);o.connect(g).connect(c.destination);o.start(t+st);o.stop(t+st+d+.03)};
-  if(k=="sel"){tone(1500,1100,.07,.18,"sine",0);tone(3000,0,.04,.05,"triangle",0)}
-  else if(k=="ok"){tone(1046,0,.12,.2,"triangle",0);tone(1568,0,.22,.2,"triangle",.07);tone(2093,0,.25,.08,"sine",.07)}
-  else if(k=="start"){[784,988,1175,1568].forEach((f,i)=>tone(f,0,.35,.16,"triangle",i*.06))}
-  else if(k=="back"){tone(880,520,.12,.18,"triangle",0)}
-  else if(k=="ng"){tone(220,180,.12,.14,"square",0);tone(165,0,.1,.08,"square",.05)}
-  else if(k=="tab"){tone(1250,0,.05,.14,"sine",0)}
-  else if(k=="tick"){tone(1800,0,.03,.1,"sine",0)}}
-function fxEl(el,cls){if(!el)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),400)}
-const ysPress=(el,k)=>{yse(k||"sel");fxEl(el,"ypop");fxEl(el,"yflash")},ysNope=el=>{yse("ng");fxEl(el,"yshake")};
-// 試聴（サビを15秒、フェードしながら繰り返す）
-const PVBUF=new Map();let pvSrc=null,pvGain=null,pvId=null,pvTimer=0;
-function pvStop(fade){clearTimeout(pvTimer);if(pvSrc){const s0=pvSrc,g0=pvGain;try{const c=seC,t=c.currentTime;g0.gain.cancelScheduledValues(t);g0.gain.setValueAtTime(g0.gain.value,t);g0.gain.linearRampToValueAtTime(0,t+(fade||.25));s0.stop(t+(fade||.25)+.05)}catch(e){try{s0.stop()}catch(e2){}}}pvSrc=null;pvId=null}
-async function pvPlay(sg){if(!YSE.pv||!sg||pvId==sg.id)return;pvStop(.4);pvId=sg.id;let c;try{c=seCtx()}catch(e){return}
+  if(k=="sel"){tone(1320,1760,.06,.16,"sine",0);tone(2640,0,.05,.05,"triangle",.01)}
+  else if(k=="ok"){tone(1046,0,.12,.18,"triangle",0);tone(1568,0,.22,.18,"triangle",.07);tone(2093,0,.26,.07,"sine",.07)}
+  else if(k=="start"){[784,988,1175,1568,2093].forEach((f,i)=>tone(f,0,.38,.14,"triangle",i*.055))}
+  else if(k=="back"){tone(990,560,.13,.17,"triangle",0)}
+  else if(k=="ng"){tone(240,190,.11,.13,"square",0);tone(170,0,.1,.07,"square",.06)}
+  else if(k=="tab"){tone(1250,1500,.05,.14,"sine",0)}
+  else if(k=="tick"){tone(1900,0,.03,.1,"sine",0)}
+  else if(k=="open"){tone(700,1400,.12,.14,"sine",0);tone(1400,0,.15,.06,"triangle",.08)}}
+function fxEl(el,cls){if(!el)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);setTimeout(()=>el.classList.remove(cls),420)}
+const ysPress=(el,k)=>{yse(k||"sel");fxEl(el,"ypop");fxEl(el,"yfl")},ysNope=el=>{yse("ng");fxEl(el,"yshake");fxEl(el,"yfl")};
+// 試聴：楽曲選択で選んだ曲のサビを15秒、フェードしながら繰り返す（最終確認でもそのまま流し続ける）
+const PVBUF=new Map();let pvSrc=null,pvGain=null,pvId=null,pvTimer=0,pvTok=0;
+function pvStop(fade){pvTok++;clearTimeout(pvTimer);if(pvSrc){const s0=pvSrc,g0=pvGain,f=fade||.25;try{const t=seC.currentTime;g0.gain.cancelScheduledValues(t);g0.gain.setValueAtTime(g0.gain.value,t);g0.gain.linearRampToValueAtTime(0,t+f);s0.stop(t+f+.05)}catch(e){try{s0.stop()}catch(e2){}}}pvSrc=null;pvId=null}
+async function pvPlay(sg){if(!YSE.pv||!sg||pvId==sg.id)return;pvStop(.4);const tok=pvTok;pvId=sg.id;let c;try{c=seCtx()}catch(e){return}
   let buf=PVBUF.get(sg.id);if(!buf){try{let r=null;for(const v of[sg.mp3,sg.mp3.split("/").pop()]){try{r=await fetch(v)}catch(e){r=null}if(r&&r.ok)break}if(!r||!r.ok)return;
     const ab=await r.arrayBuffer();buf=await new Promise((ok,ng)=>c.decodeAudioData(ab,ok,ng));PVBUF.set(sg.id,buf)}catch(e){return}}
-  if(pvId!=sg.id||ysView=="diff"||$("ysSel").classList.contains("hide"))return;
+  if(tok!=pvTok||$("ysSel").classList.contains("hide"))return;
   const st=Math.min(sg.pv||30,Math.max(0,buf.duration-16)),len=15;
-  const go=()=>{if(pvId!=sg.id)return;const s1=c.createBufferSource(),g=c.createGain();s1.buffer=buf;s1.connect(g).connect(c.destination);const t=c.currentTime+.02;
+  const go=()=>{if(tok!=pvTok)return;const s1=c.createBufferSource(),g=c.createGain();s1.buffer=buf;s1.connect(g).connect(c.destination);const t=c.currentTime+.02;
     g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.8,t+.8);g.gain.setValueAtTime(.8,t+len-1.2);g.gain.linearRampToValueAtTime(0,t+len);s1.start(t,st,len+.1);pvSrc=s1;pvGain=g;pvTimer=setTimeout(go,len*1000+300)};go()}
 function jkFix(){for(const sg of SONGS){if(!sg.jk||sg.jkT)continue;sg.jkT=1;const im=new Image();
   im.onload=()=>{sg.jkR=sg.jk;ysRedraw()};im.onerror=()=>{const alt=sg.jk.split("/").pop(),i2=new Image();i2.onload=()=>{sg.jkR=alt;ysRedraw()};i2.src=alt};im.src=sg.jk}}
 const rom=d=>(YSDV.find(x=>x[0]==d)||["","?"])[1];
 const lvB=sg=>sg?`${rom(sg.diff)}<small>OLIVIER</small>`:"";
 const best=sg=>{try{return JSON.parse(localStorage.getItem("ysBest:"+sg.id)||"null")}catch(e){return null}};
-function ysGo(v,back){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf");$("yvConf").classList.toggle("hide",v!="conf");
+const ysList=()=>SONGS.filter(s=>s.diff==YSDV[ysTab][0]);
+function ysGo(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf");$("yvConf").classList.toggle("hide",v!="conf");
   $("ysHead").textContent={diff:"難易度選択",song:"楽曲選択",conf:"最終確認"}[v];$("ysSet").classList.add("hide");
+  for(const id of["ysQ","ysFil","ysLv"])$(id).classList.toggle("hide",v=="conf");
   $("ybg1").style.opacity=v=="conf"?0:1;$("ybg2").style.opacity=v=="conf"?1:0;
-  if(v=="diff")pvStop(.4);ysRedraw();if(prev!=v)fxEl(v=="conf"?$("yvConf"):$("ysList"),"yin");if(v=="song")pvPlay(ysPick)}
-function openSel(v){$("ysSel").classList.remove("hide");hideOv();jkFix();if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}ysView="";ysGo(v||"diff")}
+  if(v=="diff")pvStop(.4);ysRedraw();if(prev!=v){if(v=="conf")fxEl($("yvConf"),"yinR");else{fxEl($("ysList"),"yin");fxEl(document.querySelector(".ycab"),"yinR")}}
+  if(v=="song")pvPlay(ysPick)}
+function openSel(v){$("ysSel").classList.remove("hide");hideOv();ysU();jkFix();if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}ysView="";ysGo(v||"diff");yse("open")}
 function ysClose(){pvStop(.3);$("ysSel").classList.add("hide")}
 function ysRedraw(){if(ysView=="conf")drawConf();else drawList()}
-function card(jk,lv,name,sub,right,on){const c=document.createElement("div");c.className="ycard"+(on?" on":"");
-  c.innerHTML=`<div class="lv">${lv}</div><div class="jk" style="${jk}"></div><div class="tx"><div class="nm"></div><div class="ln"></div><div class="sb"><span></span><i></i></div></div><button type="button" class="okb">OK</button>`;
-  c.querySelector(".nm").textContent=name;c.querySelector(".sb span").textContent=sub;c.querySelector(".sb i").textContent=right||"";return c}
-const DJK=["linear-gradient(135deg,#5a8fe0,#2f3f90)","linear-gradient(135deg,#c06ae0,#5a2f9a)","linear-gradient(135deg,#ff6a8a,#9a2050)"];
+const DJK=["linear-gradient(135deg,#7fb0ff,#3d58b8)","linear-gradient(135deg,#d88cff,#6a38b8)","linear-gradient(135deg,#ff8aa8,#b8305e)"];
+function mkCard(o){const c=document.createElement("div");c.className="ycard"+(o.on?" on":"");
+  c.innerHTML=`<div class="gh"></div><div class="jk" style="${o.jk}">${o.em||""}</div><div class="jkl"></div><div class="lv">${o.lv}</div>${o.tag?`<span class="tag ${o.tag}">${o.tag=="orig"?"ORIGINAL":"COVER"}</span>`:""}<div class="tx"><div class="nm"></div><div class="ar"></div><div class="ln"></div><div class="bt"><span class="sb"></span><span class="rk"></span></div></div>`;
+  c.querySelector(".gh").textContent=o.name;c.querySelector(".nm").textContent=o.name;c.querySelector(".ar").textContent=o.ar||"";c.querySelector(".sb").textContent=o.sub||"";c.querySelector(".rk").textContent=o.rk||"";return c}
+function diffBtns(lit){$("ysDiffs").innerHTML=["NORMAL","HARD","EXTRA","STELLA"].map(n=>`<button type="button" class="ydf yp" data-no="1"><b>—</b><small>${n}</small></button>`).join("")+`<button type="button" class="ydf ol yp"><b>${lit}</b><small>OLIVIER</small></button>`;
+  for(const b of $("ysDiffs").children)b.onclick=()=>b.dataset.no?ysNope(b):ysPress(b)}
+function scrollToOn(){const L=$("ysList"),c=L.querySelector(".ycard.on");if(!c)return;const top=c.offsetTop-L.clientHeight*.38;L.scrollTo({top:Math.max(0,top),behavior:"smooth"})}
 function drawList(){const L=$("ysList"),st=L.scrollTop;L.innerHTML="";const box=$("ysJkBox");
-  if(ysView=="diff"){YSDV.forEach((d,i)=>{const n=SONGS.filter(s=>s.diff==d[0]).length;const c=card(`background:${DJK[i]}`,d[1],d[0],`${n}曲`,"",i==ysTab);
-      c.querySelector(".jk").innerHTML=`<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font:900 54px Georgia,serif;text-shadow:0 3px 10px rgba(0,0,0,.4)">${d[1]}</div>`;
-      c.onclick=e=>{if(e.target.classList.contains("okb")||i==ysTab&&window.innerWidth<=820){ysPress(e.target.classList.contains("okb")?e.target:c,"ok");return diffOk()}if(i==ysTab){ysPress(c,"ok");return diffOk()}ysTab=i;ysPress(c);drawList()};L.appendChild(c)});
-    const d=YSDV[ysTab];box.innerHTML=`<div class="big" style="background:${DJK[ysTab]}">${d[1]}<small>OLIVIER</small></div>`;$("ysTag").textContent="DIFFICULTY";$("ysDName").textContent=d[0];
-    $("ysDiffs").innerHTML="";$("ysStatL").textContent="収録曲数";$("ysBest").textContent=SONGS.filter(s=>s.diff==d[0]).length+"曲";$("ysPill").innerHTML="";$("ysOk").disabled=false}
-  else{const d=YSDV[ysTab],list=SONGS.filter(s=>s.diff==d[0]);if(!ysPick||ysPick.diff!=d[0])ysPick=list[0]||null;
-    if(!list.length)L.innerHTML='<div style="color:#fff;padding:30px 10px;font-weight:800">この難易度の曲はまだありません</div>';
-    list.forEach(sg=>{const b0=best(sg);const c=card(`background-image:url('${sg.jkR||""}')`,d[1],sg.name,sg.sub,b0?b0.rk:"",sg==ysPick);
-      c.onclick=e=>{if(e.target.classList.contains("okb")){ysPress(e.target,"ok");return ysGo("conf")}if(ysPick==sg){ysPress(c,"ok");return ysGo("conf")}ysPick=sg;ysPress(c);drawList();pvPlay(sg)};L.appendChild(c)});
-    const sg=ysPick;box.innerHTML=sg?`<img src="${sg.jkR||""}" alt="">`:"";$("ysTag").textContent="OLIVIER";$("ysDName").textContent=sg?sg.name:"";
-    $("ysDiffs").innerHTML=["NORMAL","HARD","EXTRA","STELLA"].map(n=>`<button type="button" class="ydf yp" data-no="1"><b>—</b><small>${n}</small></button>`).join("")+`<button type="button" class="ydf ol yp"><b>${d[1]}</b><small>OLIVIER</small></button>`;
-    for(const b of $("ysDiffs").children)b.onclick=()=>b.dataset.no?ysNope(b):ysPress(b);
-    const b0=sg&&best(sg);$("ysStatL").textContent="ベストスコア";$("ysBest").textContent=b0?String(b0.sc).padStart(8,"0")+"  "+b0.rk:"--------";$("ysOk").disabled=!sg}
+  if(ysView=="diff"){YSDV.forEach((d,i)=>{const n=SONGS.filter(s=>s.diff==d[0]).length;const c=mkCard({jk:`background:${DJK[i]}`,em:`<div class="em">${d[1]}</div>`,lv:d[1],name:d[0],ar:`収録曲 ${n}曲`,sub:`収録曲 ${n}曲`,on:i==ysTab});
+      c.onclick=()=>{if(i==ysTab){ysPress(c,"ok");return diffOk()}ysTab=i;ysPress(c);drawList()};L.appendChild(c)});
+    const d=YSDV[ysTab];box.innerHTML=`<div class="big" style="background:${DJK[ysTab]}">${d[1]}<small>OLIVIER</small></div>`;$("ysTag").textContent="DIFFICULTY";$("ysTag").className="tag orig";$("ysDName").textContent=d[0];$("ysDSub").textContent="難易度を選んでください";
+    diffBtns(d[1]);$("ysStatL").textContent="収録曲数";$("ysBest").innerHTML=SONGS.filter(s=>s.diff==d[0]).length+"<small> 曲</small>";$("ysRank").textContent=d[2];$("ysOk").disabled=false}
+  else{const d=YSDV[ysTab],list=ysList();if(!ysPick||ysPick.diff!=d[0])ysPick=list[0]||null;
+    if(!list.length)L.innerHTML='<div style="color:#fff;padding:30px 50px;font-weight:700">この難易度の曲はまだありません</div>';
+    list.forEach(sg=>{const b0=best(sg),tg=YTAG[sg.id]||"orig";const c=mkCard({jk:`background-image:url('${sg.jkR||""}')`,lv:d[1],name:sg.name,ar:sg.sub,sub:sg.sub,rk:b0?b0.rk:"",tag:tg,on:sg==ysPick});
+      c.onclick=()=>{if(ysPick==sg){ysPress(c,"ok");return ysGo("conf")}ysPick=sg;ysPress(c);drawList();pvPlay(sg);scrollToOn()};L.appendChild(c)});
+    const sg=ysPick,tg=sg?YTAG[sg.id]||"orig":"orig";box.innerHTML=sg?`<img src="${sg.jkR||""}" alt="">`:"";$("ysTag").textContent=tg=="orig"?"ORIGINAL":"COVER";$("ysTag").className="tag "+tg;$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";
+    diffBtns(d[1]);const b0=sg&&best(sg);$("ysStatL").textContent="ベストスコア";$("ysBest").textContent=b0?String(b0.sc).padStart(8,"0"):"--------";$("ysRank").textContent=b0?b0.rk:"-";$("ysOk").disabled=!sg}
   L.scrollTop=st}
-function diffOk(){ysPick=(ysPick&&ysPick.diff==YSDV[ysTab][0])?ysPick:null;ysGo("song")}
-function drawConf(){const sg=ysPick;$("ycJk").src=sg&&sg.jkR?sg.jkR:"";$("ycTitle").textContent=sg?sg.name:"";$("ycName").textContent=sg?sg.name:"";$("ycSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ycLvB").innerHTML=lvB(sg);$("ycMsg").textContent="";
-  $("ycSpd").textContent=(+S.yspeed).toFixed(1);$("ycDisp").textContent=ysTime()+"ms";$("ycOff").textContent=(S.off>0?"+":"")+S.off+"ms"}
+function diffOk(){ysPick=(ysPick&&ysPick.diff==YSDV[ysTab][0])?ysPick:null;ysGo("song");setTimeout(scrollToOn,60)}
+function ysMove(dir){if(ysView=="diff"){const i=Math.max(0,Math.min(2,ysTab+dir));if(i==ysTab)return false;ysTab=i}else{const l=ysList(),i=l.indexOf(ysPick)+dir;if(i<0||i>=l.length)return false;ysPick=l[i];pvPlay(ysPick)}drawList();scrollToOn();return true}
+function drawConf(){const sg=ysPick;$("ycName").textContent=sg?sg.name:"";$("ycSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ycLvB").innerHTML=lvB(sg);$("ycMsg").textContent="";$("ycGName").textContent="グループ"+ysGrp;
+  // キャラの枠（キャラは後で入れる）
+  const C=$("ycCards");C.innerHTML="";for(let i=0;i<5;i++){const f=document.createElement("div");f.className="ycfC"+(i==0?" lead":"");f.innerHTML=`<i class="ic1"></i><i class="ic2"></i><i class="c1"></i><i class="c2"></i><div class="em">NO CARD</div><div class="st">Lv.　 —<br>♪　 —<br>✹　 —<br>🎧　 —</div>`;f.onclick=()=>ysNope(f);C.appendChild(f)}
+  const T=$("ycTabs");T.innerHTML="";for(let i=1;i<=6;i++){const b=document.createElement("button");b.type="button";b.textContent=i;b.className=i==ysGrp?"on":"";b.onclick=()=>{ysGrp=i;yse("tab");drawConf()};T.appendChild(b)}}
 async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ycMsg").textContent="読み込み中…";
   const ok=await loadPreset(ysPick);ysBusy=false;
   if(!ok){$("ycMsg").textContent=$("listMsg").textContent;return}
   pvStop(.2);$("ysSel").classList.add("hide");if(+$("mode").value!=2){$("mode").value=2;apply()}$("go").onclick()}
-$("ysOk").onclick=()=>{ysPress($("ysOk"),"ok");if(ysView=="diff")diffOk();else if(ysPick)ysGo("conf")};
+$("ysOk").onclick=$("ysOkP").onclick=e=>{ysPress(e.currentTarget,"ok");if(ysView=="diff")diffOk();else if(ysPick)ysGo("conf")};
 $("ycStart").onclick=()=>{ysPress($("ycStart"),"start");playPick()};
 $("ysBack").onclick=()=>{ysPress($("ysBack"),"back");if(!$("ysSet").classList.contains("hide")){$("ysSet").classList.add("hide");return}if(ysView=="conf")ysGo("song");else if(ysView=="song")ysGo("diff");else ysClose()};
+$("ysUp").onclick=()=>{if(ysMove(-1))ysPress($("ysUp"));else ysNope($("ysUp"))};$("ysDn").onclick=()=>{if(ysMove(1))ysPress($("ysDn"));else ysNope($("ysDn"))};
+$("ysShuf").onclick=()=>{const l=ysView=="diff"?null:ysList();if(!l||l.length<2){ysNope($("ysShuf"));return}let n=ysPick;while(n==ysPick)n=l[Math.floor(Math.random()*l.length)];ysPick=n;ysPress($("ysShuf"));drawList();pvPlay(n);scrollToOn()};
+for(const b of document.querySelectorAll("#ysSel [data-no]"))if(!b.onclick)b.onclick=()=>ysNope(b);
 // 設定（最終確認の⚙）
-function ysSetShow(){const t=ysTmp;$("ysvSpd").textContent=t.spd.toFixed(1);$("ysvSpn").textContent=t.spn;$("ysvOff").textContent=(t.off>0?"+":"")+t.off;
+const YRNG={spd:[1,20,.1],off:[-200,200,1],dark:[0,100,5],line:[0,100,10],lw:[80,120,5],spn:[0,80,1],nth:[1,20,1]};
+function ysSetShow(){const t=ysTmp;$("ysvSpd").textContent=t.spd.toFixed(1);$("ysvSpn").textContent=t.spn;$("ysvOff").textContent=(t.off>0?"+":"")+t.off;$("ysvDark").textContent=t.dark;$("ysvLine").textContent=t.line;$("ysvLw").textContent=t.lw+"%";$("ysvNth").textContent=t.nth;
   $("ysvDisp").textContent=$("ysvDisp2").textContent=Math.round(Math.max(1,rhe(ysDist(t.spn)/t.spd)));
-  for(const g of document.querySelectorAll("#ysSet .ysRad"))for(const b of g.children)b.classList.toggle("on",+b.dataset.v==+t[g.dataset.r])}
-function ysTabSel(i){for(const b of $("ysTabsL").children)b.classList.toggle("on",+b.dataset.t==i);for(const p of document.querySelectorAll("#ysSet [data-p]"))p.classList.toggle("hide",+p.dataset.p!=i)}
-for(const b of $("ysTabsL").children)b.onclick=()=>{yse("tab");ysTabSel(+b.dataset.t)};
-$("ycGear").onclick=()=>{ysPress($("ycGear"));ysTmp={spd:+S.yspeed,spn:+S.yspawn,off:+S.off,acc:$("yacc").checked?1:0,sr:$("srand").checked?1:0,fx:S.tapfx==null?1:+S.tapfx,tap:$("tap").checked?1:0,se:YSE.se,pv:YSE.pv};ysTabSel(0);ysSetShow();$("ysSet").classList.remove("hide")};
-for(const b of document.querySelectorAll("#ysSet .ysRow button"))b.onclick=()=>{yse("tick");fxEl(b,"ypop");const k=b.dataset.k,d=+b.dataset.d,t=ysTmp;
-  if(k=="spd")t.spd=Math.round(Math.min(20,Math.max(1,t.spd+d))*10)/10;else if(k=="spn")t.spn=Math.min(80,Math.max(0,t.spn+d));else t.off=Math.min(200,Math.max(-200,t.off+d));ysSetShow()};
-for(const g of document.querySelectorAll("#ysSet .ysRad"))for(const b of g.children)b.onclick=()=>{yse("tick");ysTmp[g.dataset.r]=+b.dataset.v;ysSetShow()};
-$("ysCancel").onclick=()=>{yse("back");$("ysSet").classList.add("hide")};
-$("ysSetOk").onclick=()=>{yse("ok");const t=ysTmp;$("yspeed").value=t.spd;$("yspawn").value=t.spn;$("off").value=t.off;$("yacc").checked=!!t.acc;$("srand").checked=!!t.sr;$("tapfx").value=t.fx;$("tap").checked=!!t.tap;
-  for(const id of["yspeed","yspawn","off","tapfx"])$(id).dispatchEvent(new Event("input",{bubbles:true}));for(const id of["yacc","srand","tap"])$(id).dispatchEvent(new Event("change",{bubbles:true}));
-  YSE.se=t.se;YSE.pv=t.pv;ysSaveUI();if(!YSE.pv)pvStop(.3);apply();$("ysSet").classList.add("hide");drawConf()};
+  for(const b of document.querySelectorAll("#ysSet .ysRow button[data-k]")){const r=YRNG[b.dataset.k],d=+b.dataset.d;b.classList.toggle("dis",d<0?t[b.dataset.k]<=r[0]:t[b.dataset.k]>=r[1])}
+  for(const g of document.querySelectorAll("#ysSet .ysRad[data-r]"))for(const b of g.children)b.classList.toggle("on",+b.dataset.v==+t[g.dataset.r])}
+function ysTabSel(i){for(const b of $("ysTabsL").children)b.classList.toggle("on",+b.dataset.t==i);for(const p of document.querySelectorAll("#ysSet [data-p]"))p.classList.toggle("hide",+p.dataset.p!=i);$("ysBody2").scrollTop=0}
+for(const b of $("ysTabsL").children)b.onclick=()=>{yse("tab");fxEl(b,"yfl");ysTabSel(+b.dataset.t)};
+const nz=(v,d)=>v==null?d:+v;
+$("ycGear").onclick=()=>{ysPress($("ycGear"),"open");ysTmp={spd:+S.yspeed,spn:+S.yspawn,off:+S.off,dark:nz(S.ydark,100),line:nz(S.ysline,100),cut:nz(S.ycut,0),lw:nz(S.ylw,100),nth:nz(S.ynth,10),fs:nz(S.yfs,0),sync:nz(S.ysync,1),kb:nz(S.ykb,1),pf:nz(S.ypf,1),apk:nz(S.yapk,1),
+  sr:$("srand").checked?1:0,fx:nz(S.tapfx,1),tap:$("tap").checked?1:0,se:YSE.se,pv:YSE.pv};ysTabSel(1);ysSetShow();$("ysSet").classList.remove("hide")};
+for(const b of document.querySelectorAll("#ysSet .ysRow button[data-k]"))b.onclick=()=>{const k=b.dataset.k,r=YRNG[k],d=+b.dataset.d,t=ysTmp,nv=Math.round(Math.min(r[1],Math.max(r[0],t[k]+d))*10)/10;
+  if(nv==t[k]){ysNope(b);return}t[k]=nv;yse("tick");fxEl(b,"ypop");ysSetShow()};
+for(const g of document.querySelectorAll("#ysSet .ysRad[data-r]"))for(const b of g.children)b.onclick=()=>{yse("tick");fxEl(b,"ypop");ysTmp[g.dataset.r]=+b.dataset.v;ysSetShow()};
+for(const b of document.querySelectorAll("#ysSet .ysOff button"))b.onclick=()=>ysNope(b);
+$("ysCancel").onclick=()=>{ysPress($("ysCancel"),"back");$("ysSet").classList.add("hide")};
+$("ysSetOk").onclick=()=>{ysPress($("ysSetOk"),"ok");const t=ysTmp;$("yspeed").value=t.spd;$("yspawn").value=t.spn;$("off").value=t.off;$("srand").checked=!!t.sr;$("tapfx").value=t.fx;$("tap").checked=!!t.tap;
+  Object.assign(S,{ydark:t.dark,ysline:t.line,ycut:t.cut,ylw:t.lw,ynth:t.nth,yfs:t.fs,ysync:t.sync,ykb:t.kb,ypf:t.pf,yapk:t.apk,yacc:1});$("yacc").checked=true;
+  for(const id of["yspeed","yspawn","off","tapfx"])$(id).dispatchEvent(new Event("input",{bubbles:true}));for(const id of["srand","tap","yacc"])$(id).dispatchEvent(new Event("change",{bubbles:true}));
+  YSE.se=t.se;YSE.pv=t.pv;ysSaveUI();if(!YSE.pv)pvStop(.3);apply();setTimeout(()=>$("ysSet").classList.add("hide"),120);drawConf()};
 
 $("bpmHalf").onclick=()=>{$("sbpm").value=(+$("sbpm").value/2).toFixed(1)};$("bpmDouble").onclick=()=>{$("sbpm").value=(+$("sbpm").value*2).toFixed(1)};
 
