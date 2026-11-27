@@ -196,7 +196,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 39</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 40</div></div>
 </div>
 </div>
 <script>
@@ -907,7 +907,10 @@ $("pwIn").addEventListener("keydown",e=>{if(e.key=="Enter")$("pwOk").onclick()})
 $("pwCancel").onclick=hideOv;$("listClose").onclick=hideOv;
 // ---- 〇〇〇〇モード専用の曲選択画面 ----
 const YSDV=[["OLIVIER VI","VI",6],["OLIVIER VII","VII",7],["OLIVIER VIII","VIII",8]];let ysTab=0,ysPick=null,ysBusy=false;
-function openSel(){$("ysSel").classList.remove("hide");hideOv();
+// ジャケットは songs/ フォルダになくても、index.html と同じ場所にあれば表示する
+function jkFix(){for(const sg of SONGS){if(!sg.jk||sg.jkT)continue;sg.jkT=1;const im=new Image();
+  im.onload=()=>{sg.jkR=sg.jk;drawSongs()};im.onerror=()=>{const alt=sg.jk.split("/").pop(),i2=new Image();i2.onload=()=>{sg.jkR=alt;drawSongs()};i2.src=alt};im.src=sg.jk}}
+function openSel(){$("ysSel").classList.remove("hide");hideOv();jkFix();
   if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}drawTabs();drawSongs()}
 function drawTabs(){const t=$("ysTabs");t.innerHTML="";YSDV.forEach((d,i)=>{const b=document.createElement("button");b.type="button";b.className=i==ysTab?"on":"";
   b.innerHTML=`<small>OLIVIER</small><b>${d[1]}</b>`;b.onclick=()=>{ysTab=i;drawTabs();drawSongs()};t.appendChild(b)})}
@@ -915,11 +918,11 @@ function drawSongs(){const L=$("ysList");L.innerHTML="";const d=YSDV[ysTab],list
   if(!list.length){L.innerHTML='<div style="opacity:.7;padding:30px 10px">この難易度の曲はまだありません</div>'}
   if(!ysPick||ysPick.diff!=d[0])ysPick=list[0]||null;
   list.forEach(sg=>{const c=document.createElement("div");c.className="ysCard"+(sg==ysPick?" on":"");
-    c.innerHTML=`<div class="lv">${d[2]}</div><div class="jk" style="background-image:url('${sg.jk||""}')"></div><div class="tx"><div class="nm"></div><div class="ln"></div><div class="sb"></div></div><button type="button" class="pl">▶ PLAY</button>`;
+    c.innerHTML=`<div class="lv">${d[2]}</div><div class="jk" style="background-image:url('${sg.jkR||""}')"></div><div class="tx"><div class="nm"></div><div class="ln"></div><div class="sb"></div></div><button type="button" class="pl">▶ PLAY</button>`;
     c.querySelector(".nm").textContent=sg.name;c.querySelector(".sb").textContent=d[0]+"　"+sg.sub;
     c.onclick=e=>{if(e.target.classList.contains("pl"))return playPick();if(ysPick==sg&&window.innerWidth<=760)return;ysPick=sg;drawSongs()};L.appendChild(c)});
   drawDet()}
-function drawDet(){const sg=ysPick;$("ysJk").src=sg&&sg.jk?sg.jk:"";$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ysMsg").textContent="";$("ysPlay").disabled=!sg}
+function drawDet(){const sg=ysPick;$("ysJk").src=sg&&sg.jkR?sg.jkR:"";$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ysMsg").textContent="";$("ysPlay").disabled=!sg}
 async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ysMsg").textContent="読み込み中…";
   const ok=await loadPreset(ysPick);ysBusy=false;
   if(!ok){$("ysMsg").textContent=$("listMsg").textContent;return}
