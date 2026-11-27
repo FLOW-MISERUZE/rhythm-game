@@ -81,38 +81,79 @@ summary{cursor:pointer;color:#cfd4ff}
 .rtab b{text-align:right}
 .rbtns{display:flex;gap:12px;margin-top:12px}.rbtns button{flex:1;font-size:17px;padding:13px}
 .hide{display:none!important}
-/* 〇〇〇〇モード専用の曲選択画面 */
-#ysSel{position:fixed;inset:0;z-index:18;display:flex;flex-direction:column;color:#fff;font-family:system-ui,sans-serif;
-  background:radial-gradient(900px 600px at 80% 10%,rgba(120,180,255,.25),transparent),radial-gradient(700px 500px at 10% 90%,rgba(255,90,170,.22),transparent),linear-gradient(160deg,#1b1840,#0d0b22)}
-#ysSel .ysTop{display:flex;align-items:center;gap:12px;padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top))}
-#ysSel .ysTop button{width:auto;margin:0;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);font-size:14px}
-#ysSel .ysTitle{font-weight:900;letter-spacing:.2em;font-size:15px;opacity:.9}
-#ysSel .ysBody{flex:1;display:flex;min-height:0;gap:12px;padding:0 12px 12px}
-#ysTabs{display:flex;flex-direction:column;gap:10px;justify-content:center;flex:0 0 auto}
-#ysTabs button{width:118px;margin:0;padding:14px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);text-align:center;font-weight:900;line-height:1.1}
-#ysTabs button small{display:block;font-size:10px;letter-spacing:.25em;opacity:.75;font-weight:700}
-#ysTabs button b{display:block;font-size:30px;font-family:Georgia,serif;letter-spacing:.04em}
-#ysTabs button.on{background:linear-gradient(135deg,#ff6fae,#8a6cff);border-color:#fff;box-shadow:0 0 18px rgba(255,120,200,.6)}
-#ysList{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 6px 40px 4px;min-width:0}
-.ysCard{position:relative;display:flex;align-items:stretch;height:96px;margin:0 0 14px 18px;border-radius:12px;overflow:visible;cursor:pointer;
-  background:linear-gradient(90deg,#f4f4f8,#dcdce6);color:#333;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s,margin .15s}
-.ysCard.on{background:linear-gradient(90deg,#5fc3e4,#3c9fc6);color:#fff;transform:translateX(-10px)}
-.ysCard .lv{position:absolute;left:-16px;top:8px;width:40px;height:40px;border-radius:50%;background:#3b9fd0;border:3px solid #fff;color:#fff;font-weight:900;font-size:20px;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.35)}
-.ysCard .jk{flex:0 0 150px;height:100%;border-radius:12px 0 0 12px;background:#222 center/cover no-repeat;clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
-.ysCard .tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:0 14px 0 0}
-.ysCard .nm{font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ysCard .ln{border-bottom:2px dotted currentColor;opacity:.45;margin:6px 0}
-.ysCard .sb{font-size:12px;opacity:.85;font-weight:700;letter-spacing:.05em}
-#ysDet{flex:0 0 260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
-#ysDet img{width:220px;height:220px;object-fit:cover;border-radius:14px;border:3px solid rgba(255,255,255,.85);box-shadow:0 10px 30px rgba(0,0,0,.5);background:#222}
-#ysDName{font-size:18px;font-weight:800}#ysDSub{font-size:12px;opacity:.8}
-#ysPlay{width:200px;margin:4px 0 0;padding:12px;border-radius:999px;font-size:18px;font-weight:900;letter-spacing:.15em;background:linear-gradient(135deg,#ff4f8b,#6a5cff);border:0}
-#ysMsg{font-size:12px;min-height:1.2em;color:#ffd2e4}
-@media (max-width:760px){#ysDet{display:none}#ysTabs button{width:84px;padding:10px 4px}#ysTabs button b{font-size:22px}.ysCard .jk{flex-basis:104px}.ysCard{height:80px}.ysCard .nm{font-size:16px}}
+/* 〇〇〇〇モード専用の画面（難易度選択 → 楽曲選択 → 最終確認 → 設定） */
+#ysSel{position:fixed;inset:0;z-index:18;display:flex;flex-direction:column;color:#333;font-family:system-ui,sans-serif;overflow:hidden;
+  background:radial-gradient(1000px 700px at 85% 15%,rgba(255,220,240,.9),transparent),radial-gradient(800px 600px at 5% 95%,rgba(200,215,255,.9),transparent),linear-gradient(160deg,#f6eef6,#e3e6f3)}
+#ysSel button{width:auto;margin:0;color:inherit;font-family:inherit}
+.yh{display:flex;align-items:center;gap:0;padding:12px 14px;padding-top:max(12px,env(safe-area-inset-top));position:relative;z-index:3}
+.yback{width:58px!important;height:58px;border-radius:50%!important;padding:0!important;background:radial-gradient(circle at 35% 30%,#ff8a8a,#e8484f)!important;border:4px solid #fff!important;color:#fff!important;font-size:32px;font-weight:900;box-shadow:0 4px 10px rgba(0,0,0,.25);z-index:2}
+.ylab{margin-left:-14px;padding:10px 30px 10px 30px;background:#3d3a4a;color:#fff;font-weight:900;font-size:20px;letter-spacing:.08em;clip-path:polygon(0 0,100% 0,94% 100%,0 100%);border-bottom:3px solid #e8484f}
+.ylab:before{content:"✦ ";color:#ff5a64}
+.yv{flex:1;min-height:0;display:flex;position:relative}
+/* 難易度選択 */
+#yvDiff{align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;padding:10px 20px 30px}
+.ydc{width:220px!important;height:260px;border-radius:24px!important;border:5px solid #fff!important;padding:0!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  background:linear-gradient(160deg,#4b4660,#2b2838)!important;color:#fff!important;box-shadow:0 10px 24px rgba(60,40,90,.35);transition:transform .15s}
+.ydc:active{transform:scale(.96)}
+.ydc b{font-family:Georgia,serif;font-size:76px;line-height:1}.ydc i{font-style:normal;font-weight:900;letter-spacing:.3em;font-size:14px;opacity:.85}
+.ydc small{margin-top:10px;font-size:13px;background:rgba(255,255,255,.18);padding:4px 14px;border-radius:999px}
+.ydc.c6{background:linear-gradient(160deg,#5a8fe0,#3b4fa8)!important}.ydc.c7{background:linear-gradient(160deg,#c06ae0,#6b3fb0)!important}.ydc.c8{background:linear-gradient(160deg,#ff6a8a,#b03060)!important}
+/* 楽曲選択 */
+#yvSong{gap:10px;padding:0 10px 10px 0}
+#ysList{flex:0 0 50%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 4px 60px 14px}
+.ysCard{position:relative;display:flex;align-items:stretch;height:108px;margin:0 0 14px;border-radius:12px;cursor:pointer;background:linear-gradient(90deg,#fff,#eceaf2);color:#333;
+  box-shadow:0 3px 10px rgba(40,30,70,.25);border:3px solid #fff;transition:transform .15s}
+.ysCard.on{background:linear-gradient(90deg,#5c5870,#46435a);color:#fff;transform:translateX(-8px) scale(1.02)}
+.ysCard .jk{flex:0 0 172px;height:100%;border-radius:9px 0 0 9px;background:#222 center/cover no-repeat;clip-path:polygon(0 0,100% 0,86% 100%,0 100%);position:relative}
+.ysCard .lv{position:absolute;left:6px;top:6px;width:46px;height:46px;border-radius:50%;background:#2b2838;border:3px solid #e9c25a;color:#fff;font-weight:900;font-size:17px;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center;z-index:2}
+.ysCard .tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:0 14px 0 4px}
+.ysCard .nm{font-size:21px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ysCard .ln{border-bottom:3px dotted currentColor;opacity:.35;margin:8px 0}
+.ysCard .sb{font-size:12px;opacity:.8;font-weight:700;letter-spacing:.05em}
 .ysCard .pl{display:none}
-@media (max-width:500px){#ysTabs{justify-content:flex-start}#ysTabs button{width:66px;padding:8px 2px}#ysTabs button b{font-size:19px}#ysTabs button small{font-size:8px;letter-spacing:.1em}
- .ysCard{height:72px;margin-left:16px}.ysCard .jk{flex-basis:72px}.ysCard .nm{font-size:14px}.ysCard .sb{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ysCard .lv{width:32px;height:32px;font-size:16px;left:-14px}.ysCard.on{transform:none}}
-@media (max-width:500px){.ysCard.on .pl{position:absolute;right:6px;bottom:-14px;padding:6px 12px!important;font-size:12px}.ysCard.on{margin-bottom:24px}}
+.ymon{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:0 6px}
+.ymonIn{width:100%;max-width:min(560px,62vh);background:#1c1b24;border-radius:22px;padding:12px 12px 14px;border:6px solid #b9b9c4;box-shadow:0 14px 34px rgba(30,20,60,.35)}
+.ymonBar{display:flex;justify-content:space-between;color:#fff;font-weight:900;font-style:italic;font-size:12px;letter-spacing:.06em;padding:2px 6px 10px}
+#ysJk{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;background:#333}
+.ymonCap{color:#fff;padding:10px 6px 0}.ymonCap b{display:block;font-size:20px}.ymonCap small{opacity:.75;font-size:12px}
+.ybot{display:flex;align-items:center;gap:12px;width:100%;max-width:min(560px,62vh);justify-content:flex-end}
+.ylvB{width:64px;height:64px;border-radius:50%;background:#2b2838;border:4px solid #e9c25a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:900;font-size:22px;line-height:1}
+.ylvB small{font-family:system-ui;font-size:8px;letter-spacing:.1em}
+.yok{flex:1;max-width:260px;padding:16px!important;border-radius:10px!important;background:linear-gradient(180deg,#ff7a7a,#ec4b55)!important;border:3px solid #ffd0d0!important;color:#fff!important;font-size:24px;font-weight:900;letter-spacing:.1em;box-shadow:0 4px 0 #b8323b}
+/* 最終確認 */
+#yvConf{flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:0 16px 110px}
+#ycJk{width:min(46vh,70vw);aspect-ratio:1/1;object-fit:cover;border-radius:16px;border:5px solid #fff;box-shadow:0 14px 34px rgba(30,20,60,.35);background:#333}
+.ycBar{position:absolute;left:14px;bottom:18px;display:flex;align-items:center;gap:12px;background:#3d3a4a;color:#fff;border-radius:999px;padding:8px 26px 8px 8px;max-width:55%}
+.ycBar .ylvB{width:56px;height:56px;font-size:19px;flex:0 0 auto}
+.ycBar b{display:block;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ycBar small{opacity:.75;font-size:12px}
+.ycAct{position:absolute;right:16px;bottom:18px;display:flex;align-items:center;gap:14px}
+.ygear{width:64px!important;height:64px;border-radius:50%!important;padding:0!important;background:#fff!important;border:3px solid #ddd!important;font-size:32px;color:#555!important;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.ystart{min-width:220px;padding:18px 30px!important;border-radius:10px!important;background:linear-gradient(180deg,#ff7a7a,#ec4b55)!important;border:3px solid #ffd0d0!important;color:#fff!important;font-size:30px;font-weight:900;letter-spacing:.2em;box-shadow:0 4px 0 #b8323b}
+#ycMsg{position:absolute;right:20px;bottom:100px;font-size:13px;color:#c0303a;font-weight:700}
+/* 設定 */
+#ysSet{position:absolute;inset:0;z-index:5;background:rgba(20,15,35,.55);display:flex;align-items:center;justify-content:center;padding:12px}
+.ysbox{width:min(760px,100%);max-height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,#ff8a8a,#f06a72);border-radius:24px;padding:0 14px 14px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.ysbox h3{margin:0;text-align:center;color:#fff;font-size:22px;padding:12px;letter-spacing:.1em}
+.ysIn{display:flex;background:#fff;border-radius:16px;min-height:0;overflow:hidden;flex:1}
+.ysTabsL{flex:0 0 150px;background:#ecebf0;display:flex;flex-direction:column}
+.ysTabsL div{padding:20px 8px;text-align:center;font-weight:800;color:#555;border-bottom:2px solid #fff}.ysTabsL div.on{background:#f06a72;color:#fff}
+.ysBody2{flex:1;overflow-y:auto;padding:14px 18px 20px}
+.ysSec{background:#3d3a4a;color:#fff;text-align:center;font-weight:800;border-radius:999px;padding:6px;margin-bottom:6px}
+.ysT{color:#e8484f;font-weight:900;font-size:18px;margin:14px 0 8px}.ysT:before{content:"✦ "}
+.ysRow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ysRow button{min-width:58px;padding:10px 8px!important;border-radius:10px!important;background:#fff!important;border:2px solid #bbb!important;color:#333!important;font-weight:900;font-size:18px;box-shadow:0 3px 0 #ccc}
+.ysRow .val{min-width:120px;text-align:center;background:#46435a;color:#fff;border-radius:10px;padding:11px 10px;font-size:24px;font-weight:900}
+.ysDisp{display:inline-block;margin-top:10px;border:3px solid #f06a72;border-radius:12px;overflow:hidden;text-align:center;min-width:200px}
+.ysDisp div{background:#f06a72;color:#fff;font-weight:800;font-size:13px;padding:4px}.ysDisp b{display:block;font-size:30px;padding:6px;color:#333}
+.ysSw{display:flex;align-items:center;justify-content:space-between;margin:10px 0;font-weight:800}
+.ysSw input{width:26px;height:26px}
+.ysBtns{display:flex;justify-content:center;gap:16px;padding-top:12px}
+.ysBtns button{min-width:170px;padding:14px!important;border-radius:10px!important;font-size:20px;font-weight:900}
+#ysCancel{background:#fff!important;border:3px solid #ddd!important;color:#555!important}#ysSetOk{background:linear-gradient(180deg,#ff7a7a,#ec4b55)!important;border:3px solid #ffd0d0!important;color:#fff!important}
+@media (max-width:760px){#ysList{flex:1}.ymon{display:none}.ysCard.on .pl{display:block;align-self:center;margin-right:10px;padding:8px 16px!important;border-radius:8px!important;background:linear-gradient(180deg,#ff7a7a,#ec4b55)!important;border:0!important;color:#fff!important;font-weight:900}
+ .ysCard{height:84px}.ysCard .jk{flex-basis:110px}.ysCard .nm{font-size:16px}.ysCard .lv{width:34px;height:34px;font-size:13px}.ydc{width:150px!important;height:180px}.ydc b{font-size:52px}
+ .ysTabsL{flex-basis:96px}.ysRow button{min-width:46px;font-size:15px}.ysRow .val{min-width:80px;font-size:20px}.ystart{min-width:140px;font-size:22px;padding:14px 18px!important}.ycBar{max-width:calc(100% - 28px);bottom:96px}}
+@media (max-width:500px){.ysCard .sb{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ysCard .jk{flex-basis:80px}.ysCard.on{transform:none}.ylab{font-size:16px}}
 @media (max-width:760px){.ysCard.on .pl{display:block;align-self:center;margin-right:10px;width:auto;padding:8px 14px;border-radius:999px;background:linear-gradient(135deg,#ff4f8b,#6a5cff);border:0;color:#fff;font-weight:900}}
 
 .ovl{position:fixed;inset:0;z-index:20;background:rgba(5,5,20,.72);display:flex;align-items:center;justify-content:center;padding:16px}
@@ -131,9 +172,21 @@ summary{cursor:pointer;color:#cfd4ff}
 <div id="pwView"><div class="ptitle">🔒</div><div>パスワードを入力してください。</div><input id="pwIn" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="pwErr" class="hint"></div><button id="pwOk" type="button">OK</button><button id="pwCancel" type="button" class="sub2">キャンセル</button></div>
 <div id="listView" class="hide"><div class="ptitle">📀 既存曲</div><div id="songList"></div><div id="listMsg" class="hint"></div><button id="listClose" type="button" class="sub2">閉じる</button></div>
 </div></div>
-<div id="ysSel" class="hide"><div class="ysTop"><button id="ysBack" type="button">← 戻る</button><div class="ysTitle">MUSIC SELECT</div></div>
-<div class="ysBody"><div id="ysTabs"></div><div id="ysList"></div>
-<div id="ysDet"><img id="ysJk" alt=""><div id="ysDName"></div><div id="ysDSub"></div><button id="ysPlay" type="button">▶ PLAY</button><div id="ysMsg"></div></div></div></div>
+<div id="ysSel" class="hide"><div class="yh"><button id="ysBack" class="yback" type="button">‹</button><div class="ylab" id="ysHead">難易度選択</div></div>
+<div id="yvDiff" class="yv"></div>
+<div id="yvSong" class="yv hide"><div id="ysList"></div><div class="ymon"><div class="ymonIn"><div class="ymonBar"><span>♪</span><span>MUSIC INFORMATION</span></div><img id="ysJk" alt=""><div class="ymonCap"><b id="ysDName"></b><small id="ysDSub"></small></div></div>
+<div class="ybot"><div class="ylvB" id="ysLvB"></div><button id="ysOk" class="yok" type="button">OK</button></div></div></div>
+<div id="yvConf" class="yv hide"><img id="ycJk" alt=""><div class="ycBar"><div class="ylvB" id="ycLvB"></div><div style="min-width:0"><b id="ycName"></b><small id="ycSub"></small></div></div>
+<div id="ycMsg"></div><div class="ycAct"><button id="ycGear" class="ygear" type="button">⚙</button><button id="ycStart" class="ystart" type="button">開演</button></div></div>
+<div id="ysSet" class="hide"><div class="ysbox"><h3>✦ 設定 ✦</h3><div class="ysIn"><div class="ysTabsL"><div class="on">公演設定</div></div><div class="ysBody2">
+<div class="ysSec">公演設定</div>
+<div class="ysT">ノーツの速さ</div><div class="ysRow"><button type="button" data-k="spd" data-d="-1">−1</button><button type="button" data-k="spd" data-d="-0.1">−0.1</button><div class="val" id="ysvSpd"></div><button type="button" data-k="spd" data-d="0.1">+0.1</button><button type="button" data-k="spd" data-d="1">+1</button></div>
+<div class="ysDisp"><div>ノーツ表示時間</div><b id="ysvDisp"></b></div>
+<div class="ysT">ノーツの表示開始位置</div><div class="ysRow"><button type="button" data-k="spn" data-d="-10">−10</button><button type="button" data-k="spn" data-d="-1">−1</button><div class="val" id="ysvSpn"></div><button type="button" data-k="spn" data-d="1">+1</button><button type="button" data-k="spn" data-d="10">+10</button></div>
+<div class="ysT">タイミング調整（ms）</div><div class="ysRow"><button type="button" data-k="off" data-d="-10">−10</button><button type="button" data-k="off" data-d="-1">−1</button><div class="val" id="ysvOff"></div><button type="button" data-k="off" data-d="1">+1</button><button type="button" data-k="off" data-d="10">+10</button></div>
+<div class="ysT">そのほか</div><label class="ysSw"><span>ノーツ加速</span><input id="ysvAcc" type="checkbox"></label><label class="ysSw"><span>スプリットランダム</span><input id="ysvSr" type="checkbox"></label>
+</div></div><div class="ysBtns"><button id="ysCancel" type="button">キャンセル</button><button id="ysSetOk" type="button">OK</button></div></div></div>
+</div>
 <div id="result" class="hide"><div class="rbox"><div class="rtitle">RESULT</div><div id="rsong" class="sub"></div><div id="rrank" class="rrank"></div><div id="rscore" class="rscore"></div><div id="rtab" class="rtab"></div><div class="rbtns"><button id="rretry" type="button">↻ リトライ</button><button id="rback" type="button" style="background:rgba(255,255,255,.14)">← 戻る</button></div></div></div>
 <div id="menu">
 <div class="wrapm">
@@ -196,7 +249,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 40</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 41</div></div>
 </div>
 </div>
 <script>
@@ -795,9 +848,9 @@ function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,rk=
   $("rsong").textContent=$("ysName").textContent.replace("📀 ","");$("rrank").textContent=rk;$("rscore").textContent=String(Math.min(99999999,pts)).padStart(8,"0");
   const lab=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];$("rtab").innerHTML=lab.map((l,i)=>`<span style="color:${JC[i]}">${l}</span><b>${cnt[i]}</b>`).join("")+`<span>MAX COMBO</span><b>${maxc}</b><span>FAST / LATE</span><b>${fc} / ${lc}</b><span>達成率</span><b>${(acc*100).toFixed(2)}%</b>`;
   $("result").classList.remove("hide")}
-function quitRun(msg){if(!run)return;const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done)showResult();restoreLanes();ys=false;setPal(false);draw(f);if(!(wasYs&&done))openMenu();try{actx.resume()}catch(e){}}
+function quitRun(msg){if(!run)return;const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done)showResult();restoreLanes();ys=false;setPal(false);draw(f);if(!(wasYs&&done)){openMenu();if(wasYs&&unlocked)openSel("song")}try{actx.resume()}catch(e){}}
 $("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}pauseGame()};
-$("resume").onclick=resumeGame;$("retry").onclick=retryRun;$("rretry").onclick=retryRun;$("rback").onclick=()=>{$("result").classList.add("hide");openMenu();if(S.mode==2&&unlocked)openSel()};$("quit").onclick=()=>quitRun();
+$("resume").onclick=resumeGame;$("retry").onclick=retryRun;$("rretry").onclick=retryRun;$("rback").onclick=()=>{$("result").classList.add("hide");openMenu();if(S.mode==2&&unlocked)openSel("song")};$("quit").onclick=()=>quitRun();
 document.addEventListener("visibilitychange",()=>{if(document.hidden)pauseGame()});
 
 // ---- 音楽モード：解析（テンポ・拍の位置・音の立ち上がり）----
@@ -905,29 +958,41 @@ $("presetBtn").onclick=()=>{if(unlocked)openSel();else{$("pwIn").value="";$("pwE
 $("pwOk").onclick=()=>{if(cyrb53($("pwIn").value,1888)===PWH){unlocked=true;openSel()}else{$("pwErr").textContent="パスワードが違います";$("pwIn").value=""}};
 $("pwIn").addEventListener("keydown",e=>{if(e.key=="Enter")$("pwOk").onclick()});
 $("pwCancel").onclick=hideOv;$("listClose").onclick=hideOv;
-// ---- 〇〇〇〇モード専用の曲選択画面 ----
-const YSDV=[["OLIVIER VI","VI",6],["OLIVIER VII","VII",7],["OLIVIER VIII","VIII",8]];let ysTab=0,ysPick=null,ysBusy=false;
-// ジャケットは songs/ フォルダになくても、index.html と同じ場所にあれば表示する
+// ---- 〇〇〇〇モード専用の画面：難易度選択 → 楽曲選択 → 最終確認（⚙で設定） ----
+const YSDV=[["OLIVIER VI","VI",6],["OLIVIER VII","VII",7],["OLIVIER VIII","VIII",8]];let ysTab=0,ysPick=null,ysBusy=false,ysView="diff",ysTmp=null;
 function jkFix(){for(const sg of SONGS){if(!sg.jk||sg.jkT)continue;sg.jkT=1;const im=new Image();
-  im.onload=()=>{sg.jkR=sg.jk;drawSongs()};im.onerror=()=>{const alt=sg.jk.split("/").pop(),i2=new Image();i2.onload=()=>{sg.jkR=alt;drawSongs()};i2.src=alt};im.src=sg.jk}}
-function openSel(){$("ysSel").classList.remove("hide");hideOv();jkFix();
-  if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}drawTabs();drawSongs()}
-function drawTabs(){const t=$("ysTabs");t.innerHTML="";YSDV.forEach((d,i)=>{const b=document.createElement("button");b.type="button";b.className=i==ysTab?"on":"";
-  b.innerHTML=`<small>OLIVIER</small><b>${d[1]}</b>`;b.onclick=()=>{ysTab=i;drawTabs();drawSongs()};t.appendChild(b)})}
-function drawSongs(){const L=$("ysList");L.innerHTML="";const d=YSDV[ysTab],list=SONGS.filter(s=>s.diff==d[0]);
-  if(!list.length){L.innerHTML='<div style="opacity:.7;padding:30px 10px">この難易度の曲はまだありません</div>'}
+  im.onload=()=>{sg.jkR=sg.jk;ysRedraw()};im.onerror=()=>{const alt=sg.jk.split("/").pop(),i2=new Image();i2.onload=()=>{sg.jkR=alt;ysRedraw()};i2.src=alt};im.src=sg.jk}}
+const rom=d=>(YSDV.find(x=>x[0]==d)||["","?"])[1];
+const lvB=sg=>sg?`${rom(sg.diff)}<small>OLIVIER</small>`:"";
+function ysGo(v){ysView=v;for(const k of["Diff","Song","Conf"])$("yv"+k).classList.toggle("hide",k.toLowerCase()!=v);$("ysHead").textContent={diff:"難易度選択",song:"楽曲選択",conf:"最終確認"}[v];$("ysSet").classList.add("hide");ysRedraw()}
+function openSel(v){$("ysSel").classList.remove("hide");hideOv();jkFix();if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}ysGo(v||"diff")}
+function ysRedraw(){if(ysView=="diff")drawDiffs();else if(ysView=="song")drawSongs();else drawConf()}
+function drawDiffs(){const W=$("yvDiff");W.innerHTML="";YSDV.forEach((d,i)=>{const n=SONGS.filter(s=>s.diff==d[0]).length,b=document.createElement("button");b.type="button";b.className="ydc c"+d[2];
+  b.innerHTML=`<b>${d[1]}</b><i>OLIVIER</i><small>${n}曲</small>`;b.onclick=()=>{ysTab=i;if(!ysPick||ysPick.diff!=d[0])ysPick=null;ysGo("song")};W.appendChild(b)})}
+function drawSongs(){const L=$("ysList"),st=L.scrollTop;L.innerHTML="";const d=YSDV[ysTab],list=SONGS.filter(s=>s.diff==d[0]);
+  if(!list.length)L.innerHTML='<div style="opacity:.7;padding:30px 10px">この難易度の曲はまだありません</div>';
   if(!ysPick||ysPick.diff!=d[0])ysPick=list[0]||null;
   list.forEach(sg=>{const c=document.createElement("div");c.className="ysCard"+(sg==ysPick?" on":"");
-    c.innerHTML=`<div class="lv">${d[2]}</div><div class="jk" style="background-image:url('${sg.jkR||""}')"></div><div class="tx"><div class="nm"></div><div class="ln"></div><div class="sb"></div></div><button type="button" class="pl">▶ PLAY</button>`;
+    c.innerHTML=`<div class="jk" style="background-image:url('${sg.jkR||""}')"><div class="lv">${d[1]}</div></div><div class="tx"><div class="nm"></div><div class="ln"></div><div class="sb"></div></div><button type="button" class="pl">OK</button>`;
     c.querySelector(".nm").textContent=sg.name;c.querySelector(".sb").textContent=d[0]+"　"+sg.sub;
-    c.onclick=e=>{if(e.target.classList.contains("pl"))return playPick();if(ysPick==sg&&window.innerWidth<=760)return;ysPick=sg;drawSongs()};L.appendChild(c)});
-  drawDet()}
-function drawDet(){const sg=ysPick;$("ysJk").src=sg&&sg.jkR?sg.jkR:"";$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ysMsg").textContent="";$("ysPlay").disabled=!sg}
-async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ysMsg").textContent="読み込み中…";
+    c.onclick=e=>{if(e.target.classList.contains("pl"))return ysGo("conf");ysPick=sg;drawSongs()};L.appendChild(c)});
+  L.scrollTop=st;const sg=ysPick;$("ysJk").src=sg&&sg.jkR?sg.jkR:"";$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ysLvB").innerHTML=lvB(sg);$("ysOk").disabled=!sg}
+function drawConf(){const sg=ysPick;$("ycJk").src=sg&&sg.jkR?sg.jkR:"";$("ycName").textContent=sg?sg.name:"";$("ycSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ycLvB").innerHTML=lvB(sg);$("ycMsg").textContent=""}
+async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ycMsg").textContent="読み込み中…";
   const ok=await loadPreset(ysPick);ysBusy=false;
-  if(!ok){$("ysMsg").textContent=$("listMsg").textContent;return}
+  if(!ok){$("ycMsg").textContent=$("listMsg").textContent;return}
   $("ysSel").classList.add("hide");if(+$("mode").value!=2){$("mode").value=2;apply()}$("go").onclick()}
-$("ysPlay").onclick=playPick;$("ysBack").onclick=()=>$("ysSel").classList.add("hide");
+$("ysOk").onclick=()=>{if(ysPick)ysGo("conf")};$("ycStart").onclick=playPick;
+$("ysBack").onclick=()=>{if(!$("ysSet").classList.contains("hide")){$("ysSet").classList.add("hide");return}if(ysView=="conf")ysGo("song");else if(ysView=="song")ysGo("diff");else $("ysSel").classList.add("hide")};
+// 設定（最終確認の⚙）
+function ysSetShow(){const t=ysTmp;$("ysvSpd").textContent=t.spd.toFixed(1);$("ysvSpn").textContent=t.spn;$("ysvOff").textContent=(t.off>0?"+":"")+t.off;
+  $("ysvDisp").textContent=Math.round(Math.max(1,rhe(ysDist(t.spn)/t.spd)))}
+$("ycGear").onclick=()=>{ysTmp={spd:+S.yspeed,spn:+S.yspawn,off:+S.off};$("ysvAcc").checked=$("yacc").checked;$("ysvSr").checked=$("srand").checked;ysSetShow();$("ysSet").classList.remove("hide")};
+for(const b of document.querySelectorAll("#ysSet .ysRow button"))b.onclick=()=>{const k=b.dataset.k,d=+b.dataset.d,t=ysTmp;
+  if(k=="spd")t.spd=Math.round(Math.min(20,Math.max(1,t.spd+d))*10)/10;else if(k=="spn")t.spn=Math.min(80,Math.max(0,t.spn+d));else t.off=Math.min(200,Math.max(-200,t.off+d));ysSetShow()};
+$("ysCancel").onclick=()=>$("ysSet").classList.add("hide");
+$("ysSetOk").onclick=()=>{$("yspeed").value=ysTmp.spd;$("yspawn").value=ysTmp.spn;$("off").value=ysTmp.off;$("yacc").checked=$("ysvAcc").checked;$("srand").checked=$("ysvSr").checked;
+  for(const id of["yspeed","yspawn","off","yacc","srand"])$(id).dispatchEvent(new Event("input",{bubbles:true}));for(const id of["yacc","srand"])$(id).dispatchEvent(new Event("change",{bubbles:true}));apply();$("ysSet").classList.add("hide")};
 
 $("bpmHalf").onclick=()=>{$("sbpm").value=(+$("sbpm").value/2).toFixed(1)};$("bpmDouble").onclick=()=>{$("sbpm").value=(+$("sbpm").value*2).toFixed(1)};
 
