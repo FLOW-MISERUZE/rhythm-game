@@ -160,7 +160,7 @@ summary{cursor:pointer;color:#cfd4ff}
 .ydf.ol{background:radial-gradient(circle at 40% 30%,#3e3c46,#24222a)!important;border:calc(var(--u)*4) solid #24222a!important;outline:calc(var(--u)*3) solid rgba(232,194,92,.95);outline-offset:calc(var(--u)*-9)}.ydf.ol b{color:#fff;font-family:"Montserrat","Arial Black",system-ui,sans-serif;font-size:calc(var(--u)*40)}.ydf.ol small{color:#fff}
 .ystat{position:absolute;left:calc(var(--u)*14);bottom:calc(var(--u)*36);height:calc(var(--u)*58);width:calc(var(--u)*364);border-radius:calc(var(--u)*29);background:rgba(48,46,56,.92);display:flex;align-items:center;padding:0 calc(var(--u)*10) 0 calc(var(--u)*24);color:#fff;gap:calc(var(--u)*10);z-index:3;box-shadow:0 calc(var(--u)*3) calc(var(--u)*6) rgba(0,0,0,.35)}
 .ystat span{font-size:calc(var(--u)*20);font-weight:700}.ystat b{flex:1;text-align:right;font-size:calc(var(--u)*25);font-weight:700;letter-spacing:.02em}.ystat b small{font-size:calc(var(--u)*17)}
-.ystat i{width:calc(var(--u)*40);height:calc(var(--u)*40);border-radius:50%;background:#fff;color:#3a3844;font-style:normal;font-weight:900;font-size:calc(var(--u)*22);display:flex;align-items:center;justify-content:center}
+.ystat i{font-size:calc(var(--u)*15)!important;width:calc(var(--u)*40);height:calc(var(--u)*40);border-radius:50%;background:#fff;color:#3a3844;font-style:normal;font-weight:900;font-size:calc(var(--u)*22);display:flex;align-items:center;justify-content:center}
 .yok{position:absolute;right:calc(var(--u)*13);bottom:calc(var(--u)*34);z-index:3;width:calc(var(--u)*202)!important;height:calc(var(--u)*62);padding:0!important;border-radius:calc(var(--u)*6);border:calc(var(--u)*3) solid #ffd6a0!important;background:radial-gradient(circle,rgba(255,255,255,.18) calc(var(--u)*1.2),transparent calc(var(--u)*1.6)) 0 0/calc(var(--u)*8) calc(var(--u)*8),linear-gradient(180deg,#ff8a84,#f2525c)!important;color:#fff!important;font-size:calc(var(--u)*31);font-weight:500;letter-spacing:.04em;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.35)}
 /* 最終確認 */
 .ycfBand{position:absolute;left:0;right:0;top:calc(var(--u)*178);height:calc(var(--u)*454);background:rgba(255,255,255,.86);box-shadow:0 calc(var(--u)*4) calc(var(--u)*16) rgba(0,0,0,.12);z-index:2}
@@ -230,7 +230,7 @@ summary{cursor:pointer;color:#cfd4ff}
  .yokP{display:block!important}.ycfCards{overflow-x:auto;right:0}.ycfBar{width:auto;right:calc(var(--u)*10)}.ysbox{width:100%;height:100%;border-radius:0}}
 .yokP{display:none!important}
 /* 難易度の丸：太いゴシック体、右側だけ金色の弧 */
-.ycard .lv,.ylvB,.ydf.ol{outline:none!important;border:0!important;background:radial-gradient(circle closest-side,#2b2933 0 79%,transparent 80% 89%,#2b2933 90%),conic-gradient(from 15deg,#f2b827 0 195deg,#2b2933 195deg)!important;font-weight:800!important;letter-spacing:-.02em}
+.ycard .lv,.ylvB,.ydf.ol{outline:none!important;border:0!important;background:radial-gradient(circle closest-side,#2b2933 0 79%,transparent 80% 89%,#2b2933 90%),conic-gradient(#f2b827 0 var(--ac,0deg),#2b2933 var(--ac,0deg))!important;font-weight:800!important;letter-spacing:-.02em}
 .ycard .lv{font-size:calc(var(--u)*26)}.ylvB small,.ydf.ol small{font-family:"Montserrat",system-ui,sans-serif!important;font-weight:800}
 /* キャラ */
 .ycfC{background-size:cover!important;background-position:center top!important}
@@ -373,6 +373,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div><div class="ysT">キービーム表示</div><div class="ysRad" data-r="kb"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
 <div><div class="ysT">PERFECT✦表示</div><div class="ysRad" data-r="pf"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
 <div><div class="ysT">PERFECT✦継続表示</div><div class="ysRad" data-r="apk"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div></div>
+<div class="ysT">達成率表示</div><div class="ysRad" data-r="ach"><button type="button" data-v="0">加算表示</button><button type="button" data-v="1">減算表示</button><button type="button" data-v="2">OFF</button></div>
 <div class="ysT">タップエフェクト表示</div><div class="ysRad" data-r="fx"><button type="button" data-v="2">通常</button><button type="button" data-v="1">控えめ</button><button type="button" data-v="0">なし</button></div>
 <div class="ysSec" style="margin-top:calc(var(--u)*26)">譜面オプション</div>
 <div class="ysT">スプリットランダム</div><div class="ysRad" data-r="sr"><button type="button" data-v="1">ON</button><button type="button" data-v="0">OFF</button></div></div>
@@ -449,7 +450,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 44</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 45</div></div>
 </div>
 </div>
 <script>
@@ -461,7 +462,7 @@ const DD=[{sub:16,pr:.6,hold:.18,hmin:1,hmax:2,chord:.18,pin:.12},{sub:0,pr:.85,
 const DIFF=JSON.parse(JSON.stringify(DD));
 try{JSON.parse(localStorage.getItem("g20d2")||"[]").forEach((d,i)=>{if(DIFF[i]&&d)Object.assign(DIFF[i],d)})}catch(e){}
 const SK=["speed","yspeed","yspawn","off","spawn","lnw","lanes","diff","bpm","key","skin","tapsnd","view","mode","tapfx"];
-const S={speed:10,yspeed:5.5,yspawn:0,yacc:1,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0,mode:0,tapfx:1,ydark:100,ysline:100,ycut:0,ylw:100,ynth:10,yfs:0,ysync:1,ykb:1,ypf:1,yapk:1};
+const S={speed:10,yspeed:5.5,yspawn:0,yacc:1,off:0,spawn:0,lnw:130,lanes:4,diff:0,bpm:150,tap:1,key:0,metro:1,skin:0,tapsnd:0,view:0,mode:0,tapfx:1,ydark:100,ysline:100,ycut:0,ylw:100,ynth:10,yfs:0,ysync:1,ykb:1,ypf:1,yapk:1,yach:0};
 try{Object.assign(S,JSON.parse(localStorage.getItem("g20")||"{}"))}catch(e){}
 if(!S.v2){S.v2=1;if(S.lnw<=110)S.lnw=130}
 if(!S.v3){S.v3=1;S.lnw=0}
@@ -592,6 +593,11 @@ cv.addEventListener("contextmenu",e=>e.preventDefault());
 
 // ---- judge ----
 const JN=["PERFECT+","PERFECT","GREAT","GOOD","BAD","MISS"],JC=["#ffe45c","#ff9ad5","#6fe3ff","#9be37a","#b08cff","#8a8a99"],JS=[1,.9,.5,.25,.1,0],MISS=5;
+// 達成率：PERFECT✦=101, PERFECT=100, GREAT=80, GOOD=50, BAD/MISS=0 を合計判定数で割る（最大101%）
+const ACHW=[101,100,80,50,0,0];
+function ysTot(){if(N._tot==null){let t=0;for(const n of N){if(n.k==3)t+=0;else if(n.k==1)t+=n.hd?1:0;else t+=1;if(n.ticks)t+=n.ticks.length}N._tot=Math.max(1,t)}return N._tot}
+function achNow(sub){const T=ysTot();if(sub){let l=0;for(let j=1;j<6;j++)l+=(101-ACHW[j])*cnt[j];return 101-l/T}let a=0;for(let j=0;j<6;j++)a+=ACHW[j]*cnt[j];return a/T}
+function achRank(a){return a>=100.95?"SSS":a>=100.75?"SS+":a>=100.5?"SS":a>=100.25?"S+":a>=100?"S":a>=98?"A+":a>=95?"A":a>=90?"B":a>=80?"C":"D"}
 function reg(j,fl,q){if(fl=="FAST")fc++;else if(fl=="LATE")lc++;cnt[j]++;score+=JS[j];if(j<3){combo++;maxc=Math.max(maxc,combo)}else combo=0;dP=Math.round(JS[j]*(500+Math.min(combo,200)*5));pts+=dP;if(!q)lastJ={j,fl,t:performance.now()}}
 const jname=j=>ys&&j==0?"PERFECT✦":JN[j];
 const U0=n=>n.u0!=null?n.u0:n.l,U1=n=>n.u1!=null?n.u1:n.l+1;
@@ -980,6 +986,12 @@ function drawYS(now){
     ctx.font=`900 ${17*SC}px system-ui`;const cw=ctx.measureText("COMBO").width;glowT("COMBO",xx,H*.32,CG);ctx.fillStyle=col(H*.32-13*SC,H*.32);ctx.fillText("COMBO",xx,H*.32);
     if(st==3&&S.yapk!==0){const sx=xx-cw/2-12*SC,sy2=H*.32-6*SC,r=8*SC;ctx.fillStyle=rb(sy2-r,sy2+r,sx-r,sx+r);ctx.beginPath();ctx.moveTo(sx,sy2-r);ctx.lineTo(sx+r*.28,sy2-r*.28);ctx.lineTo(sx+r,sy2);ctx.lineTo(sx+r*.28,sy2+r*.28);ctx.lineTo(sx,sy2+r);ctx.lineTo(sx-r*.28,sy2+r*.28);ctx.lineTo(sx-r,sy2);ctx.lineTo(sx-r*.28,sy2-r*.28);ctx.fill()}
     ctx.font=`900 ${54*SC}px system-ui`;const nw=ctx.measureText(String(combo)).width;glowT(String(combo),xx,H*.4,CG);ctx.fillStyle=col(H*.4-40*SC,H*.4);ctx.fillText(combo,xx,H*.4);ctx.restore()}
+  // 達成率（コンボの上。色と光り方はコンボと同じ）
+  if(run&&ys&&(+S.yach||0)!=2){ctx.save();ctx.textAlign="center";const x=X0+W+Math.min(90*SC,(W0-X0-W)/2+30*SC),xx=Math.min(W0-70*SC,x);
+    const st=cnt[1]+cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?2:cnt[3]+cnt[4]+cnt[5]==0?1:0,y=H*.32-30*SC;
+    const g=ctx.createLinearGradient(0,y-16*SC,0,y);if(st>=2){g.addColorStop(0,"#8fdcfb");g.addColorStop(.28,"#b6fbea");g.addColorStop(.52,"#fff8d2");g.addColorStop(.75,"#ffd2d8");g.addColorStop(1,"#ff9fd4")}else if(st==1){g.addColorStop(0,"#fff4ff");g.addColorStop(.45,"#ffe0f6");g.addColorStop(1,"#ffb6dc")}else{g.addColorStop(0,"#ffe14d");g.addColorStop(1,"#ffe14d")}
+    const CG=st>=2?"rgba(255,255,255,.9)":st==1?"rgba(255,90,200,.9)":"rgba(255,225,77,.7)",t=achNow(+S.yach==1).toFixed(4)+"%";
+    ctx.font=`900 ${20*SC}px system-ui`;glowT(t,xx,y,CG);ctx.fillStyle=g;ctx.fillText(t,xx,y);ctx.restore()}
   if(run)drawHUDys();
   if(run&&!paused)try{ysCutTick(now)}catch(e){}
 }
@@ -1051,10 +1063,10 @@ function pauseGame(){if(!run||cal)return;if(paused){if(cdEnd){cdEnd=0;cdNum=0;pa
 function resumeGame(){if(!paused||cdEnd)return;if(acStale||actx.state=="closed"||actx.state=="interrupted"){freshAC();OUT=actx.createGain();OUT.connect(actx.destination);reAudio=true}pauseEl.classList.add("hide");cdEnd=performance.now()+3000;cdNum=3}
 function restoreLanes(){if(lanesBak){S.lanes=lanesBak;lanesBak=0;fit()}}
 function retryRun(){$("result").classList.add("hide");if(run){run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");try{songSrc&&songSrc.stop()}catch(e){}restoreLanes();ys=false;setPal(false)}closeMenu();startRun(false)}
-function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,rk=acc>=.95?"S":acc>=.85?"A":acc>=.7?"B":acc>=.5?"C":"D";
+function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,ach=achNow(false),rk=achRank(ach);
   $("rsong").textContent=$("ysName").textContent.replace("📀 ","");$("rrank").textContent=rk;$("rscore").textContent=String(Math.min(99999999,pts)).padStart(8,"0");
-  const lab=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];$("rtab").innerHTML=lab.map((l,i)=>`<span style="color:${JC[i]}">${l}</span><b>${cnt[i]}</b>`).join("")+`<span>MAX COMBO</span><b>${maxc}</b><span>FAST / LATE</span><b>${fc} / ${lc}</b><span>達成率</span><b>${(acc*100).toFixed(2)}%</b>`;
-  try{if(ysPick&&ys!==undefined){const k="ysBest:"+ysPick.id,o=JSON.parse(localStorage.getItem(k)||"null");if(!o||pts>o.sc)localStorage.setItem(k,JSON.stringify({sc:Math.min(99999999,pts),rk}))}}catch(e){}
+  const lab=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];$("rtab").innerHTML=lab.map((l,i)=>`<span style="color:${JC[i]}">${l}</span><b>${cnt[i]}</b>`).join("")+`<span>MAX COMBO</span><b>${maxc}</b><span>FAST / LATE</span><b>${fc} / ${lc}</b><span>達成率</span><b>${ach.toFixed(4)}%</b>`;
+  try{if(ysPick&&ys!==undefined){const k="ysBest:"+ysPick.id,o=JSON.parse(localStorage.getItem(k)||"null");const n={sc:Math.max(o?o.sc:0,Math.min(99999999,pts)),ach:Math.max(o&&o.ach||0,ach)};n.rk=achRank(n.ach);localStorage.setItem(k,JSON.stringify(n))}}catch(e){}
   $("result").classList.remove("hide")}
 function quitRun(msg){if(!run)return;try{$("ysCut").className="";$("ysCut").innerHTML="";ysCutPlan=null}catch(e){}const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done)showResult();restoreLanes();ys=false;setPal(false);draw(f);if(!(wasYs&&done)){openMenu();if(wasYs&&unlocked)openSel("song")}try{actx.resume()}catch(e){}}
 $("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}pauseGame()};
@@ -1214,6 +1226,9 @@ function jkFix(){for(const sg of SONGS){if(!sg.jk||sg.jkT)continue;sg.jkT=1;cons
   im.onload=()=>{sg.jkR=sg.jk;ysRedraw()};im.onerror=()=>{const alt=sg.jk.split("/").pop(),i2=new Image();i2.onload=()=>{sg.jkR=alt;ysRedraw()};i2.src=alt};im.src=sg.jk}}
 const rom=d=>(YSDV.find(x=>x[0]==d)||["","?"])[1];
 const lvB=sg=>sg?`${rom(sg.diff)}<small>OLIVIER</small>`:"";
+// 金の縁＝達成率（101%で一周）。難易度はその難易度の曲の平均
+const achOf=sg=>{const b=best(sg);return b&&b.ach||0},achDiff=d=>{const l=SONGS.filter(s=>s.diff==d);return l.length?l.reduce((a,s)=>a+achOf(s),0)/l.length:0};
+const acDeg=a=>`--ac:${(Math.max(0,Math.min(101,a))/101*360).toFixed(1)}deg`;
 const best=sg=>{try{return JSON.parse(localStorage.getItem("ysBest:"+sg.id)||"null")}catch(e){return null}};
 const ysList=()=>SONGS.filter(s=>s.diff==YSDV[ysTab][0]);
 function ysGo(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf");$("yvConf").classList.toggle("hide",v!="conf");
@@ -1227,26 +1242,26 @@ function ysClose(){pvStop(.3);$("ysSel").classList.add("hide")}
 function ysRedraw(){if(ysView=="conf")drawConf();else drawList()}
 const DJK=["linear-gradient(135deg,#7fb0ff,#3d58b8)","linear-gradient(135deg,#d88cff,#6a38b8)","linear-gradient(135deg,#ff8aa8,#b8305e)"];
 function mkCard(o){const c=document.createElement("div");c.className="ycard"+(o.on?" on":"");
-  c.innerHTML=`<div class="gh"></div><div class="jk" style="${o.jk}">${o.em||""}</div><div class="jkl"></div><div class="lv">${o.lv}</div>${o.tag?`<span class="tag ${o.tag}">${o.tag=="orig"?"ORIGINAL":"COVER"}</span>`:""}<div class="tx"><div class="nm"></div><div class="ar"></div><div class="ln"></div><div class="bt"><span class="sb"></span><span class="rk"></span></div></div>`;
+  c.innerHTML=`<div class="gh"></div><div class="jk" style="${o.jk}">${o.em||""}</div><div class="jkl"></div><div class="lv" style="${o.ac||""}">${o.lv}</div>${o.tag?`<span class="tag ${o.tag}">${o.tag=="orig"?"ORIGINAL":"COVER"}</span>`:""}<div class="tx"><div class="nm"></div><div class="ar"></div><div class="ln"></div><div class="bt"><span class="sb"></span><span class="rk"></span></div></div>`;
   c.querySelector(".gh").textContent=o.name;c.querySelector(".nm").textContent=o.name;c.querySelector(".ar").textContent=o.ar||"";c.querySelector(".sb").textContent=o.sub||"";c.querySelector(".rk").textContent=o.rk||"";return c}
-function diffBtns(lit){$("ysDiffs").innerHTML=["NORMAL","HARD","EXTRA","STELLA"].map(n=>`<button type="button" class="ydf yp" data-no="1"><b>—</b><small>${n}</small></button>`).join("")+`<button type="button" class="ydf ol yp"><b>${lit}</b><small>OLIVIER</small></button>`;
+function diffBtns(lit,ac){$("ysDiffs").innerHTML=["NORMAL","HARD","EXTRA","STELLA"].map(n=>`<button type="button" class="ydf yp" data-no="1"><b>—</b><small>${n}</small></button>`).join("")+`<button type="button" class="ydf ol yp" style="${ac||""}"><b>${lit}</b><small>OLIVIER</small></button>`;
   for(const b of $("ysDiffs").children)b.onclick=()=>b.dataset.no?ysNope(b):ysPress(b)}
 function scrollToOn(){const L=$("ysList"),c=L.querySelector(".ycard.on");if(!c)return;const top=c.offsetTop-L.clientHeight*.38;L.scrollTo({top:Math.max(0,top),behavior:"smooth"})}
 function drawList(){const L=$("ysList"),st=L.scrollTop;L.innerHTML="";const box=$("ysJkBox");
-  if(ysView=="diff"){YSDV.forEach((d,i)=>{const n=SONGS.filter(s=>s.diff==d[0]).length;const c=mkCard({jk:`background:${DJK[i]}`,em:`<div class="em">${d[1]}</div>`,lv:d[1],name:d[0],ar:`収録曲 ${n}曲`,sub:`収録曲 ${n}曲`,on:i==ysTab});
+  if(ysView=="diff"){YSDV.forEach((d,i)=>{const n=SONGS.filter(s=>s.diff==d[0]).length;const c=mkCard({jk:`background:${DJK[i]}`,em:`<div class="em">${d[1]}</div>`,ac:acDeg(achDiff(d[0])),lv:d[1],name:d[0],ar:`収録曲 ${n}曲`,sub:`収録曲 ${n}曲`,on:i==ysTab});
       c.onclick=()=>{if(i==ysTab){ysPress(c,"ok");return diffOk()}ysTab=i;ysPress(c);drawList()};L.appendChild(c)});
     const d=YSDV[ysTab];box.innerHTML=`<div class="big" style="background:${DJK[ysTab]}">${d[1]}<small>OLIVIER</small></div>`;$("ysTag").textContent="DIFFICULTY";$("ysTag").className="tag orig";$("ysDName").textContent=d[0];$("ysDSub").textContent="難易度を選んでください";
-    diffBtns(d[1]);$("ysStatL").textContent="収録曲数";$("ysBest").innerHTML=SONGS.filter(s=>s.diff==d[0]).length+"<small> 曲</small>";$("ysRank").textContent=d[2];$("ysOk").disabled=false}
+    diffBtns(d[1],acDeg(achDiff(d[0])));$("ysStatL").textContent="収録曲数";$("ysBest").innerHTML=SONGS.filter(s=>s.diff==d[0]).length+"<small> 曲</small>";$("ysRank").textContent=d[2];$("ysOk").disabled=false}
   else{const d=YSDV[ysTab],list=ysList();if(!ysPick||ysPick.diff!=d[0])ysPick=list[0]||null;
     if(!list.length)L.innerHTML='<div style="color:#fff;padding:30px 50px;font-weight:700">この難易度の曲はまだありません</div>';
-    list.forEach(sg=>{const b0=best(sg),tg=YTAG[sg.id]||"orig";const c=mkCard({jk:`background-image:url('${sg.jkR||""}')`,lv:d[1],name:sg.name,ar:sg.sub,sub:sg.sub,rk:b0?b0.rk:"",tag:tg,on:sg==ysPick});
+    list.forEach(sg=>{const b0=best(sg),tg=YTAG[sg.id]||"orig";const c=mkCard({jk:`background-image:url('${sg.jkR||""}')`,ac:acDeg(achOf(sg)),lv:d[1],name:sg.name,ar:sg.sub,sub:sg.sub,rk:b0?b0.rk:"",tag:tg,on:sg==ysPick});
       c.onclick=()=>{if(ysPick==sg){ysPress(c,"ok");return ysGo("conf")}ysPick=sg;ysPress(c);drawList();pvPlay(sg);scrollToOn()};L.appendChild(c)});
     const sg=ysPick,tg=sg?YTAG[sg.id]||"orig":"orig";box.innerHTML=sg?`<img src="${sg.jkR||""}" alt="">`:"";$("ysTag").textContent=tg=="orig"?"ORIGINAL":"COVER";$("ysTag").className="tag "+tg;$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";
-    diffBtns(d[1]);const b0=sg&&best(sg);$("ysStatL").textContent="ベストスコア";$("ysBest").textContent=b0?String(b0.sc).padStart(8,"0"):"--------";$("ysRank").textContent=b0?b0.rk:"-";$("ysOk").disabled=!sg}
+    diffBtns(d[1],sg?acDeg(achOf(sg)):"");const b0=sg&&best(sg);$("ysStatL").textContent="ベストスコア";$("ysBest").textContent=b0?String(b0.sc).padStart(8,"0"):"--------";$("ysRank").textContent=b0?b0.rk:"-";$("ysOk").disabled=!sg}
   L.scrollTop=st}
 function diffOk(){ysPick=(ysPick&&ysPick.diff==YSDV[ysTab][0])?ysPick:null;ysGo("song");setTimeout(scrollToOn,60)}
 function ysMove(dir){if(ysView=="diff"){const i=Math.max(0,Math.min(2,ysTab+dir));if(i==ysTab)return false;ysTab=i}else{const l=ysList(),i=l.indexOf(ysPick)+dir;if(i<0||i>=l.length)return false;ysPick=l[i];pvPlay(ysPick)}drawList();scrollToOn();return true}
-function drawConf(){const sg=ysPick;$("ycName").textContent=sg?sg.name:"";$("ycSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ycLvB").innerHTML=lvB(sg);$("ycMsg").textContent="";$("ycGName").textContent="グループ"+ysGrp;
+function drawConf(){const sg=ysPick;$("ycName").textContent=sg?sg.name:"";$("ycSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ycLvB").innerHTML=lvB(sg);$("ycLvB").setAttribute("style",sg?acDeg(achOf(sg)):"");$("ycMsg").textContent="";$("ycGName").textContent="グループ"+ysGrp;
   // キャラの枠（キャラは後で入れる）
   const C=$("ycCards");C.innerHTML="";for(let i=0;i<5;i++){const ch=YCH[i],f=document.createElement("div");f.className="ycfC"+(i==0?" lead":"");f.style.backgroundImage=`url('${ch.img}')`;f.innerHTML=`<i class="ic1"></i><i class="ic2"></i><i class="c1"></i><i class="c2"></i><div class="st">Lv.　 ${ch.lv}<br>♪　 ${ch.a}<br>✹　 ${ch.b}<br>🎧　 ${ch.c}</div>`;f.onclick=()=>ysPress(f);C.appendChild(f)}
   const T=$("ycTabs");T.innerHTML="";for(let i=1;i<=6;i++){const b=document.createElement("button");b.type="button";b.textContent=i;b.className=i==ysGrp?"on":"";b.onclick=()=>{ysGrp=i;yse("tab");drawConf()};T.appendChild(b)}}
@@ -1269,7 +1284,7 @@ function ysSetShow(){const t=ysTmp;$("ysvSpd").textContent=t.spd.toFixed(1);$("y
 function ysTabSel(i){for(const b of $("ysTabsL").children)b.classList.toggle("on",+b.dataset.t==i);for(const p of document.querySelectorAll("#ysSet [data-p]"))p.classList.toggle("hide",+p.dataset.p!=i);$("ysBody2").scrollTop=0}
 for(const b of $("ysTabsL").children)b.onclick=()=>{yse("tab");fxEl(b,"yfl");ysTabSel(+b.dataset.t)};
 const nz=(v,d)=>v==null?d:+v;
-$("ycGear").onclick=()=>{ysPress($("ycGear"),"open");ysTmp={spd:+S.yspeed,spn:+S.yspawn,off:+S.off,dark:nz(S.ydark,100),line:nz(S.ysline,100),cut:nz(S.ycut,0),lw:nz(S.ylw,100),nth:nz(S.ynth,10),fs:nz(S.yfs,0),sync:nz(S.ysync,1),kb:nz(S.ykb,1),pf:nz(S.ypf,1),apk:nz(S.yapk,1),
+$("ycGear").onclick=()=>{ysPress($("ycGear"),"open");ysTmp={spd:+S.yspeed,spn:+S.yspawn,off:+S.off,dark:nz(S.ydark,100),line:nz(S.ysline,100),cut:nz(S.ycut,0),lw:nz(S.ylw,100),nth:nz(S.ynth,10),fs:nz(S.yfs,0),sync:nz(S.ysync,1),kb:nz(S.ykb,1),pf:nz(S.ypf,1),apk:nz(S.yapk,1),ach:nz(S.yach,0),
   sr:$("srand").checked?1:0,fx:nz(S.tapfx,1),tap:$("tap").checked?1:0,se:YSE.se,pv:YSE.pv};ysTabSel(1);ysSetShow();$("ysSet").classList.remove("hide")};
 for(const b of document.querySelectorAll("#ysSet .ysRow button[data-k]"))b.onclick=()=>{const k=b.dataset.k,r=YRNG[k],d=+b.dataset.d,t=ysTmp,nv=Math.round(Math.min(r[1],Math.max(r[0],t[k]+d))*10)/10;
   if(nv==t[k]){ysNope(b);return}t[k]=nv;yse("tick");fxEl(b,"ypop");ysSetShow()};
@@ -1277,7 +1292,7 @@ for(const g of document.querySelectorAll("#ysSet .ysRad[data-r]"))for(const b of
 for(const b of document.querySelectorAll("#ysSet .ysOff button"))b.onclick=()=>ysNope(b);
 $("ysCancel").onclick=()=>{ysPress($("ysCancel"),"back");$("ysSet").classList.add("hide")};
 $("ysSetOk").onclick=()=>{ysPress($("ysSetOk"),"ok");const t=ysTmp;$("yspeed").value=t.spd;$("yspawn").value=t.spn;$("off").value=t.off;$("srand").checked=!!t.sr;$("tapfx").value=t.fx;$("tap").checked=!!t.tap;
-  Object.assign(S,{ydark:t.dark,ysline:t.line,ycut:t.cut,ylw:t.lw,ynth:t.nth,yfs:t.fs,ysync:t.sync,ykb:t.kb,ypf:t.pf,yapk:t.apk,yacc:1});$("yacc").checked=true;
+  Object.assign(S,{ydark:t.dark,ysline:t.line,ycut:t.cut,ylw:t.lw,ynth:t.nth,yfs:t.fs,ysync:t.sync,ykb:t.kb,ypf:t.pf,yapk:t.apk,yach:t.ach,yacc:1});$("yacc").checked=true;
   for(const id of["yspeed","yspawn","off","tapfx"])$(id).dispatchEvent(new Event("input",{bubbles:true}));for(const id of["srand","tap","yacc"])$(id).dispatchEvent(new Event("change",{bubbles:true}));
   YSE.se=t.se;YSE.pv=t.pv;ysSaveUI();if(!YSE.pv)pvStop(.3);apply();setTimeout(()=>$("ysSet").classList.add("hide"),120);drawConf()};
 
