@@ -81,6 +81,40 @@ summary{cursor:pointer;color:#cfd4ff}
 .rtab b{text-align:right}
 .rbtns{display:flex;gap:12px;margin-top:12px}.rbtns button{flex:1;font-size:17px;padding:13px}
 .hide{display:none!important}
+/* 〇〇〇〇モード専用の曲選択画面 */
+#ysSel{position:fixed;inset:0;z-index:18;display:flex;flex-direction:column;color:#fff;font-family:system-ui,sans-serif;
+  background:radial-gradient(900px 600px at 80% 10%,rgba(120,180,255,.25),transparent),radial-gradient(700px 500px at 10% 90%,rgba(255,90,170,.22),transparent),linear-gradient(160deg,#1b1840,#0d0b22)}
+#ysSel .ysTop{display:flex;align-items:center;gap:12px;padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top))}
+#ysSel .ysTop button{width:auto;margin:0;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);font-size:14px}
+#ysSel .ysTitle{font-weight:900;letter-spacing:.2em;font-size:15px;opacity:.9}
+#ysSel .ysBody{flex:1;display:flex;min-height:0;gap:12px;padding:0 12px 12px}
+#ysTabs{display:flex;flex-direction:column;gap:10px;justify-content:center;flex:0 0 auto}
+#ysTabs button{width:118px;margin:0;padding:14px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);text-align:center;font-weight:900;line-height:1.1}
+#ysTabs button small{display:block;font-size:10px;letter-spacing:.25em;opacity:.75;font-weight:700}
+#ysTabs button b{display:block;font-size:30px;font-family:Georgia,serif;letter-spacing:.04em}
+#ysTabs button.on{background:linear-gradient(135deg,#ff6fae,#8a6cff);border-color:#fff;box-shadow:0 0 18px rgba(255,120,200,.6)}
+#ysList{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 6px 40px 4px;min-width:0}
+.ysCard{position:relative;display:flex;align-items:stretch;height:96px;margin:0 0 14px 18px;border-radius:12px;overflow:visible;cursor:pointer;
+  background:linear-gradient(90deg,#f4f4f8,#dcdce6);color:#333;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:transform .15s,margin .15s}
+.ysCard.on{background:linear-gradient(90deg,#5fc3e4,#3c9fc6);color:#fff;transform:translateX(-10px)}
+.ysCard .lv{position:absolute;left:-16px;top:8px;width:40px;height:40px;border-radius:50%;background:#3b9fd0;border:3px solid #fff;color:#fff;font-weight:900;font-size:20px;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.ysCard .jk{flex:0 0 150px;height:100%;border-radius:12px 0 0 12px;background:#222 center/cover no-repeat;clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+.ysCard .tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:0 14px 0 0}
+.ysCard .nm{font-size:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ysCard .ln{border-bottom:2px dotted currentColor;opacity:.45;margin:6px 0}
+.ysCard .sb{font-size:12px;opacity:.85;font-weight:700;letter-spacing:.05em}
+#ysDet{flex:0 0 260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+#ysDet img{width:220px;height:220px;object-fit:cover;border-radius:14px;border:3px solid rgba(255,255,255,.85);box-shadow:0 10px 30px rgba(0,0,0,.5);background:#222}
+#ysDName{font-size:18px;font-weight:800}#ysDSub{font-size:12px;opacity:.8}
+#ysPlay{width:200px;margin:4px 0 0;padding:12px;border-radius:999px;font-size:18px;font-weight:900;letter-spacing:.15em;background:linear-gradient(135deg,#ff4f8b,#6a5cff);border:0}
+#ysMsg{font-size:12px;min-height:1.2em;color:#ffd2e4}
+@media (max-width:760px){#ysDet{display:none}#ysTabs button{width:84px;padding:10px 4px}#ysTabs button b{font-size:22px}.ysCard .jk{flex-basis:104px}.ysCard{height:80px}.ysCard .nm{font-size:16px}}
+.ysCard .pl{display:none}
+@media (max-width:500px){#ysTabs{justify-content:flex-start}#ysTabs button{width:66px;padding:8px 2px}#ysTabs button b{font-size:19px}#ysTabs button small{font-size:8px;letter-spacing:.1em}
+ .ysCard{height:72px;margin-left:16px}.ysCard .jk{flex-basis:72px}.ysCard .nm{font-size:14px}.ysCard .sb{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ysCard .lv{width:32px;height:32px;font-size:16px;left:-14px}.ysCard.on{transform:none}}
+@media (max-width:500px){.ysCard.on .pl{position:absolute;right:6px;bottom:-14px;padding:6px 12px!important;font-size:12px}.ysCard.on{margin-bottom:24px}}
+@media (max-width:760px){.ysCard.on .pl{display:block;align-self:center;margin-right:10px;width:auto;padding:8px 14px;border-radius:999px;background:linear-gradient(135deg,#ff4f8b,#6a5cff);border:0;color:#fff;font-weight:900}}
+
 .ovl{position:fixed;inset:0;z-index:20;background:rgba(5,5,20,.72);display:flex;align-items:center;justify-content:center;padding:16px}
 .ovl .pbox{max-width:420px;width:100%}
 .ovl .sub2{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25)}
@@ -97,6 +131,9 @@ summary{cursor:pointer;color:#cfd4ff}
 <div id="pwView"><div class="ptitle">🔒</div><div>パスワードを入力してください。</div><input id="pwIn" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="pwErr" class="hint"></div><button id="pwOk" type="button">OK</button><button id="pwCancel" type="button" class="sub2">キャンセル</button></div>
 <div id="listView" class="hide"><div class="ptitle">📀 既存曲</div><div id="songList"></div><div id="listMsg" class="hint"></div><button id="listClose" type="button" class="sub2">閉じる</button></div>
 </div></div>
+<div id="ysSel" class="hide"><div class="ysTop"><button id="ysBack" type="button">← 戻る</button><div class="ysTitle">MUSIC SELECT</div></div>
+<div class="ysBody"><div id="ysTabs"></div><div id="ysList"></div>
+<div id="ysDet"><img id="ysJk" alt=""><div id="ysDName"></div><div id="ysDSub"></div><button id="ysPlay" type="button">▶ PLAY</button><div id="ysMsg"></div></div></div></div>
 <div id="result" class="hide"><div class="rbox"><div class="rtitle">RESULT</div><div id="rsong" class="sub"></div><div id="rrank" class="rrank"></div><div id="rscore" class="rscore"></div><div id="rtab" class="rtab"></div><div class="rbtns"><button id="rretry" type="button">↻ リトライ</button><button id="rback" type="button" style="background:rgba(255,255,255,.14)">← 戻る</button></div></div></div>
 <div id="menu">
 <div class="wrapm">
@@ -159,7 +196,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 38</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 39</div></div>
 </div>
 </div>
 <script>
@@ -760,7 +797,7 @@ function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,rk=
   $("result").classList.remove("hide")}
 function quitRun(msg){if(!run)return;const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done)showResult();restoreLanes();ys=false;setPal(false);draw(f);if(!(wasYs&&done))openMenu();try{actx.resume()}catch(e){}}
 $("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}pauseGame()};
-$("resume").onclick=resumeGame;$("retry").onclick=retryRun;$("rretry").onclick=retryRun;$("rback").onclick=()=>{$("result").classList.add("hide");openMenu()};$("quit").onclick=()=>quitRun();
+$("resume").onclick=resumeGame;$("retry").onclick=retryRun;$("rretry").onclick=retryRun;$("rback").onclick=()=>{$("result").classList.add("hide");openMenu();if(S.mode==2&&unlocked)openSel()};$("quit").onclick=()=>quitRun();
 document.addEventListener("visibilitychange",()=>{if(document.hidden)pauseGame()});
 
 // ---- 音楽モード：解析（テンポ・拍の位置・音の立ち上がり）----
@@ -812,7 +849,7 @@ $("songFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;$("songN
     $("songName").textContent=f.name;$("songInfo").textContent=`長さ ${Math.floor(songAn.dur/60000)}:${String(Math.floor(songAn.dur/1000)%60).padStart(2,"0")} ／ 検出したBPM ${songAn.bpm.toFixed(1)}。テンポが半分や倍になっているときは ÷2 / ×2 で直してください。`}
   catch(err){songBuf=null;songAn=null;$("songName").textContent="読み込めませんでした（別のファイル形式を試してください）"}};
 // ---- 既存曲 ----
-const SONGS=[{id:"s1",ok:1,diff:"OLIVIER VIII",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",chart:"songs/s1.json"},{id:"s2",ok:1,diff:"OLIVIER VI",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",chart:"songs/s2.json"},{id:"s3",ok:1,diff:"OLIVIER VI",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",chart:"songs/s3.json"},{id:"s4",ok:1,diff:"OLIVIER VII",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",chart:"songs/s4.json"},{id:"s5",ok:1,diff:"OLIVIER VIII",name:"INTERNET YAMERO",sub:"BPM 185",mp3:"songs/s5.mp3",chart:"songs/s5.json"}];
+const SONGS=[{id:"s1",ok:1,diff:"OLIVIER VIII",name:"蜘蛛の糸",sub:"BPM 180",mp3:"songs/s1.mp3",jk:"songs/s1.jpg",chart:"songs/s1.json"},{id:"s2",ok:1,diff:"OLIVIER VI",name:"シリウスの輝きのように",sub:"BPM 158→200",mp3:"songs/s2.mp3",jk:"songs/s2.jpg",chart:"songs/s2.json"},{id:"s3",ok:1,diff:"OLIVIER VI",name:"情熱リベレイション",sub:"BPM 193",mp3:"songs/s3.mp3",jk:"songs/s3.jpg",chart:"songs/s3.json"},{id:"s4",ok:1,diff:"OLIVIER VII",name:"きゅうくらりん",sub:"BPM 220",mp3:"songs/s4.mp3",jk:"songs/s4.jpg",chart:"songs/s4.json"},{id:"s5",ok:1,diff:"OLIVIER VIII",name:"INTERNET YAMERO",sub:"BPM 185",mp3:"songs/s5.mp3",jk:"songs/s5.jpg",chart:"songs/s5.json"}];
 const PWH=1750149348695010;
 function cyrb53(str,seed){let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677)}
   h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
@@ -863,11 +900,32 @@ async function loadPreset(sg){ysOk=!!sg.ok;$("listMsg").textContent="読み込�
     ysAn={bpm:js.bpm,off:js.off,dur:ysBuf.duration*1000};preset=js;
     $("ysName").textContent="📀 "+sg.name;
     $("ysInfo").textContent="とにかくシークレットなモードです。曲を遊ぶには、パスワードが必要です。";
-    hideOv()}catch(e){$("listMsg").textContent="読み込めませんでした："+((e&&e.message)||stage)}}
-$("presetBtn").onclick=()=>{if(unlocked)showList();else{$("pwIn").value="";$("pwErr").textContent="";showOv("pw");setTimeout(()=>{try{$("pwIn").focus()}catch(e){}},50)}};
-$("pwOk").onclick=()=>{if(cyrb53($("pwIn").value,1888)===PWH){unlocked=true;showList()}else{$("pwErr").textContent="パスワードが違います";$("pwIn").value=""}};
+    hideOv();return true}catch(e){$("listMsg").textContent="読み込めませんでした："+((e&&e.message)||stage);return false}}
+$("presetBtn").onclick=()=>{if(unlocked)openSel();else{$("pwIn").value="";$("pwErr").textContent="";showOv("pw");setTimeout(()=>{try{$("pwIn").focus()}catch(e){}},50)}};
+$("pwOk").onclick=()=>{if(cyrb53($("pwIn").value,1888)===PWH){unlocked=true;openSel()}else{$("pwErr").textContent="パスワードが違います";$("pwIn").value=""}};
 $("pwIn").addEventListener("keydown",e=>{if(e.key=="Enter")$("pwOk").onclick()});
 $("pwCancel").onclick=hideOv;$("listClose").onclick=hideOv;
+// ---- 〇〇〇〇モード専用の曲選択画面 ----
+const YSDV=[["OLIVIER VI","VI",6],["OLIVIER VII","VII",7],["OLIVIER VIII","VIII",8]];let ysTab=0,ysPick=null,ysBusy=false;
+function openSel(){$("ysSel").classList.remove("hide");hideOv();
+  if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}drawTabs();drawSongs()}
+function drawTabs(){const t=$("ysTabs");t.innerHTML="";YSDV.forEach((d,i)=>{const b=document.createElement("button");b.type="button";b.className=i==ysTab?"on":"";
+  b.innerHTML=`<small>OLIVIER</small><b>${d[1]}</b>`;b.onclick=()=>{ysTab=i;drawTabs();drawSongs()};t.appendChild(b)})}
+function drawSongs(){const L=$("ysList");L.innerHTML="";const d=YSDV[ysTab],list=SONGS.filter(s=>s.diff==d[0]);
+  if(!list.length){L.innerHTML='<div style="opacity:.7;padding:30px 10px">この難易度の曲はまだありません</div>'}
+  if(!ysPick||ysPick.diff!=d[0])ysPick=list[0]||null;
+  list.forEach(sg=>{const c=document.createElement("div");c.className="ysCard"+(sg==ysPick?" on":"");
+    c.innerHTML=`<div class="lv">${d[2]}</div><div class="jk" style="background-image:url('${sg.jk||""}')"></div><div class="tx"><div class="nm"></div><div class="ln"></div><div class="sb"></div></div><button type="button" class="pl">▶ PLAY</button>`;
+    c.querySelector(".nm").textContent=sg.name;c.querySelector(".sb").textContent=d[0]+"　"+sg.sub;
+    c.onclick=e=>{if(e.target.classList.contains("pl"))return playPick();if(ysPick==sg&&window.innerWidth<=760)return;ysPick=sg;drawSongs()};L.appendChild(c)});
+  drawDet()}
+function drawDet(){const sg=ysPick;$("ysJk").src=sg&&sg.jk?sg.jk:"";$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ysMsg").textContent="";$("ysPlay").disabled=!sg}
+async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ysMsg").textContent="読み込み中…";
+  const ok=await loadPreset(ysPick);ysBusy=false;
+  if(!ok){$("ysMsg").textContent=$("listMsg").textContent;return}
+  $("ysSel").classList.add("hide");if(+$("mode").value!=2){$("mode").value=2;apply()}$("go").onclick()}
+$("ysPlay").onclick=playPick;$("ysBack").onclick=()=>$("ysSel").classList.add("hide");
+
 $("bpmHalf").onclick=()=>{$("sbpm").value=(+$("sbpm").value/2).toFixed(1)};$("bpmDouble").onclick=()=>{$("sbpm").value=(+$("sbpm").value*2).toFixed(1)};
 
 // ---- 難易度の詳細設定 ----
