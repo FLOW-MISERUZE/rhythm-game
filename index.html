@@ -229,6 +229,14 @@ summary{cursor:pointer;color:#cfd4ff}
 @media (orientation:portrait){.ycab{display:none}.ylist{width:100%}.ycard{width:calc(100% - calc(var(--u)*70))}.ycard.on{width:calc(100% - calc(var(--u)*20))}.ypl,.yq{display:none}
  .yokP{display:block!important}.ycfCards{overflow-x:auto;right:0}.ycfBar{width:auto;right:calc(var(--u)*10)}.ysbox{width:100%;height:100%;border-radius:0}}
 .yokP{display:none!important}
+.ycard .wm{position:absolute;right:0;top:0;bottom:0;width:62%;border-radius:0 calc(var(--u)*8) calc(var(--u)*8) 0;background:center/cover no-repeat;opacity:.13;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 45%);mask-image:linear-gradient(90deg,transparent,#000 45%)}
+.ycard.on .wm{opacity:.22}
+.ycard .stars{display:inline-flex;gap:calc(var(--u)*1);margin-right:calc(var(--u)*12);vertical-align:middle}
+.ycard .st{width:calc(var(--u)*30);height:calc(var(--u)*30);filter:drop-shadow(0 calc(var(--u)*1) calc(var(--u)*1) rgba(0,0,0,.35))}
+.ycard .st.s0{fill:#3b3946}.ycard.on .st.s0{fill:#2a2833}
+.ycard .st.s1{fill:url(#ygY)}.ycard .st.s2{fill:url(#ygP)}.ycard .st.s3{fill:url(#ygA)}
+.ycard .bt{justify-content:flex-start}.ycard .bt .rk{margin-left:auto}.ycard.on .sb{display:inline!important}
+
 /* 難易度の丸：太いゴシック体、右側だけ金色の弧 */
 .ycard .lv,.ylvB,.ydf.ol{outline:none!important;border:0!important;background:radial-gradient(circle closest-side,#2b2933 0 79%,transparent 80% 89%,#2b2933 90%),conic-gradient(#f2b827 0 var(--ac,0deg),#2b2933 var(--ac,0deg))!important;font-weight:800!important;letter-spacing:-.02em}
 .ycard .lv{font-size:calc(var(--u)*26)}.ylvB small,.ydf.ol small{font-family:"Montserrat",system-ui,sans-serif!important;font-weight:800}
@@ -347,7 +355,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <button class="ypl yp" data-no="1" type="button" id="ysFil" style="left:calc(var(--u)*442);width:calc(var(--u)*154)"><i></i>フィルタ</button>
 <button class="ypl yp" data-no="1" type="button" id="ysLv" style="left:calc(var(--u)*606);width:calc(var(--u)*150);justify-content:center">Lv</button>
 <button class="ymenu yp" data-no="1" type="button"><svg viewBox="0 0 42 42" fill="#fff"><path d="M4 7l3-3 3 3-3 3z M4 21l3-3 3 3-3 3z M4 35l3-3 3 3-3 3z"/><rect x="14" y="4" width="25" height="6" rx="3"/><rect x="14" y="18" width="25" height="6" rx="3"/><rect x="14" y="32" width="25" height="6" rx="3"/></svg></button>
-<svg width="0" height="0" style="position:absolute"><symbol id="ysGearI" viewBox="0 0 48 48"><path fill="#4a4856" d="M27 4l1.5 5.2a15 15 0 0 1 4 1.7l4.8-2.6 4.2 4.2-2.6 4.8a15 15 0 0 1 1.7 4L45.8 23v6l-5.2 1.5a15 15 0 0 1-1.7 4l2.6 4.8-4.2 4.2-4.8-2.6a15 15 0 0 1-4 1.7L27 47.8h-6l-1.5-5.2a15 15 0 0 1-4-1.7l-4.8 2.6-4.2-4.2 2.6-4.8a15 15 0 0 1-1.7-4L2.2 29v-6l5.2-1.5a15 15 0 0 1 1.7-4L6.5 12.7l4.2-4.2 4.8 2.6a15 15 0 0 1 4-1.7L21 4z"/><circle cx="24" cy="26" r="7" fill="#fff"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="ygY" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff4a0"/><stop offset="1" stop-color="#f0b21a"/></linearGradient><linearGradient id="ygP" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe0f2"/><stop offset="1" stop-color="#ff7cc4"/></linearGradient><linearGradient id="ygA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6fbf"/><stop offset=".5" stop-color="#c9a4ff"/><stop offset="1" stop-color="#4fb8ff"/></linearGradient></defs><symbol id="ysGearI" viewBox="0 0 48 48"><path fill="#4a4856" d="M27 4l1.5 5.2a15 15 0 0 1 4 1.7l4.8-2.6 4.2 4.2-2.6 4.8a15 15 0 0 1 1.7 4L45.8 23v6l-5.2 1.5a15 15 0 0 1-1.7 4l2.6 4.8-4.2 4.2-4.8-2.6a15 15 0 0 1-4 1.7L27 47.8h-6l-1.5-5.2a15 15 0 0 1-4-1.7l-4.8 2.6-4.2-4.2 2.6-4.8a15 15 0 0 1-1.7-4L2.2 29v-6l5.2-1.5a15 15 0 0 1 1.7-4L6.5 12.7l4.2-4.2 4.8 2.6a15 15 0 0 1 4-1.7L21 4z"/><circle cx="24" cy="26" r="7" fill="#fff"/></symbol></svg>
 
 <div id="ysSet" class="hide"><div class="ysbox"><h3>✦ 設定 ✦</h3><div class="ysIn"><div class="ysTabsL" id="ysTabsL"><button type="button" data-t="0">システム・通知</button><button type="button" data-t="1" class="on">公演設定</button><button type="button" data-t="2">公演設定(詳細)</button><button type="button" data-t="3">音量</button><button type="button" data-t="4">Bluetooth設定</button></div>
 <div class="ysBody2" id="ysBody2">
@@ -450,7 +458,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 45</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 46</div></div>
 </div>
 </div>
 <script>
@@ -990,8 +998,9 @@ function drawYS(now){
   if(run&&ys&&(+S.yach||0)!=2){ctx.save();ctx.textAlign="center";const x=X0+W+Math.min(90*SC,(W0-X0-W)/2+30*SC),xx=Math.min(W0-70*SC,x);
     const st=cnt[1]+cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?2:cnt[3]+cnt[4]+cnt[5]==0?1:0,y=H*.32-30*SC;
     const g=ctx.createLinearGradient(0,y-16*SC,0,y);if(st>=2){g.addColorStop(0,"#8fdcfb");g.addColorStop(.28,"#b6fbea");g.addColorStop(.52,"#fff8d2");g.addColorStop(.75,"#ffd2d8");g.addColorStop(1,"#ff9fd4")}else if(st==1){g.addColorStop(0,"#fff4ff");g.addColorStop(.45,"#ffe0f6");g.addColorStop(1,"#ffb6dc")}else{g.addColorStop(0,"#ffe14d");g.addColorStop(1,"#ffe14d")}
-    const CG=st>=2?"rgba(255,255,255,.9)":st==1?"rgba(255,90,200,.9)":"rgba(255,225,77,.7)",t=achNow(+S.yach==1).toFixed(4)+"%";
-    ctx.font=`900 ${20*SC}px system-ui`;glowT(t,xx,y,CG);ctx.fillStyle=g;ctx.fillText(t,xx,y);ctx.restore()}
+    const CG=st>=2?"rgba(255,255,255,.9)":st==1?"rgba(255,90,200,.9)":"rgba(255,225,77,.7)",t=achNow(+S.yach==1).toFixed(4),t1=t.slice(0,-2),t2=t.slice(-2)+"%";
+    const f1=`900 ${24*SC}px system-ui`,f2=`900 ${14*SC}px system-ui`;ctx.font=f1;const w1=ctx.measureText(t1).width;ctx.font=f2;const w2=ctx.measureText(t2).width,x0=xx-(w1+w2)/2;
+    ctx.textAlign="left";ctx.font=f1;glowT(t1,x0,y,CG);ctx.fillStyle=g;ctx.fillText(t1,x0,y);ctx.font=f2;glowT(t2,x0+w1+1*SC,y,CG);ctx.fillStyle=g;ctx.fillText(t2,x0+w1+1*SC,y);ctx.restore()}
   if(run)drawHUDys();
   if(run&&!paused)try{ysCutTick(now)}catch(e){}
 }
@@ -1066,7 +1075,7 @@ function retryRun(){$("result").classList.add("hide");if(run){run=false;paused=f
 function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,ach=achNow(false),rk=achRank(ach);
   $("rsong").textContent=$("ysName").textContent.replace("📀 ","");$("rrank").textContent=rk;$("rscore").textContent=String(Math.min(99999999,pts)).padStart(8,"0");
   const lab=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];$("rtab").innerHTML=lab.map((l,i)=>`<span style="color:${JC[i]}">${l}</span><b>${cnt[i]}</b>`).join("")+`<span>MAX COMBO</span><b>${maxc}</b><span>FAST / LATE</span><b>${fc} / ${lc}</b><span>達成率</span><b>${ach.toFixed(4)}%</b>`;
-  try{if(ysPick&&ys!==undefined){const k="ysBest:"+ysPick.id,o=JSON.parse(localStorage.getItem(k)||"null");const n={sc:Math.max(o?o.sc:0,Math.min(99999999,pts)),ach:Math.max(o&&o.ach||0,ach)};n.rk=achRank(n.ach);localStorage.setItem(k,JSON.stringify(n))}}catch(e){}
+  try{if(ysPick&&ys!==undefined){const k="ysBest:"+ysPick.id,o=JSON.parse(localStorage.getItem(k)||"null");const n={sc:Math.max(o?o.sc:0,Math.min(99999999,pts)),ach:Math.max(o&&o.ach||0,ach)};n.cl=Math.max(o&&o.cl||0,cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[3]+cnt[4]+cnt[5]==0?2:1);n.rk=achRank(n.ach);localStorage.setItem(k,JSON.stringify(n))}}catch(e){}
   $("result").classList.remove("hide")}
 function quitRun(msg){if(!run)return;try{$("ysCut").className="";$("ysCut").innerHTML="";ysCutPlan=null}catch(e){}const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done)showResult();restoreLanes();ys=false;setPal(false);draw(f);if(!(wasYs&&done)){openMenu();if(wasYs&&unlocked)openSel("song")}try{actx.resume()}catch(e){}}
 $("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}pauseGame()};
@@ -1228,6 +1237,9 @@ const rom=d=>(YSDV.find(x=>x[0]==d)||["","?"])[1];
 const lvB=sg=>sg?`${rom(sg.diff)}<small>OLIVIER</small>`:"";
 // 金の縁＝達成率（101%で一周）。難易度はその難易度の曲の平均
 const achOf=sg=>{const b=best(sg);return b&&b.ach||0},achDiff=d=>{const l=SONGS.filter(s=>s.diff==d);return l.length?l.reduce((a,s)=>a+achOf(s),0)/l.length:0};
+// 5つの星：左からNORMAL・HARD・EXTRA・STELLA・OLIVIER。暗い＝未クリア、黄＝クリア、ピンク＝フルコンボ、ピンク〜青＝AP（今はOLIVIERのみ）
+const STP='<path d="M12 1 C13 8 16 11 23 12 C16 13 13 16 12 23 C11 16 8 13 1 12 C8 11 11 8 12 1Z"/>';
+function starsH(cl){let h="";for(let i=0;i<5;i++){const c=i<4?0:cl;h+=`<svg class="st s${c}" viewBox="0 0 24 24">${STP}</svg>`}return h}
 const acDeg=a=>`--ac:${(Math.max(0,Math.min(101,a))/101*360).toFixed(1)}deg`;
 const best=sg=>{try{return JSON.parse(localStorage.getItem("ysBest:"+sg.id)||"null")}catch(e){return null}};
 const ysList=()=>SONGS.filter(s=>s.diff==YSDV[ysTab][0]);
@@ -1242,7 +1254,7 @@ function ysClose(){pvStop(.3);$("ysSel").classList.add("hide")}
 function ysRedraw(){if(ysView=="conf")drawConf();else drawList()}
 const DJK=["linear-gradient(135deg,#7fb0ff,#3d58b8)","linear-gradient(135deg,#d88cff,#6a38b8)","linear-gradient(135deg,#ff8aa8,#b8305e)"];
 function mkCard(o){const c=document.createElement("div");c.className="ycard"+(o.on?" on":"");
-  c.innerHTML=`<div class="gh"></div><div class="jk" style="${o.jk}">${o.em||""}</div><div class="jkl"></div><div class="lv" style="${o.ac||""}">${o.lv}</div>${o.tag?`<span class="tag ${o.tag}">${o.tag=="orig"?"ORIGINAL":"COVER"}</span>`:""}<div class="tx"><div class="nm"></div><div class="ar"></div><div class="ln"></div><div class="bt"><span class="sb"></span><span class="rk"></span></div></div>`;
+  c.innerHTML=`<div class="wm" style="${o.wm||""}"></div><div class="gh"></div><div class="jk" style="${o.jk}">${o.em||""}</div><div class="jkl"></div><div class="lv" style="${o.ac||""}">${o.lv}</div>${o.tag?`<span class="tag ${o.tag}">${o.tag=="orig"?"ORIGINAL":"COVER"}</span>`:""}<div class="tx"><div class="nm"></div><div class="ar"></div><div class="ln"></div><div class="bt"><span class="stars">${o.stars||""}</span><span class="sb"></span><span class="rk"></span></div></div>`;
   c.querySelector(".gh").textContent=o.name;c.querySelector(".nm").textContent=o.name;c.querySelector(".ar").textContent=o.ar||"";c.querySelector(".sb").textContent=o.sub||"";c.querySelector(".rk").textContent=o.rk||"";return c}
 function diffBtns(lit,ac){$("ysDiffs").innerHTML=["NORMAL","HARD","EXTRA","STELLA"].map(n=>`<button type="button" class="ydf yp" data-no="1"><b>—</b><small>${n}</small></button>`).join("")+`<button type="button" class="ydf ol yp" style="${ac||""}"><b>${lit}</b><small>OLIVIER</small></button>`;
   for(const b of $("ysDiffs").children)b.onclick=()=>b.dataset.no?ysNope(b):ysPress(b)}
@@ -1254,7 +1266,7 @@ function drawList(){const L=$("ysList"),st=L.scrollTop;L.innerHTML="";const box=
     diffBtns(d[1],acDeg(achDiff(d[0])));$("ysStatL").textContent="収録曲数";$("ysBest").innerHTML=SONGS.filter(s=>s.diff==d[0]).length+"<small> 曲</small>";$("ysRank").textContent=d[2];$("ysOk").disabled=false}
   else{const d=YSDV[ysTab],list=ysList();if(!ysPick||ysPick.diff!=d[0])ysPick=list[0]||null;
     if(!list.length)L.innerHTML='<div style="color:#fff;padding:30px 50px;font-weight:700">この難易度の曲はまだありません</div>';
-    list.forEach(sg=>{const b0=best(sg),tg=YTAG[sg.id]||"orig";const c=mkCard({jk:`background-image:url('${sg.jkR||""}')`,ac:acDeg(achOf(sg)),lv:d[1],name:sg.name,ar:sg.sub,sub:sg.sub,rk:b0?b0.rk:"",tag:tg,on:sg==ysPick});
+    list.forEach(sg=>{const b0=best(sg),tg=YTAG[sg.id]||"orig";const c=mkCard({wm:`background-image:url('${sg.jkR||""}')`,stars:starsH(b0&&b0.cl||0),jk:`background-image:url('${sg.jkR||""}')`,ac:acDeg(achOf(sg)),lv:d[1],name:sg.name,ar:"",sub:sg.sub,rk:b0?b0.rk:"",tag:tg,on:sg==ysPick});
       c.onclick=()=>{if(ysPick==sg){ysPress(c,"ok");return ysGo("conf")}ysPick=sg;ysPress(c);drawList();pvPlay(sg);scrollToOn()};L.appendChild(c)});
     const sg=ysPick,tg=sg?YTAG[sg.id]||"orig":"orig";box.innerHTML=sg?`<img src="${sg.jkR||""}" alt="">`:"";$("ysTag").textContent=tg=="orig"?"ORIGINAL":"COVER";$("ysTag").className="tag "+tg;$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";
     diffBtns(d[1],sg?acDeg(achOf(sg)):"");const b0=sg&&best(sg);$("ysStatL").textContent="ベストスコア";$("ysBest").textContent=b0?String(b0.sc).padStart(8,"0"):"--------";$("ysRank").textContent=b0?b0.rk:"-";$("ysOk").disabled=!sg}
