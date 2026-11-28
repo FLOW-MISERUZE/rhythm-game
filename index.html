@@ -665,7 +665,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 53</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 54</div></div>
 </div>
 </div>
 <script>
@@ -1482,7 +1482,7 @@ let YSE={se:1,pv:1};try{Object.assign(YSE,JSON.parse(localStorage.getItem("ysUI"
 const ysSaveUI=()=>{try{localStorage.setItem("ysUI",JSON.stringify(YSE))}catch(e){}};
 const YTAG={s1:"cov",s2:"orig",s3:"orig",s4:"cov",s5:"cov"};
 // 画面の大きさに合わせて u（基準画面 1210×834 に対する 1px）を決める
-function ysU(){const w=innerWidth,h=innerHeight,u=w>=h?Math.min(w/1210,h/834):Math.min(w/700,h/1000);try{document.documentElement.style.setProperty("--u",u+"px")}catch(e){}}
+function ysU(){const vv=window.visualViewport,w=Math.round(vv&&vv.width?vv.width:innerWidth),h=Math.round(vv&&vv.height?vv.height:innerHeight),u=w>=h?Math.min(w/1210,h/834):Math.min(w/700,h/1000);try{document.documentElement.style.setProperty("--u",u+"px")}catch(e){}}
 ysU();addEventListener("resize",ysU);
 
 // 筐体の画面：HTMLの画面を、傾いた画面の四隅にぴったり合わせる
@@ -1492,6 +1492,18 @@ function ysHomo(el,w,h,P){const A=[],B=[],S=[[0,0],[w,0],[w,h],[0,h]];for(let i=
 function ysCab(){const m=document.querySelector(".ymon");if(!m)return;const u=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--u"))||1,T=(x,y)=>[(33.8+x*.656)*u,(68.6+y*.656)*u];
   m.style.setProperty("width",350*u+"px","important");m.style.setProperty("height",433*u+"px","important");ysHomo(m,350*u,433*u,[T(326,64),T(890,64),T(862,784),T(152,784)])}
 addEventListener("resize",()=>setTimeout(ysCab,30));
+// iPad のホーム画面アプリでは、起動直後に画面の大きさが正しく取れないことがある。
+// 起動後しばらくと、画面の出し入れ・向きの変更のたびに測り直す
+let lastVW="";
+function relayout(force){const vv=window.visualViewport,k=Math.round(vv&&vv.width?vv.width:innerWidth)+"x"+Math.round(vv&&vv.height?vv.height:innerHeight)+"/"+(document.documentElement.clientWidth)+"x"+(document.documentElement.clientHeight);
+  if(!force&&k==lastVW)return;lastVW=k;try{fit()}catch(e){}try{ysU()}catch(e){}try{if(!$("ysSel").classList.contains("hide"))ysCab()}catch(e){}try{if(!run&&!paused)draw(0)}catch(e){}}
+for(const t of[0,60,200,500,1000,2000,3500])setTimeout(()=>relayout(true),t);
+const rlWatch=setInterval(()=>relayout(false),400);setTimeout(()=>clearInterval(rlWatch),8000);
+for(const ev of["load","pageshow","orientationchange","focus"])addEventListener(ev,()=>{relayout(true);setTimeout(()=>relayout(true),300);setTimeout(()=>relayout(true),900)});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){relayout(true);setTimeout(()=>relayout(true),400)}});
+if(window.visualViewport)visualViewport.addEventListener("resize",()=>relayout(false));
+if(typeof screen!="undefined"&&screen.orientation)try{screen.orientation.addEventListener("change",()=>setTimeout(()=>relayout(true),250))}catch(e){}
+
 // 効果音（WebAudioで合成）
 let seC=null;const seCtx=()=>{if(!seC)seC=new(window.AudioContext||window.webkitAudioContext)();if(seC.state!="running")seC.resume();return seC};
 function yse(k){if(!YSE.se)return;let c;try{c=seCtx()}catch(e){return}const t=c.currentTime+.005;
