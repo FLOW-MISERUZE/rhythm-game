@@ -1,5 +1,5 @@
 // オフライン対応：ネットがあれば最新を取得、なければ保存済みを使う
-const C="rhythm-v89";
+const C="rhythm-v90";
 const F=["./","index.html","manifest.json","icons/icon-192.png","icons/icon-512.png","icons/apple-touch-icon.png"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(F)));self.skipWaiting()});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim()});

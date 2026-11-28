@@ -521,6 +521,27 @@ summary{cursor:pointer;color:#cfd4ff}
 #ysBg3d.on{opacity:1}
 #ysBg3d canvas{position:absolute!important;inset:0!important;left:0!important;top:0!important;width:100%!important;height:100%!important;background:transparent!important;display:block}
 #ysBg3d.blur canvas{filter:blur(5px) saturate(1.05);transform:scale(1.06)}
+
+#ysSel .yback .pin{display:none}#ysSel.lob .yback .pin{display:block}#ysSel.lob .yback .ar{display:none}
+.ylTop{position:absolute;left:calc(var(--u)*432);top:calc(var(--u)*26);z-index:5;display:flex;gap:calc(var(--u)*10)}
+#ysSel:not(.lob):not(.hom) .ylTop{display:none}
+.ylPill{position:relative;height:calc(var(--u)*44);border-radius:calc(var(--u)*22);background:rgba(42,40,52,.82);color:#fff;display:flex;align-items:center;gap:calc(var(--u)*8);padding:0 calc(var(--u)*8) 0 calc(var(--u)*14);box-sizing:border-box;box-shadow:inset 0 0 0 calc(var(--u)*2) rgba(255,255,255,.08);font-family:"Montserrat","M PLUS Rounded 1c",system-ui;font-weight:600}
+.ylPill svg{width:calc(var(--u)*26);height:calc(var(--u)*26);flex:0 0 auto}.ylPill .lb{font-size:calc(var(--u)*16);letter-spacing:.04em}.ylPill b{flex:1;text-align:right;font-size:calc(var(--u)*20);font-weight:600}.ylPill b.y{color:#ffd23a}.ylPill small{font-size:calc(var(--u)*13);margin-right:calc(var(--u)*4)}
+.ylPill .ic{width:calc(var(--u)*30);height:calc(var(--u)*30);border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:900;font-size:calc(var(--u)*20)}
+.ylPill .ic.w{background:#fff;color:#3a3844;font-family:Georgia,serif}.ylPill .ic.r{background:radial-gradient(circle at 35% 30%,#ff8a8a,#ef4a55);color:#fff;border:calc(var(--u)*2) solid #fff}
+.ylPill:first-child{padding-right:calc(var(--u)*16)}
+#ysModelL{position:absolute;left:calc(var(--u)*300);top:0;width:calc(var(--u)*610);height:calc(var(--u)*834);z-index:1;pointer-events:none}
+#ysModelL canvas{width:100%!important;height:100%!important;display:block;position:static!important;inset:auto!important;background:transparent!important}
+.ylPerf{position:absolute;left:calc(var(--u)*905);top:calc(var(--u)*540);z-index:3;width:calc(var(--u)*210)!important;height:calc(var(--u)*118);padding:0 calc(var(--u)*60) 0 0!important;border-radius:calc(var(--u)*16);border:calc(var(--u)*5) solid #fff!important;
+  background:radial-gradient(circle,rgba(255,255,255,.18) calc(var(--u)*1.4),transparent calc(var(--u)*1.8)) 0 0/calc(var(--u)*9) calc(var(--u)*9),linear-gradient(180deg,#ff8f97,#ef5562)!important;color:#fff!important;font-size:calc(var(--u)*38);font-weight:800;letter-spacing:.1em;
+  box-shadow:0 0 0 calc(var(--u)*4) rgba(255,150,170,.55),0 0 calc(var(--u)*22) rgba(255,120,150,.8),0 calc(var(--u)*6) calc(var(--u)*12) rgba(0,0,0,.35);animation:ylGlow 2s ease-in-out infinite}
+@keyframes ylGlow{0%,100%{box-shadow:0 0 0 calc(var(--u)*4) rgba(255,150,170,.5),0 0 calc(var(--u)*18) rgba(255,120,150,.7),0 calc(var(--u)*6) calc(var(--u)*12) rgba(0,0,0,.35)}50%{box-shadow:0 0 0 calc(var(--u)*7) rgba(255,170,190,.35),0 0 calc(var(--u)*30) rgba(255,130,160,.95),0 calc(var(--u)*6) calc(var(--u)*12) rgba(0,0,0,.35)}}
+.ylPerf span{text-shadow:0 calc(var(--u)*2) calc(var(--u)*3) rgba(180,30,50,.5)}
+.ylStage{position:absolute;left:calc(var(--u)*1060);top:calc(var(--u)*520);z-index:4;width:calc(var(--u)*126);height:calc(var(--u)*150);pointer-events:none}
+.ylStage:before{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*46);border-radius:50%;background:radial-gradient(ellipse at 50% 40%,#c98d52,#7a4a28 70%);border:calc(var(--u)*4) solid #5a3418;box-shadow:0 calc(var(--u)*4) calc(var(--u)*8) rgba(0,0,0,.4)}
+.ylStage:after{content:"";position:absolute;left:calc(var(--u)*6);right:calc(var(--u)*6);top:calc(var(--u)*8);bottom:calc(var(--u)*22);border-radius:calc(var(--u)*14) calc(var(--u)*14) calc(var(--u)*4) calc(var(--u)*4);background:linear-gradient(90deg,#b0242c,#e04048 20%,#7a141a 22%,transparent 23% 77%,#7a141a 78%,#e04048 80%,#b0242c);opacity:.9}
+.ylStage .ypMas{position:absolute;left:calc(var(--u)*4);right:calc(var(--u)*4);top:calc(var(--u)*40);bottom:calc(var(--u)*20);z-index:2;background-position:center;background-size:contain;background-repeat:no-repeat;animation:yhBob 2.4s ease-in-out infinite;transform:none}
+.ylTop.yst,.ylPerf.yst{animation:ystIn2 .24s cubic-bezier(.12,.75,.25,1) both}
 </style></head><body>
 <canvas id="cv"></canvas>
 <div id="bar"><button id="menuBtn" type="button">⚙ 設定</button><button id="stop" disabled>⏸ 一時停止</button></div>
@@ -547,6 +568,9 @@ summary{cursor:pointer;color:#cfd4ff}
 <rect x="620" y="520" width="420" height="16" fill="#c8c3c5"/>
 <rect width="1210" height="834" fill="#fff" opacity=".12"/></svg></div>
 
+<div class="yscr hide" id="yvLobby"><div id="ysModelL"></div>
+ <button class="ylPerf yp" id="ylPerf" type="button"><span>公演</span></button><div class="ylStage"><i class="ypMas"></i></div>
+</div>
 <div class="yscr hide" id="yvHome"><div id="ysModel"></div>
  <div class="yhT yhPerf yp" id="yhPerf"><svg class="tko" viewBox="0 0 419 208" preserveAspectRatio="none"><path d="M3 0H406A13 13 0 0 0 419 13V195A13 13 0 0 0 406 208H3Q0 208 0 205V3Q0 0 3 0Z"/></svg><div class="tk"><span class="sp" style="left:calc(var(--u)*250);top:calc(var(--u)*30)"></span><span class="sp" style="left:calc(var(--u)*330);top:calc(var(--u)*110);animation-delay:.6s"></span><span class="sp" style="left:calc(var(--u)*200);top:calc(var(--u)*150);animation-delay:1.1s"></span><div class="t1">公演</div><div class="t2">Performance</div></div></div>
  <div class="yhT yhTicket yp" data-no="1"><svg class="tko" viewBox="0 0 90 208" preserveAspectRatio="none"><path d="M0 13A13 13 0 0 0 13 0H87Q90 0 90 3V205Q90 208 87 208H13A13 13 0 0 0 0 195Z"/></svg><div class="tk"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9h18v4H3zM4 13h16v8H4z"/><path d="M12 9v12" stroke="#a8acbd" stroke-width="2"/><path d="M12 9C9 3 5 5 7 8M12 9c3-6 7-4 5-1" fill="none" stroke="#fff" stroke-width="2"/></svg><b>追加報酬</b><small>ADDITIONAL<br>REMUNERATION</small></div></div>
@@ -617,7 +641,13 @@ summary{cursor:pointer;color:#cfd4ff}
  <button class="ystart yp" id="ycStart" type="button">開演</button>
 </div>
 
-<button class="yback yp" id="ysBack" type="button"><svg viewBox="0 0 44 44"><path d="M26 8 L12 22 L26 36" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 16 l3 6 -3 6 -3 -6z" fill="#fff"/></svg></button>
+<button class="yback yp" id="ysBack" type="button"><svg class="pin" viewBox="0 0 44 44"><path d="M22 6c-6.6 0-11 4.8-11 10.6C11 25 22 38 22 38s11-13 11-21.4C33 10.8 28.6 6 22 6z" fill="none" stroke="#fff" stroke-width="4.5"/><circle cx="22" cy="17" r="4" fill="#fff"/></svg><svg class="ar" viewBox="0 0 44 44"><path d="M26 8 L12 22 L26 36" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 16 l3 6 -3 6 -3 -6z" fill="#fff"/></svg></button>
+<div class="ylTop" id="ylTop">
+ <div class="ylPill" style="width:calc(var(--u)*150)"><span class="lb">RANK</span><b>1</b></div>
+ <div class="ylPill yp" data-no="1" style="width:calc(var(--u)*172)"><svg viewBox="0 0 24 24"><path d="M10 3v11.2A4 4 0 1 0 12 18V7h6V3z" fill="#e8364a"/></svg><b>0.00</b><i class="ic w">i</i></div>
+ <div class="ylPill yp" data-no="1" style="width:calc(var(--u)*150)"><svg viewBox="0 0 24 24"><defs><linearGradient id="ylSt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7ab8"/><stop offset=".35" stop-color="#ffd84a"/><stop offset=".65" stop-color="#6ee0a0"/><stop offset="1" stop-color="#6aa8ff"/></linearGradient></defs><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.9 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="url(#ylSt)"/></svg><b>0</b><i class="ic r">+</i></div>
+ <div class="ylPill yp" data-no="1" style="width:calc(var(--u)*172)"><svg viewBox="0 0 24 24"><rect x="8" y="2" width="6" height="3" rx="1" fill="#cfd8e8"/><path d="M7 6h8l1 3v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9z" fill="#5aa0ff"/><path d="M8 11h6v6H8z" fill="#d6ecff"/></svg><b class="y">200</b><small>/200</small><i class="ic r">+</i></div>
+</div>
 <div class="ylab"><i>✦</i><span id="ysHead">難易度選択</span></div>
 <button class="yq yp" data-no="1" type="button" id="ysQ">?</button>
 <button class="ypl yp" data-no="1" type="button" id="ysFil" style="left:calc(var(--u)*442);width:calc(var(--u)*154)"><i></i>フィルタ</button>
@@ -726,7 +756,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 65</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 66</div></div>
 </div>
 </div>
 <script>
@@ -1610,19 +1640,22 @@ function ysHomeOn(){$("yhPerf").onclick=()=>{ysPress($("yhPerf"),"ok");ysGo("dif
   for(const b of document.querySelectorAll("#yvHome [data-no]"))b.onclick=()=>ysNope(b);
   if(ysHomeIdx<0)ysHomeIdx=Math.random()<.5?0:1;try{if(window.YS3D)window.YS3D.show($("ysModel"),ysHomeIdx)}catch(e){ys3dMsg("3D：エラー "+e.message)}}
 function ysViewNow(){return ysView}
+function ysLobbyOn(){$("ylPerf").onclick=()=>{ysPress($("ylPerf"),"ok");ysGo("home")};for(const b of document.querySelectorAll("#ylTop [data-no]"))b.onclick=()=>ysNope(b);
+  if(ysHomeIdx<0)ysHomeIdx=Math.random()<.5?0:1;try{if(window.YS3D)window.YS3D.show($("ysModelL"),ysHomeIdx)}catch(e){}}
 function ys3dMsg(t){const e=$("yh3d");if(e)e.textContent=t||""}
 // 〇〇〇〇モードに入る前に、3Dモデルを読み込んでおく
 function ys3dWait(ms){return new Promise(ok=>{const t0=Date.now(),f=()=>{if(window.YS3D||Date.now()-t0>ms)ok(window.YS3D);else setTimeout(f,100)};f()})}
 async function ysEnter(){const L=$("ysLoad");L.classList.remove("hide");if(ysHomeIdx<0)ysHomeIdx=Math.random()<.5?0:1;
   try{const Y=await ys3dWait(15000);if(Y)await Promise.race([Y.preload(ysHomeIdx),new Promise(r=>setTimeout(r,40000))])}catch(e){}
-  openSel("home");setTimeout(()=>L.classList.add("hide"),80)}
+  openSel("lobby");setTimeout(()=>L.classList.add("hide"),80)}
 function ysHomeOff(){try{if(window.YS3D)window.YS3D.stop()}catch(e){}}
 // 画面の切り替え：一度白くぼかして、裏で入れ替えてから戻す
 let ysVeilBusy=false;
 function ysVeil(fn,hold){const V=$("ysVeil");if(ysVeilBusy){fn();return}ysVeilBusy=true;V.classList.add("on");
   setTimeout(()=>{try{fn()}catch(e){}requestAnimationFrame(()=>{V.classList.add("out");V.classList.remove("on");setTimeout(()=>{V.classList.remove("out");ysVeilBusy=false},140)})},35)}
 function ysGo(v){const vis=!$("ysSel").classList.contains("hide");if(vis&&ysView&&ysView!=v)ysVeil(()=>{ysGo0(v);ysStag(v)});else{ysGo0(v);ysStag(v)}}
-function ysStag(v){if(v=="home"){document.querySelectorAll("#yvHome .yhT").forEach((c,i)=>{c.classList.remove("yst");void c.offsetWidth;c.style.animationDelay=(i*.025)+"s";c.classList.add("yst")});const m=$("ysModel");m.classList.remove("yst");void m.offsetWidth;m.classList.add("yst");return}
+function ysStag(v){if(v=="lobby"){for(const el of[$("ylTop"),$("ylPerf")]){el.classList.remove("yst");void el.offsetWidth;el.classList.add("yst")}return}
+  if(v=="home"){document.querySelectorAll("#yvHome .yhT").forEach((c,i)=>{c.classList.remove("yst");void c.offsetWidth;c.style.animationDelay=(i*.025)+"s";c.classList.add("yst")});const m=$("ysModel");m.classList.remove("yst");void m.offsetWidth;m.classList.add("yst");return}
   if(v=="conf"){const b=document.querySelector(".ycfBand");if(b){b.classList.remove("yst");void b.offsetWidth;b.classList.add("yst")}
     document.querySelectorAll(".ycfC").forEach((c,i)=>{c.style.animationDelay=(.06+i*.06)+"s";c.classList.add("yst")})}
   else{document.querySelectorAll("#ysList .ycard").forEach((c,i)=>{c.style.animationDelay=(i*.012)+"s";c.classList.add("yst");setTimeout(()=>c.classList.remove("yst"),500+i*12)});
@@ -1632,11 +1665,11 @@ function ysTapFx(x,y){const d=document.createElement("div");d.className="ytap";d
   for(let i=0;i<7;i++){const a=i/7*Math.PI*2+Math.random()*.5,r=34+Math.random()*16;h+=`<i style="--dx:calc(var(--u)*${(Math.cos(a)*r).toFixed(1)});--dy:calc(var(--u)*${(Math.sin(a)*r).toFixed(1)})"></i>`}
   d.innerHTML=h;document.body.appendChild(d);setTimeout(()=>d.remove(),600)}
 document.addEventListener("pointerdown",e=>{if(run&&!paused)return;ysTapFx(e.clientX,e.clientY)},true);
-function ysGo0(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf"||v=="home");$("yvConf").classList.toggle("hide",v!="conf");$("yvHome").classList.toggle("hide",v!="home");if(v=="home")ysHomeOn();else ysHomeOff();try{if(window.YSBG){if(v=="conf")window.YSBG.hide($("ysBg3d"));else window.YSBG.show($("ysBg3d"),v=="home"?"home":"blur")}}catch(e){}
-  $("ysHead").textContent={home:"公演",diff:"難易度選択",song:"楽曲選択",conf:"最終確認"}[v];$("ysSet").classList.add("hide");
-  for(const id of["ysQ","ysFil","ysLv"])$(id).classList.toggle("hide",v=="conf"||v=="home");
+function ysGo0(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf"||v=="home"||v=="lobby");$("yvLobby").classList.toggle("hide",v!="lobby");$("ysSel").classList.toggle("lob",v=="lobby");$("ysSel").classList.toggle("hom",v=="home");$("yvConf").classList.toggle("hide",v!="conf");$("yvHome").classList.toggle("hide",v!="home");if(v=="home")ysHomeOn();else if(v=="lobby")ysLobbyOn();else ysHomeOff();try{if(window.YSBG){if(v=="conf")window.YSBG.hide($("ysBg3d"));else window.YSBG.show($("ysBg3d"),v=="home"||v=="lobby"?v:"blur")}}catch(e){}
+  $("ysHead").textContent={lobby:"劇場ロビー",home:"公演",diff:"難易度選択",song:"楽曲選択",conf:"最終確認"}[v];$("ysSet").classList.add("hide");
+  for(const id of["ysQ","ysFil","ysLv"])$(id).classList.toggle("hide",v=="conf"||v=="home"||v=="lobby");
   $("ybg1").style.opacity=v=="conf"?0:1;$("ybg2").style.opacity=v=="conf"?1:0;
-  if(v=="diff"||v=="home")pvStop(.4);if(v!="home")ysRedraw();if(prev!=v){if(v=="conf")fxEl($("yvConf"),"yinR");else{fxEl($("ysList"),"yin");fxEl(document.querySelector(".ycab"),"yinR")}}
+  if(v=="diff"||v=="home"||v=="lobby")pvStop(.4);if(v!="home"&&v!="lobby")ysRedraw();if(prev!=v){if(v=="conf")fxEl($("yvConf"),"yinR");else{fxEl($("ysList"),"yin");fxEl(document.querySelector(".ycab"),"yinR")}}
   if(v=="song")pvPlay(ysPick)}
 function openSel(v){$("ysSel").classList.remove("hide");hideOv();ysU();ysCab();requestAnimationFrame(ysCab);setTimeout(ysCab,300);jkFix();if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}ysView="";ysGo(v||"diff");yse("open")}
 function ysClose(){pvStop(.3);ysHomeOff();try{window.YSBG&&window.YSBG.hide($("ysBg3d"))}catch(e){}$("ysSel").classList.add("hide")}
@@ -1682,7 +1715,7 @@ async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ycMsg").textC
 $("ysStatL").parentNode.onclick=()=>{if(ysView!="song")return;const b0=ysPick&&best(ysPick);if(!b0||!b0.c){ysNope($("ysStatL").parentNode);return}ysStatMode^=1;yse("tab");fxEl($("ysStatL").parentNode,"ypop");ysStatShow(b0)};
 $("ysOk").onclick=$("ysOkP").onclick=e=>{ysPress(e.currentTarget,"ok");if(ysView=="diff")diffOk();else if(ysPick)ysGo("conf")};
 $("ycStart").onclick=()=>{ysPress($("ycStart"),"start");$("ysVeil").classList.add("on");setTimeout(()=>{playPick();setTimeout(()=>$("ysVeil").classList.remove("on"),400)},250)};
-$("ysBack").onclick=()=>{ysPress($("ysBack"),"back");if(!$("ysSet").classList.contains("hide")){$("ysSet").classList.add("hide");return}if(ysView=="conf")ysGo("song");else if(ysView=="song")ysGo("diff");else if(ysView=="diff")ysGo("home");else ysClose()};
+$("ysBack").onclick=()=>{ysPress($("ysBack"),"back");if(!$("ysSet").classList.contains("hide")){$("ysSet").classList.add("hide");return}if(ysView=="conf")ysGo("song");else if(ysView=="song")ysGo("diff");else if(ysView=="diff")ysGo("home");else if(ysView=="home")ysGo("lobby");else ysClose()};
 $("ysUp").onclick=()=>{if(ysMove(-1))ysPress($("ysUp"));else ysNope($("ysUp"))};$("ysDn").onclick=()=>{if(ysMove(1))ysPress($("ysDn"));else ysNope($("ysDn"))};
 $("ysShuf").onclick=()=>{const l=ysView=="diff"?null:ysList();if(!l||l.length<2){ysNope($("ysShuf"));return}let n=ysPick;while(n==ysPick)n=l[Math.floor(Math.random()*l.length)];ysPick=n;ysPress($("ysShuf"));drawList();pvPlay(n);scrollToOn()};
 for(const b of document.querySelectorAll("#ysSel [data-no]"))if(!b.onclick)b.onclick=()=>ysNope(b);
@@ -1810,16 +1843,25 @@ function buildLobby(){const S=new THREE.Scene(),M=(c,o)=>new THREE.MeshLambertMa
   for(let i=0;i<14;i++){add(box(1.6,.06,.46),M(0xb07a4e),-10.2,.3+i*.3,-1.2-i*.42);add(box(1.6,.3,.04),M(0x6a4a34),-10.2,.15+i*.3,-.99-i*.42)}
   {const st=add(box(.12,.22,6.6),M(0x3a2a22),-9.38,2.25,-4.0);st.rotation.x=Math.atan2(4.2,5.88);const rl=add(box(.05,.05,6.6),M(0x1c1a1c),-9.38,3.25,-4.0);rl.rotation.x=Math.atan2(4.2,5.88)}
   for(let i=0;i<14;i+=2)add(box(.03,.9,.03),M(0x1c1a1c),-9.38,.75+i*.3,-1.2-i*.42);
+  // 左奥のらせん階段
+  {const cx=-8.4,cz=-5.4;add(new THREE.CylinderGeometry(.12,.12,4.4,10),M(0x2a2826),cx,2.2,cz);
+   for(let i=0;i<16;i++){const a=-Math.PI*.2+i*.2,st=add(box(1.5,.07,.42),M(0xc58a4e),cx+Math.cos(a)*.78,.25+i*.26,cz+Math.sin(a)*.78);st.rotation.y=-a;
+     const p=add(box(.03,.9,.03),M(0x1c1a1c),cx+Math.cos(a)*1.5,.7+i*.26,cz+Math.sin(a)*1.5)}
+   const pts=[];for(let i=0;i<=40;i++){const a=-Math.PI*.2+i*.08;pts.push(new THREE.Vector3(cx+Math.cos(a)*1.5,1.15+i*.104,cz+Math.sin(a)*1.5))}
+   add(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),60,.035,6),M(0x1c1a1c),0,0,0)}
+  // 右のカフェ席：白い丸テーブルと椅子
+  for(const [x,z]of[[8.2,-6.2],[9.8,-4.6]]){add(new THREE.CylinderGeometry(.55,.55,.05,24),M(0xf2f0ec),x,.9,z);add(new THREE.CylinderGeometry(.05,.05,.88,8),M(0xcfcac4),x,.45,z);
+    for(let k=0;k<3;k++){const a=k*2.1,cx2=x+Math.cos(a)*.85,cz2=z+Math.sin(a)*.85;add(box(.45,.05,.45),M(0xffffff),cx2,.55,cz2);const bk=add(box(.45,.5,.05),M(0xffffff),cx2+Math.cos(a)*.2,.8,cz2+Math.sin(a)*.2);bk.rotation.y=-a+Math.PI/2}}
   // 2階の人影と鉢植え
   for(const [x,c]of[[-4.5,0x2a2a44],[3,0x4a2a3a],[7.5,0x2a3a4a]]){add(new THREE.CylinderGeometry(.16,.2,1.1,10),M(c),x,5,-8.2);add(new THREE.SphereGeometry(.15,12,10),M(0x2a2020),x,5.7,-8.2)}
   for(const x of[-8,0.5,10]){add(new THREE.CylinderGeometry(.25,.2,.5,12),M(0xd8d2ca),x,4.7,-8.6);const pl=add(new THREE.SphereGeometry(.45,10,8),M(0x2f6a32),x,5.2,-8.6);pl.scale.y=1.3}
   // 奥の小さな人影
   for(const [x,z,c]of[[-2.6,-8.2,0x2a2a44],[6.2,-8.2,0x262648],[9.5,-6.5,0x3a2a2a]]){add(new THREE.CylinderGeometry(.18,.22,1.2,10),M(c),x,.6,z);add(new THREE.SphereGeometry(.17,12,10),M(0x3a2a2a),x,1.35,z)}
   // 丸い花壇：石の土台、木のベンチ、植物
-  const px=.4,pz=-2.2;add(new THREE.CylinderGeometry(3.2,3.25,.45,48),M(0x4a4642),px,.22,pz);
+  const px=.4,pz=-2.2;add(new THREE.CylinderGeometry(3.2,3.3,.45,8),M(0x55504b),px,.22,pz).rotation.y=Math.PI/8;
   const woodT=tex(512,32,(g,w,h)=>{g.fillStyle="#e8963e";g.fillRect(0,0,w,h);for(let i=0;i<40;i++){g.fillStyle=`rgba(150,70,20,${Math.random()*.25})`;g.fillRect(0,Math.random()*h,w,1+Math.random()*2)}});
-  const ring=add(new THREE.TorusGeometry(2.85,.42,10,64),M(0xffffff,{map:woodT}),px,.5,pz);ring.rotation.x=Math.PI/2;ring.scale.z=.25;
-  add(new THREE.CylinderGeometry(2.5,2.5,.55,40),M(0x3a3430),px,.3,pz);
+  add(new THREE.CylinderGeometry(3.35,3.35,.12,8),M(0xffffff,{map:woodT}),px,.5,pz).rotation.y=Math.PI/8;
+  add(new THREE.CylinderGeometry(2.55,2.55,.66,8),M(0x6e6660),px,.25,pz).rotation.y=Math.PI/8;
   // 植物：葉っぱの絵を貼った板をたくさん立てて、茂みにする
   const leafTex=(c1,c2,split)=>tex(256,256,(g,w,h)=>{g.translate(128,250);const gr=g.createLinearGradient(0,0,0,-240);gr.addColorStop(0,c1);gr.addColorStop(1,c2);g.fillStyle=gr;
     g.beginPath();g.moveTo(0,0);g.bezierCurveTo(-120,-60,-120,-200,0,-245);g.bezierCurveTo(120,-200,120,-60,0,0);g.fill();
@@ -1827,7 +1869,7 @@ function buildLobby(){const S=new THREE.Scene(),M=(c,o)=>new THREE.MeshLambertMa
     g.strokeStyle="rgba(200,240,170,.55)";g.lineWidth=3;g.beginPath();g.moveTo(0,0);g.lineTo(0,-238);g.stroke()});
   const LT=[leafTex("#1f5a26","#4f9a46",true),leafTex("#2a6a2e","#6cb050",false),leafTex("#184a20","#3e8a3e",true)];
   const LM=LT.map(t=>new THREE.MeshLambertMaterial({map:t,alphaTest:.45,side:THREE.DoubleSide}));
-  add(new THREE.CylinderGeometry(2.45,2.45,.2,40),M(0x2a2420),px,.62,pz);
+  add(new THREE.CylinderGeometry(2.45,2.45,.2,8),M(0x2a2420),px,.62,pz).rotation.y=Math.PI/8;
   for(let i=0;i<10;i++){const a=Math.random()*7,r=Math.random()*1.8,b=add(new THREE.SphereGeometry(.45+Math.random()*.3,10,8),M(0x1f4a22),px+Math.cos(a)*r,.75,pz+Math.sin(a)*r);b.scale.y=.6}
   const lg=new THREE.PlaneGeometry(1,1);lg.translate(0,.5,0);
   for(let i=0;i<170;i++){const a=Math.random()*Math.PI*2,r=Math.sqrt(Math.random())*2.25,l=new THREE.Mesh(lg,LM[i%3]),sc=.55+Math.random()*.75;
@@ -1849,13 +1891,13 @@ function buildLobby(){const S=new THREE.Scene(),M=(c,o)=>new THREE.MeshLambertMa
   S.background=new THREE.Color(0x3a302c);return S}
 function bgSize(){const w=BG.cv.clientWidth,h=BG.cv.clientHeight;if(!w||!h)return false;BG.R.setSize(w,h,false);BG.cam.aspect=w/h;BG.cam.updateProjectionMatrix();return true}
 function bgRender(){if(!BG.R||!BG.mode)return;if(!bgSize())return;
-  if(BG.mode=="home"){BG.cam.fov=52;BG.cam.position.set(3.3,1.75,7.6);BG.cam.lookAt(3.3,2.9,-4)}else{BG.cam.fov=38;BG.cam.position.set(2.2,2.1,3.6);BG.cam.lookAt(5.5,2.7,-8)}
+  if(BG.mode=="lobby"){BG.cam.fov=50;BG.cam.position.set(.4,1.7,7.2);BG.cam.lookAt(.4,2.7,-4)}else if(BG.mode=="home"){BG.cam.fov=52;BG.cam.position.set(3.3,1.75,7.6);BG.cam.lookAt(3.3,2.9,-4)}else{BG.cam.fov=38;BG.cam.position.set(2.2,2.1,3.6);BG.cam.lookAt(5.5,2.7,-8)}
   BG.cam.updateProjectionMatrix();BG.R.render(BG.scene,BG.cam)}
 window.YSBG={show(host,mode){try{if(!BG.R){BG.cv=document.createElement("canvas");BG.R=new THREE.WebGLRenderer({canvas:BG.cv,antialias:true});BG.R.setPixelRatio(Math.min(1.5,devicePixelRatio||1));BG.R.outputColorSpace=THREE.SRGBColorSpace;
     BG.scene=buildLobby();BG.cam=new THREE.PerspectiveCamera(52,1,.1,80);addEventListener("resize",()=>setTimeout(bgRender,60))}
-  if(BG.cv.parentNode!==host)host.appendChild(BG.cv);BG.mode=mode;host.classList.toggle("blur",mode!="home");host.classList.add("on");requestAnimationFrame(bgRender);setTimeout(bgRender,200)}catch(e){msg("3D背景：エラー "+e.message)}},
+  if(BG.cv.parentNode!==host)host.appendChild(BG.cv);BG.mode=mode;host.classList.toggle("blur",mode=="blur");host.classList.add("on");requestAnimationFrame(bgRender);setTimeout(bgRender,200)}catch(e){msg("3D背景：エラー "+e.message)}},
  hide(host){BG.mode="";if(host)host.classList.remove("on")}};
 
-try{const sl=document.getElementById("ysSel");const vw=window.ysViewNow&&window.ysViewNow();if(sl&&!sl.classList.contains("hide")&&vw&&vw!="conf")window.YSBG.show(document.getElementById("ysBg3d"),vw=="home"?"home":"blur")}catch(e){}
+try{const sl=document.getElementById("ysSel");const vw=window.ysViewNow&&window.ysViewNow();if(sl&&!sl.classList.contains("hide")&&vw&&vw!="conf")window.YSBG.show(document.getElementById("ysBg3d"),vw=="home"||vw=="lobby"?vw:"blur")}catch(e){}
 </script>
 </body></html>
