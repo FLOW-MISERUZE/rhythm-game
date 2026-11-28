@@ -464,7 +464,30 @@ summary{cursor:pointer;color:#cfd4ff}
 .ycab.yst{animation:none!important}
 .ycfC.yst{animation:yCard2 .2s ease-out both!important}@keyframes yCard2{0%{opacity:0;transform:translateX(calc(var(--u)*40))}100%{opacity:1;transform:none}}
 .ycfBand.yst{animation:yBand2 .2s ease-out both!important}@keyframes yBand2{from{opacity:0}to{opacity:1}}
-</style></head><body>
+
+/* 星の縁取り */
+.ycard .st path,.yeH .st path{stroke:rgba(255,255,255,.95);stroke-width:1.7;paint-order:stroke;stroke-linejoin:round}
+.ycard.on .st path{stroke:rgba(255,255,255,.85)}
+/* ---- ホーム（公演） ---- */
+#yvHome{z-index:1}
+#ysModel{position:absolute;left:0;top:0;width:calc(var(--u)*700);height:calc(var(--u)*834);z-index:1;pointer-events:none}
+.yhT{position:absolute;z-index:2;border:calc(var(--u)*5) solid #fff;border-radius:calc(var(--u)*6);box-shadow:0 calc(var(--u)*4) calc(var(--u)*12) rgba(0,0,0,.35);overflow:hidden;cursor:pointer;box-sizing:border-box}
+.yhT.empty{background:repeating-linear-gradient(135deg,rgba(255,255,255,.16) 0 calc(var(--u)*14),rgba(255,255,255,.08) calc(var(--u)*14) calc(var(--u)*28)),rgba(40,38,52,.45)}
+.yhPerf{left:calc(var(--u)*681);top:calc(var(--u)*185);width:calc(var(--u)*415);height:calc(var(--u)*208);background:radial-gradient(calc(var(--u)*120) calc(var(--u)*160) at 70% 0%,rgba(255,230,170,.55),transparent 70%),radial-gradient(calc(var(--u)*90) calc(var(--u)*140) at 92% 0%,rgba(180,210,255,.45),transparent 70%),linear-gradient(160deg,#2a2346 0%,#1a1630 55%,#3a1e3c 100%)}
+.yhPerf .t1{position:absolute;left:calc(var(--u)*18);top:calc(var(--u)*12);color:#fff;font-weight:800;font-size:calc(var(--u)*66);letter-spacing:.02em;line-height:1;text-shadow:0 calc(var(--u)*3) 0 rgba(0,0,0,.35)}
+.yhPerf .t2{position:absolute;left:calc(var(--u)*58);top:calc(var(--u)*76);color:#ff6b86;font-family:"Brush Script MT","Segoe Script",cursive;font-style:italic;font-size:calc(var(--u)*30);transform:rotate(-12deg);text-shadow:0 0 calc(var(--u)*6) rgba(255,255,255,.4)}
+.yhPerf .ms{position:absolute;right:calc(var(--u)*10);bottom:calc(var(--u)*6);width:calc(var(--u)*230);height:calc(var(--u)*154);background-position:center;background-size:contain;background-repeat:no-repeat;filter:drop-shadow(0 calc(var(--u)*4) calc(var(--u)*8) rgba(0,0,0,.45));animation:yhBob 2.4s ease-in-out infinite}
+@keyframes yhBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(calc(var(--u)*-6)) rotate(1deg)}}
+.yhPerf .sp{position:absolute;width:calc(var(--u)*14);height:calc(var(--u)*14);background:#fff;clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);animation:yeTw 1.8s ease-in-out infinite}
+.yhTicket{left:calc(var(--u)*1107);top:calc(var(--u)*185);width:calc(var(--u)*87);height:calc(var(--u)*208);background:linear-gradient(180deg,#a8acbd,#8e93a6);border-style:dashed!important;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;gap:calc(var(--u)*6)}
+.yhTicket b{font-size:calc(var(--u)*17);font-weight:700;writing-mode:horizontal-tb}.yhTicket small{font-size:calc(var(--u)*7);opacity:.8;text-align:center}
+.yhTicket svg{width:calc(var(--u)*34);height:calc(var(--u)*34)}
+.yhA{left:calc(var(--u)*681);top:calc(var(--u)*408);width:calc(var(--u)*250);height:calc(var(--u)*127)}.yhL{left:calc(var(--u)*941);top:calc(var(--u)*408);width:calc(var(--u)*253);height:calc(var(--u)*127)}
+.yhG1{left:calc(var(--u)*681);top:calc(var(--u)*548);width:calc(var(--u)*250);height:calc(var(--u)*128)}.yhG2{left:calc(var(--u)*941);top:calc(var(--u)*548);width:calc(var(--u)*253);height:calc(var(--u)*128)}
+.yhCred{position:absolute;left:calc(var(--u)*12);bottom:calc(var(--u)*8);z-index:3;font-size:calc(var(--u)*11);color:rgba(255,255,255,.85);text-shadow:0 calc(var(--u)*1) calc(var(--u)*2) rgba(0,0,0,.6)}
+.yhMsg{position:absolute;left:calc(var(--u)*120);top:calc(var(--u)*420);z-index:3;color:#fff;font-size:calc(var(--u)*14);opacity:.8}
+#ysModel{background:transparent!important;position:absolute!important;inset:auto!important;left:0!important;top:0!important;width:calc(var(--u)*700)!important;height:calc(var(--u)*834)!important;touch-action:auto!important}
+.yhPerf .ms.ypMas{top:auto!important;right:calc(var(--u)*8)!important;bottom:calc(var(--u)*8)!important;width:calc(var(--u)*220)!important;height:calc(var(--u)*150)!important;transform:none}</style></head><body>
 <canvas id="cv"></canvas>
 <div id="bar"><button id="menuBtn" type="button">⚙ 設定</button><button id="stop" disabled>⏸ 一時停止</button></div>
 <div id="pause" class="hide"><div class="pbox"><div class="ptitle">⏸ 一時停止中</div><button id="resume" type="button">▶ 再開（3秒後に始まります）</button><button id="retry" type="button" class="hide">↻ リトライ</button><button id="quit" type="button">■ やめる</button></div></div>
@@ -523,6 +546,12 @@ summary{cursor:pointer;color:#cfd4ff}
 <rect x="620" y="520" width="420" height="16" fill="#c8c3c5"/>
 <rect width="1210" height="834" fill="#fff" opacity=".12"/></svg></div>
 
+<div class="yscr hide" id="yvHome"><canvas id="ysModel"></canvas>
+ <div class="yhT yhPerf yp" id="yhPerf"><span class="sp" style="left:calc(var(--u)*250);top:calc(var(--u)*30)"></span><span class="sp" style="left:calc(var(--u)*330);top:calc(var(--u)*110);animation-delay:.6s"></span><span class="sp" style="left:calc(var(--u)*200);top:calc(var(--u)*150);animation-delay:1.1s"></span><div class="t1">公演</div><div class="t2">Performance</div><i class="ms ypMas"></i></div>
+ <div class="yhT yhTicket yp" data-no="1"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9h18v4H3zM4 13h16v8H4z"/><path d="M12 9v12" stroke="#a8acbd" stroke-width="2"/><path d="M12 9C9 3 5 5 7 8M12 9c3-6 7-4 5-1" fill="none" stroke="#fff" stroke-width="2"/></svg><b>追加報酬</b><small>ADDITIONAL<br>REMUNERATION</small></div>
+ <div class="yhT yhA empty yp" data-no="1"></div><div class="yhT yhL empty yp" data-no="1"></div><div class="yhT yhG1 empty yp" data-no="1"></div><div class="yhT yhG2 empty yp" data-no="1"></div>
+ 
+</div>
 <div class="yscr" id="yvList">
 <div class="ylist" id="ysList"></div>
 <button class="yud yp" id="ysUp" type="button" style="top:calc(var(--u)*128)"><svg viewBox="0 0 84 60"><path d="M8 44 L42 12 L76 44" fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 44 L42 12 L76 44" fill="none" stroke="#f05a66" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -695,7 +724,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 57</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 59</div></div>
 </div>
 </div>
 <script>
@@ -1504,8 +1533,8 @@ function ypShow(kind){const P=$("ysPause");P.classList.remove("hide");pauseEl.cl
   ysU();for(const n of P.querySelectorAll("[style]"))n.setAttribute("style",n.getAttribute("style").replace(/(-?\d+(?:\.\d+)?)u\b/g,"calc(var(--u)*$1)"))}
 function ypHide(){const P=$("ysPause");P.classList.add("hide");P.innerHTML=""}
 // 最初の画面（〇〇〇〇モード）はパスワード入力だけ
-$("gOk").onclick=()=>{if(cyrb53($("gPw").value,1888)===PWH){unlocked=true;$("gErr").textContent="";$("gPw").value="";$("gIn").classList.remove("hide");openSel("diff")}else{$("gErr").textContent="パスワードが違います";$("gPw").value=""}};
-$("gPw").addEventListener("keydown",e=>{if(e.key=="Enter")$("gOk").onclick()});$("gIn").onclick=()=>openSel("diff");
+$("gOk").onclick=()=>{if(cyrb53($("gPw").value,1888)===PWH){unlocked=true;$("gErr").textContent="";$("gPw").value="";$("gIn").classList.remove("hide");openSel("home")}else{$("gErr").textContent="パスワードが違います";$("gPw").value=""}};
+$("gPw").addEventListener("keydown",e=>{if(e.key=="Enter")$("gOk").onclick()});$("gIn").onclick=()=>openSel("home");
 // ---- 〇〇〇〇モード専用の画面：難易度選択 → 楽曲選択 → 最終確認（⚙で設定）。効果音と試聴つき ----
 const YSDV=[["OLIVIER VI","VI",6],["OLIVIER VII","VII",7],["OLIVIER VIII","VIII",8]];let ysTab=0,ysPick=null,ysBusy=false,ysView="diff",ysTmp=null,ysGrp=1;
 let YSE={se:1,pv:1};try{Object.assign(YSE,JSON.parse(localStorage.getItem("ysUI")||"{}"))}catch(e){}
@@ -1572,6 +1601,12 @@ const acDeg=a=>`--ac:${(Math.max(0,Math.min(101,a))/101*360).toFixed(1)}deg`;
 const best=sg=>{try{return JSON.parse(localStorage.getItem("ysBest:"+sg.id)||"null")}catch(e){return null}};
 const ysList=()=>SONGS.filter(s=>s.diff==YSDV[ysTab][0]);
 
+
+// ---- ホーム：3Dモデル（2体からランダム）と公演の入口 ----
+function ysHomeOn(){$("yhPerf").onclick=()=>{ysPress($("yhPerf"),"ok");ysGo("diff")};
+  for(const b of document.querySelectorAll("#yvHome [data-no]"))b.onclick=()=>ysNope(b);
+  try{if(window.YS3D)window.YS3D.start($("ysModel"))}catch(e){}}
+function ysHomeOff(){try{if(window.YS3D)window.YS3D.stop()}catch(e){}}
 // 画面の切り替え：一度白くぼかして、裏で入れ替えてから戻す
 let ysVeilBusy=false;
 function ysVeil(fn,hold){const V=$("ysVeil");if(ysVeilBusy){fn();return}ysVeilBusy=true;V.classList.add("on");
@@ -1586,14 +1621,14 @@ function ysTapFx(x,y){const d=document.createElement("div");d.className="ytap";d
   for(let i=0;i<7;i++){const a=i/7*Math.PI*2+Math.random()*.5,r=34+Math.random()*16;h+=`<i style="--dx:calc(var(--u)*${(Math.cos(a)*r).toFixed(1)});--dy:calc(var(--u)*${(Math.sin(a)*r).toFixed(1)})"></i>`}
   d.innerHTML=h;document.body.appendChild(d);setTimeout(()=>d.remove(),600)}
 document.addEventListener("pointerdown",e=>{const t=e.target.closest&&e.target.closest(".yp,.ycard,.ycfC,.ysRad button,.ysTabsL button,.ystat");if(t)ysTapFx(e.clientX,e.clientY)},true);
-function ysGo0(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf");$("yvConf").classList.toggle("hide",v!="conf");
-  $("ysHead").textContent={diff:"難易度選択",song:"楽曲選択",conf:"最終確認"}[v];$("ysSet").classList.add("hide");
-  for(const id of["ysQ","ysFil","ysLv"])$(id).classList.toggle("hide",v=="conf");
+function ysGo0(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf"||v=="home");$("yvConf").classList.toggle("hide",v!="conf");$("yvHome").classList.toggle("hide",v!="home");if(v=="home")ysHomeOn();else ysHomeOff();
+  $("ysHead").textContent={home:"公演",diff:"難易度選択",song:"楽曲選択",conf:"最終確認"}[v];$("ysSet").classList.add("hide");
+  for(const id of["ysQ","ysFil","ysLv"])$(id).classList.toggle("hide",v=="conf"||v=="home");
   $("ybg1").style.opacity=v=="conf"?0:1;$("ybg2").style.opacity=v=="conf"?1:0;
-  if(v=="diff")pvStop(.4);ysRedraw();if(prev!=v){if(v=="conf")fxEl($("yvConf"),"yinR");else{fxEl($("ysList"),"yin");fxEl(document.querySelector(".ycab"),"yinR")}}
+  if(v=="diff"||v=="home")pvStop(.4);if(v!="home")ysRedraw();if(prev!=v){if(v=="conf")fxEl($("yvConf"),"yinR");else{fxEl($("ysList"),"yin");fxEl(document.querySelector(".ycab"),"yinR")}}
   if(v=="song")pvPlay(ysPick)}
 function openSel(v){$("ysSel").classList.remove("hide");hideOv();ysU();ysCab();requestAnimationFrame(ysCab);setTimeout(ysCab,300);jkFix();if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}ysView="";ysGo(v||"diff");yse("open")}
-function ysClose(){pvStop(.3);$("ysSel").classList.add("hide")}
+function ysClose(){pvStop(.3);ysHomeOff();$("ysSel").classList.add("hide")}
 function ysRedraw(){if(ysView=="conf")drawConf();else drawList()}
 const DJK=["linear-gradient(135deg,#7fb0ff,#3d58b8)","linear-gradient(135deg,#d88cff,#6a38b8)","linear-gradient(135deg,#ff8aa8,#b8305e)"];
 function mkCard(o){const c=document.createElement("div");c.className="ycard"+(o.on?" on":"");
@@ -1636,7 +1671,7 @@ async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ycMsg").textC
 $("ysStatL").parentNode.onclick=()=>{if(ysView!="song")return;const b0=ysPick&&best(ysPick);if(!b0||!b0.c){ysNope($("ysStatL").parentNode);return}ysStatMode^=1;yse("tab");fxEl($("ysStatL").parentNode,"ypop");ysStatShow(b0)};
 $("ysOk").onclick=$("ysOkP").onclick=e=>{ysPress(e.currentTarget,"ok");if(ysView=="diff")diffOk();else if(ysPick)ysGo("conf")};
 $("ycStart").onclick=()=>{ysPress($("ycStart"),"start");$("ysVeil").classList.add("on");setTimeout(()=>{playPick();setTimeout(()=>$("ysVeil").classList.remove("on"),400)},250)};
-$("ysBack").onclick=()=>{ysPress($("ysBack"),"back");if(!$("ysSet").classList.contains("hide")){$("ysSet").classList.add("hide");return}if(ysView=="conf")ysGo("song");else if(ysView=="song")ysGo("diff");else ysClose()};
+$("ysBack").onclick=()=>{ysPress($("ysBack"),"back");if(!$("ysSet").classList.contains("hide")){$("ysSet").classList.add("hide");return}if(ysView=="conf")ysGo("song");else if(ysView=="song")ysGo("diff");else if(ysView=="diff")ysGo("home");else ysClose()};
 $("ysUp").onclick=()=>{if(ysMove(-1))ysPress($("ysUp"));else ysNope($("ysUp"))};$("ysDn").onclick=()=>{if(ysMove(1))ysPress($("ysDn"));else ysNope($("ysDn"))};
 $("ysShuf").onclick=()=>{const l=ysView=="diff"?null:ysList();if(!l||l.length<2){ysNope($("ysShuf"));return}let n=ysPick;while(n==ysPick)n=l[Math.floor(Math.random()*l.length)];ysPick=n;ysPress($("ysShuf"));drawList();pvPlay(n);scrollToOn()};
 for(const b of document.querySelectorAll("#ysSel [data-no]"))if(!b.onclick)b.onclick=()=>ysNope(b);
@@ -1680,4 +1715,38 @@ if(document.querySelectorAll){
   document.querySelectorAll("input[type=range]").forEach(r=>{const card=r.closest(".card"),on=()=>{menuEl.classList.add("peek");card.classList.add("keep")},off=()=>setTimeout(()=>{menuEl.classList.remove("peek");card.classList.remove("keep")},400);
     r.addEventListener("pointerdown",on);r.addEventListener("touchstart",on,{passive:true});for(const e of["pointerup","pointercancel","touchend","touchcancel","change"])r.addEventListener(e,off)})}
 apply();loadD();
-</script></body></html>
+</script><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/","@pixiv/three-vrm":"https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.1.0/lib/three-vrm.module.min.js"}}</script>
+<script type="module">
+// ホームの3Dモデル。2体のうち1体をランダムに読み込み、待機モーション（呼吸・揺れ・まばたき）をつける
+import * as THREE from "three";
+import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
+import {VRMLoaderPlugin,VRMUtils} from "@pixiv/three-vrm";
+const MODELS=[{f:"m1.vrm",cr:"3Dモデル「駒」 作者：杉山"},{f:"m2.vrm",cr:"3Dモデル「現代神」 作者：小泉杉山"}];
+let R=null,scene,cam,vrm=null,clock=new THREE.Clock(),raf=0,cv=null,cur=-1,blinkT=2,loading=false;
+function size(){if(!R||!cv)return;const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+async function load(i){loading=true;const ld=new GLTFLoader();ld.register(p=>new VRMLoaderPlugin(p));
+  let g=null;for(const u of[MODELS[i].f,"songs/"+MODELS[i].f,"models/"+MODELS[i].f]){try{g=await ld.loadAsync(u);break}catch(e){}}
+  loading=false;if(!g)return;const v=g.userData.vrm;if(!v)return;
+  if(vrm){scene.remove(vrm.scene);VRMUtils.deepDispose(vrm.scene)}vrm=v;VRMUtils.removeUnnecessaryVertices(g.scene);
+  if(v.meta&&v.meta.metaVersion==="0")VRMUtils.rotateVRM0(v);
+  v.scene.traverse(o=>{o.frustumCulled=false});scene.add(v.scene);
+  
+  pose(0)}
+function bone(n){return vrm&&vrm.humanoid?vrm.humanoid.getNormalizedBoneNode(n):null}
+function pose(t){if(!vrm)return;const b=n=>bone(n)||{rotation:{x:0,y:0,z:0}};
+  b("leftUpperArm").rotation.z=-1.18+Math.sin(t*1.3)*.02;b("rightUpperArm").rotation.z=1.18-Math.sin(t*1.3+.5)*.02;
+  b("leftLowerArm").rotation.z=-.18;b("rightLowerArm").rotation.z=.18;b("leftLowerArm").rotation.y=-.25;b("rightLowerArm").rotation.y=.25;
+  b("spine").rotation.z=Math.sin(t*.8)*.025;b("spine").rotation.x=Math.sin(t*1.6)*.012;
+  b("chest").rotation.x=Math.sin(t*1.6+.6)*.015;b("neck").rotation.y=Math.sin(t*.55)*.06;b("head").rotation.z=Math.sin(t*.7+1)*.035;b("head").rotation.x=.04+Math.sin(t*.9)*.02;
+  b("hips").position&&(b("hips").position.y=b("hips").position.y)}
+function loop(){raf=requestAnimationFrame(loop);const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
+  if(vrm){pose(t);const em=vrm.expressionManager;if(em){blinkT-=dt;let bv=0;if(blinkT<.16)bv=1-Math.abs(blinkT-.08)/.08;if(blinkT<0)blinkT=2+Math.random()*3;em.setValue("blink",Math.max(0,bv))}vrm.update(dt)}
+  size();R.render(scene,cam)}
+window.YS3D={start(c){cv=c;if(!R){R=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});R.setPixelRatio(Math.min(2,devicePixelRatio||1));R.outputColorSpace=THREE.SRGBColorSpace;
+    scene=new THREE.Scene();cam=new THREE.PerspectiveCamera(24,1,.1,20);cam.position.set(.12,1.28,2.25);cam.lookAt(.12,1.18,0);
+    const dl=new THREE.DirectionalLight(0xffffff,Math.PI*.9);dl.position.set(.6,1.6,2);scene.add(dl);scene.add(new THREE.AmbientLight(0xffffff,Math.PI*.45))}
+  const i=Math.floor(Math.random()*MODELS.length);if(i!==cur||!vrm){cur=i;if(!loading)load(i)}
+  cancelAnimationFrame(raf);clock.getDelta();loop()},
+ stop(){cancelAnimationFrame(raf);raf=0}};
+</script>
+</body></html>
