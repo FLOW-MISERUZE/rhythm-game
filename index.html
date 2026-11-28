@@ -457,9 +457,9 @@ summary{cursor:pointer;color:#cfd4ff}
 @keyframes ytS{from{transform:translate(0,0) scale(.6);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(90deg);opacity:0}}
 
 /* 動画の切り替え：画面が白っぽく飛んだ状態から晴れていき、曲カードは右から左へ一斉に滑り込む */
-#ysVeil{background:rgba(226,226,232,.9)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;transition:opacity .1s linear!important}
-#ysVeil.out{transition:opacity .32s ease-out!important}
-.ycard.yst,.ycard.on.yst{animation:ystIn2 .26s cubic-bezier(.12,.75,.25,1) both!important}
+#ysVeil{background:rgba(226,226,232,.9)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;transition:opacity .03s linear!important}
+#ysVeil.out{transition:opacity .11s ease-out!important}
+.ycard.yst,.ycard.on.yst{animation:ystIn2 .2s cubic-bezier(.12,.75,.25,1) both!important}
 @keyframes ystIn2{0%{opacity:.25;transform:translateX(calc(var(--u)*236))}100%{opacity:1;transform:none}}
 .ycab.yst{animation:none!important}
 .ycfC.yst{animation:yCard2 .2s ease-out both!important}@keyframes yCard2{0%{opacity:0;transform:translateX(calc(var(--u)*40))}100%{opacity:1;transform:none}}
@@ -695,7 +695,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 56</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 57</div></div>
 </div>
 </div>
 <script>
@@ -1575,7 +1575,7 @@ const ysList=()=>SONGS.filter(s=>s.diff==YSDV[ysTab][0]);
 // 画面の切り替え：一度白くぼかして、裏で入れ替えてから戻す
 let ysVeilBusy=false;
 function ysVeil(fn,hold){const V=$("ysVeil");if(ysVeilBusy){fn();return}ysVeilBusy=true;V.classList.add("on");
-  setTimeout(()=>{try{fn()}catch(e){}setTimeout(()=>{V.classList.add("out");V.classList.remove("on");setTimeout(()=>{V.classList.remove("out");ysVeilBusy=false},330)},hold||40)},110)}
+  setTimeout(()=>{try{fn()}catch(e){}requestAnimationFrame(()=>{V.classList.add("out");V.classList.remove("on");setTimeout(()=>{V.classList.remove("out");ysVeilBusy=false},140)})},35)}
 function ysGo(v){const vis=!$("ysSel").classList.contains("hide");if(vis&&ysView&&ysView!=v)ysVeil(()=>{ysGo0(v);ysStag(v)});else{ysGo0(v);ysStag(v)}}
 function ysStag(v){if(v=="conf"){const b=document.querySelector(".ycfBand");if(b){b.classList.remove("yst");void b.offsetWidth;b.classList.add("yst")}
     document.querySelectorAll(".ycfC").forEach((c,i)=>{c.style.animationDelay=(.06+i*.06)+"s";c.classList.add("yst")})}
