@@ -512,6 +512,10 @@ summary{cursor:pointer;color:#cfd4ff}
 @media (orientation:portrait){.yeChar3{display:none}}
 #ysLoad{position:fixed;inset:0;z-index:45;background:rgba(236,236,242,.95);display:flex;align-items:flex-end;justify-content:flex-end;padding:0 calc(var(--u)*26) calc(var(--u)*16) 0;font-family:"Montserrat",system-ui;font-weight:800;font-style:italic;font-size:calc(var(--u)*18);color:#3a3844;letter-spacing:.06em}
 #ysLoad span{animation:yeTw 1.2s infinite}
+
+.yhPerf,.yhTicket{filter:drop-shadow(0 calc(var(--u)*4) calc(var(--u)*6) rgba(0,0,0,.35))!important}
+.yhT .tko{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:3;pointer-events:none}
+.yhT .tko path{fill:none;stroke:#fff;stroke-width:calc(var(--u)*5);vector-effect:non-scaling-stroke;stroke-linejoin:round}
 </style></head><body>
 <canvas id="cv"></canvas>
 <div id="bar"><button id="menuBtn" type="button">⚙ 設定</button><button id="stop" disabled>⏸ 一時停止</button></div>
@@ -572,8 +576,8 @@ summary{cursor:pointer;color:#cfd4ff}
 <rect width="1210" height="834" fill="#fff" opacity=".12"/></svg></div>
 
 <div class="yscr hide" id="yvHome"><div id="ysModel"></div>
- <div class="yhT yhPerf yp" id="yhPerf"><div class="tk"><span class="sp" style="left:calc(var(--u)*250);top:calc(var(--u)*30)"></span><span class="sp" style="left:calc(var(--u)*330);top:calc(var(--u)*110);animation-delay:.6s"></span><span class="sp" style="left:calc(var(--u)*200);top:calc(var(--u)*150);animation-delay:1.1s"></span><div class="t1">公演</div><div class="t2">Performance</div></div></div>
- <div class="yhT yhTicket yp" data-no="1"><div class="tk"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9h18v4H3zM4 13h16v8H4z"/><path d="M12 9v12" stroke="#a8acbd" stroke-width="2"/><path d="M12 9C9 3 5 5 7 8M12 9c3-6 7-4 5-1" fill="none" stroke="#fff" stroke-width="2"/></svg><b>追加報酬</b><small>ADDITIONAL<br>REMUNERATION</small></div></div>
+ <div class="yhT yhPerf yp" id="yhPerf"><svg class="tko" viewBox="0 0 419 208" preserveAspectRatio="none"><path d="M3 0H406A13 13 0 0 0 419 13V195A13 13 0 0 0 406 208H3Q0 208 0 205V3Q0 0 3 0Z"/></svg><div class="tk"><span class="sp" style="left:calc(var(--u)*250);top:calc(var(--u)*30)"></span><span class="sp" style="left:calc(var(--u)*330);top:calc(var(--u)*110);animation-delay:.6s"></span><span class="sp" style="left:calc(var(--u)*200);top:calc(var(--u)*150);animation-delay:1.1s"></span><div class="t1">公演</div><div class="t2">Performance</div></div></div>
+ <div class="yhT yhTicket yp" data-no="1"><svg class="tko" viewBox="0 0 90 208" preserveAspectRatio="none"><path d="M0 13A13 13 0 0 0 13 0H87Q90 0 90 3V205Q90 208 87 208H13A13 13 0 0 0 0 195Z"/></svg><div class="tk"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9h18v4H3zM4 13h16v8H4z"/><path d="M12 9v12" stroke="#a8acbd" stroke-width="2"/><path d="M12 9C9 3 5 5 7 8M12 9c3-6 7-4 5-1" fill="none" stroke="#fff" stroke-width="2"/></svg><b>追加報酬</b><small>ADDITIONAL<br>REMUNERATION</small></div></div>
  <div class="yhT yhA empty yp" data-no="1"></div><div class="yhT yhL empty" id="yhLesson"><span class="lbl">稽古</span></div><div class="yhT yhG1 empty yp" data-no="1"></div><div class="yhT yhG2 empty yp" data-no="1"></div>
  <div class="yh3d" id="yh3d"></div>
  
@@ -750,7 +754,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 61</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 62</div></div>
 </div>
 </div>
 <script>
@@ -1763,9 +1767,9 @@ function init(){if(R)return;cv=document.createElement("canvas");R=new THREE.WebG
   const dl=new THREE.DirectionalLight(0xfff6ee,1.35);dl.position.set(.5,1.4,2);scene.add(dl);scene.add(new THREE.AmbientLight(0xffffff,.55))}
 function get(i){if(cache[i])return cache[i];cache[i]=(async()=>{const ld=new GLTFLoader();ld.register(p=>new VRMLoaderPlugin(p));let g=null,er="";
     for(const u of[FILES[i],"songs/"+FILES[i],"models/"+FILES[i]]){try{g=await ld.loadAsync(u);break}catch(e){er=e&&e.message||String(e)}}
-    if(!g||!g.userData.vrm){delete cache[i];msg("3D：モデル（"+FILES[i]+"）を読み込めませんでした");throw new Error(er||"load")}
+    if(!g||!g.userData||!g.userData.vrm){delete cache[i];msg("3D：モデル（"+FILES[i]+"）を読み込めませんでした");throw new Error(er||"load")}
     const v=g.userData.vrm;VRMUtils.removeUnnecessaryVertices(g.scene);if(v.meta&&v.meta.metaVersion==="0")VRMUtils.rotateVRM0(v);v.scene.traverse(o=>{o.frustumCulled=false});
-    v.scene.updateMatrixWorld(true);const h=v.humanoid.getRawBoneNode("head")||v.humanoid.getNormalizedBoneNode("head"),p=new THREE.Vector3();if(h)h.getWorldPosition(p);v.userData.headY=p.y||1.35;
+    v.scene.updateMatrixWorld(true);const h=v.humanoid.getRawBoneNode("head")||v.humanoid.getNormalizedBoneNode("head"),p=new THREE.Vector3();if(h)h.getWorldPosition(p);v.scene.userData.headY=p.y||1.35;
     return v})();return cache[i]}
 function bone(n){return vrm&&vrm.humanoid?vrm.humanoid.getNormalizedBoneNode(n):null}
 function pose(t){if(!vrm)return;const b=n=>bone(n)||{rotation:{x:0,y:0,z:0}};
@@ -1774,7 +1778,7 @@ function pose(t){if(!vrm)return;const b=n=>bone(n)||{rotation:{x:0,y:0,z:0}};
   b("spine").rotation.z=Math.sin(t*.8)*.025;b("spine").rotation.x=Math.sin(t*1.6)*.012;
   b("chest").rotation.x=Math.sin(t*1.6+.6)*.015;b("neck").rotation.y=Math.sin(t*.55)*.06;b("head").rotation.z=Math.sin(t*.7+1)*.035;b("head").rotation.x=.04+Math.sin(t*.9)*.02}
 // 頭の高さに合わせて、どちらのモデルも同じ写り方にする（頭の上に少し余白、腰のあたりまで）
-function frame(){if(!vrm)return;const hy=vrm.userData.headY,cy=hy-.3;cam.position.set(.1,cy+.04,2.3);cam.lookAt(.1,cy,0)}
+function frame(){if(!vrm)return;const hy=vrm.scene.userData.headY||1.35,cy=hy-.3;cam.position.set(.1,cy+.04,2.3);cam.lookAt(.1,cy,0)}
 function size(){const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;if(cv.width!==Math.round(w*R.getPixelRatio())||cv.height!==Math.round(h*R.getPixelRatio()))R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
 function loop(){raf=requestAnimationFrame(loop);const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
   if(vrm){pose(t);const em=vrm.expressionManager;if(em){blinkT-=dt;let bv=0;if(blinkT<.16)bv=1-Math.abs(blinkT-.08)/.08;if(blinkT<0)blinkT=2+Math.random()*3;em.setValue("blink",Math.max(0,bv))}vrm.update(dt)}
@@ -1782,7 +1786,7 @@ function loop(){raf=requestAnimationFrame(loop);const dt=Math.min(.05,clock.getD
 window.YS3D={
  preload(i){init();return get(i).then(()=>{msg("");return i}).catch(()=>i)},
  async show(host,i){init();if(!host)return;if(cv.parentNode!==host)host.appendChild(cv);want=i;cancelAnimationFrame(raf);clock.getDelta();loop();
-   let v;try{msg(cache[i]?"":"3D：モデルを読み込み中…");v=await get(i);msg("")}catch(e){return}
+   let v;try{msg(cache[i]?"":"3D：モデルを読み込み中…");v=await get(i);msg("")}catch(e){msg("3D：エラー "+(e&&e.message||e));return}
    if(want!==i)return;if(vrm!==v){if(vrm)scene.remove(vrm.scene);vrm=v;scene.add(v.scene);frame()}},
  stop(){cancelAnimationFrame(raf);raf=0}};
 </script>
