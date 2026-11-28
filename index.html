@@ -229,11 +229,17 @@ summary{cursor:pointer;color:#cfd4ff}
 @media (orientation:portrait){.ycab{display:none}.ylist{width:100%}.ycard{width:calc(100% - calc(var(--u)*70))}.ycard.on{width:calc(100% - calc(var(--u)*20))}.ypl,.yq{display:none}
  .yokP{display:block!important}.ycfCards{overflow-x:auto;right:0}.ycfBar{width:auto;right:calc(var(--u)*10)}.ysbox{width:100%;height:100%;border-radius:0}}
 .yokP{display:none!important}
+.ystat{cursor:pointer}.ystat.cnts{padding:0 calc(var(--u)*8) 0 calc(var(--u)*12);gap:calc(var(--u)*4)}.ystat.cnts #ysStatL,.ystat.cnts i{display:none}
+.ystat.cnts b{display:flex;gap:calc(var(--u)*4);justify-content:space-between;font-size:calc(var(--u)*18);font-family:"Montserrat",system-ui;font-weight:700}
+.ystat.cnts b span{flex:1;text-align:right;padding:0 calc(var(--u)*3) calc(var(--u)*1);border-bottom:calc(var(--u)*3) solid;min-width:0}
+.yc0{border-color:#7ee4ff!important}.yc1{border-color:#d9a6ff!important}.yc2{border-color:#ffd23a!important}.yc3{border-color:#45d0a0!important}.yc4{border-color:#a46cff!important}.yc5{border-color:#e0434f!important}
+
 /* 曲の終わり：判定の大きな文字 → STAGE 表示 → リザルト（2ページ） */
 #ysEnd{position:fixed;inset:0;z-index:30;overflow:hidden;font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",system-ui,sans-serif;color:#3a3844;user-select:none;-webkit-user-select:none}
 #ysEnd button{margin:0;width:auto;font-family:inherit;-webkit-tap-highlight-color:transparent;cursor:pointer}
 .yeA{position:absolute;inset:0;background:rgba(5,4,12,.55);animation:yeFadeIn .4s}
-.yeBeam{position:absolute;top:-10%;width:34%;height:130%;filter:blur(calc(var(--u)*18));opacity:.0;transform-origin:50% 0;animation:yeBeam 3.4s ease-out forwards}
+.yeBeam i{position:absolute;inset:0;clip-path:polygon(40% 0,60% 0,100% 100%,0 100%)}
+.yeBeam{position:absolute;top:-10%;width:34%;height:130%;filter:blur(calc(var(--u)*22));mix-blend-mode:screen;opacity:.0;transform-origin:50% 0;animation:yeBeam 3.4s ease-out forwards}
 @keyframes yeBeam{0%{opacity:0}15%{opacity:.75}80%{opacity:.7}100%{opacity:.55}}
 .yeSp{position:absolute;width:calc(var(--u)*22);height:calc(var(--u)*22);animation:yeTw 1.6s ease-in-out infinite}
 .yeSp:before{content:"";position:absolute;inset:0;background:#fff;clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%)}
@@ -543,7 +549,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 48</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 49</div></div>
 </div>
 </div>
 <script>
@@ -1086,7 +1092,7 @@ function drawYS(now){
     const CG=st>=2?"rgba(255,255,255,.9)":st==1?"rgba(255,90,200,.9)":"rgba(255,225,77,.7)",t=achNow(+S.yach==1).toFixed(4),t1=t.slice(0,-2),t2=t.slice(-2)+"%";
     const f1=`900 ${24*SC}px system-ui`,f2=`900 ${14*SC}px system-ui`;ctx.font=f1;const w1=ctx.measureText(t1).width;ctx.font=f2;const w2=ctx.measureText(t2).width,x0=xx-(w1+w2)/2;
     ctx.textAlign="left";ctx.font=f1;glowT(t1,x0,y,CG);ctx.fillStyle=g;ctx.fillText(t1,x0,y);ctx.font=f2;glowT(t2,x0+w1+1*SC,y,CG);ctx.fillStyle=g;ctx.fillText(t2,x0+w1+1*SC,y);ctx.restore()}
-  if(run)drawHUDys();
+  if(run||yeHold)drawHUDys();
   if(run&&!paused)try{ysCutTick(now)}catch(e){}
 }
 function drawHUDys(){const u=SC,tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,life=Math.max(0,1000-cnt[MISS]*80-cnt[4]*50);
@@ -1160,9 +1166,9 @@ function retryRun(){$("result").classList.add("hide");if(run){run=false;paused=f
 function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,ach=achNow(false),rk=achRank(ach);
   $("rsong").textContent=$("ysName").textContent.replace("📀 ","");$("rrank").textContent=rk;$("rscore").textContent=String(Math.min(99999999,pts)).padStart(8,"0");
   const lab=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];$("rtab").innerHTML=lab.map((l,i)=>`<span style="color:${JC[i]}">${l}</span><b>${cnt[i]}</b>`).join("")+`<span>MAX COMBO</span><b>${maxc}</b><span>FAST / LATE</span><b>${fc} / ${lc}</b><span>達成率</span><b>${ach.toFixed(4)}%</b>`;
-  try{if(ysPick&&ys!==undefined){const k="ysBest:"+ysPick.id,o=JSON.parse(localStorage.getItem(k)||"null");const n={sc:Math.max(o?o.sc:0,Math.min(99999999,pts)),ach:Math.max(o&&o.ach||0,ach)};const hp=1000-cnt[MISS]*80-cnt[4]*50;n.cl=Math.max(o&&o.cl||0,hp<=0?0:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[3]+cnt[4]+cnt[5]==0?2:1);n.rk=achRank(n.ach);localStorage.setItem(k,JSON.stringify(n))}}catch(e){}
+  try{if(ysPick&&ys!==undefined){const k="ysBest:"+ysPick.id,o=JSON.parse(localStorage.getItem(k)||"null");const n={sc:Math.max(o?o.sc:0,Math.min(99999999,pts)),ach:Math.max(o&&o.ach||0,ach),c:(!o||!o.c||ach>=(o.ach||0))?cnt.slice():o.c};const hp=1000-cnt[MISS]*80-cnt[4]*50;n.cl=Math.max(o&&o.cl||0,hp<=0?0:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[3]+cnt[4]+cnt[5]==0?2:1);n.rk=achRank(n.ach);localStorage.setItem(k,JSON.stringify(n))}}catch(e){}
   {const hp=1000-cnt[MISS]*80-cnt[4]*50;ysFinishSeq({sg:ysPick,cnt:cnt.slice(),maxc,ach,rk,hp,cl:hp<=0?0:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[3]+cnt[4]+cnt[5]==0?2:1,dev:DEV.slice(),fc,lc,off:+S.off})}}
-function quitRun(msg){if(!run)return;try{$("ysCut").className="";$("ysCut").innerHTML="";ysCutPlan=null}catch(e){}const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done)showResult();restoreLanes();ys=false;setPal(false);draw(f);if(!(wasYs&&done)){openMenu();if(wasYs&&unlocked)openSel("song")}try{actx.resume()}catch(e){}}
+function quitRun(msg){if(!run)return;try{$("ysCut").className="";$("ysCut").innerHTML="";ysCutPlan=null}catch(e){}const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done){yeHold=true;showResult();draw(f)}else{restoreLanes();ys=false;setPal(false);draw(f)}if(!(wasYs&&done)){openMenu();if(wasYs&&unlocked)openSel("song")}try{actx.resume()}catch(e){}}
 $("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}pauseGame()};
 $("resume").onclick=resumeGame;$("retry").onclick=retryRun;$("rretry").onclick=retryRun;$("rback").onclick=()=>{$("result").classList.add("hide");openMenu();if(S.mode==2&&unlocked)openSel("song")};$("quit").onclick=()=>quitRun();
 document.addEventListener("visibilitychange",()=>{if(document.hidden)pauseGame()});
@@ -1281,31 +1287,31 @@ function ysCutTick(now){if(S.ycut!=1||!ysAn)return;
   ysCutLast=now;for(const q of ysCutPlan)if(!q.done&&now>=q.t){q.done=true;if(now-q.t<600)ysCutShow(q.c,q.s)}}
 function ysCutShow(c,side){try{const e=$("ysCut");e.className="";e.innerHTML=`<div class="band"></div><div class="ci"><i style="background-image:url('${YCH[c].img}')"></i></div>`;void e.offsetWidth;e.className=side}catch(x){}}
 // ---- 曲の終わり：FINISH/CLEAR/FULL COMBO/ALL PERFECT → STAGE 表示 → リザルト ----
-let DEV=[],yeTimers=[],yeR=null,yeStage=0;
+let yeHold=false,DEV=[],yeTimers=[],yeR=null,yeStage=0;
 const yeT=(f,ms)=>yeTimers.push(setTimeout(f,ms));
 function yeClear(){for(const t of yeTimers)clearTimeout(t);yeTimers=[]}
-function ysFinishSeq(R){yeR=R;yeClear();const E=$("ysEnd");E.classList.remove("hide");ysU();yeStage=1;
+function ysFinishSeq(R){R.ch=Math.floor(Math.random()*YCH.length);yeR=R;yeClear();const E=$("ysEnd");E.classList.remove("hide");ysU();yeStage=1;
   const k=R.cl==3?"ap":R.cl==2?"fc":R.cl==1?"cl":"fi",txt={ap:"ALL PERFECT",fc:"FULL COMBO",cl:"CLEAR",fi:"FINISH"}[k];
   const beams=[["#ff4f7a",2],["#ffd24a",18],["#5cff7a",38],["#4fe0ff",58],["#c86bff",76]];
-  let h='<div class="yeA"></div>';beams.forEach(([c,x],i)=>h+=`<div class="yeBeam" style="left:${x}%;background:linear-gradient(180deg,${c},transparent 75%);clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);transform:rotate(${(i-2)*9}deg);animation-delay:${i*.06}s"></div>`);
+  let h='<div class="yeA"></div>';beams.forEach(([c,x],i)=>h+=`<div class="yeBeam" style="left:${x}%;transform:rotate(${(i-2)*9}deg);animation-delay:${i*.06}s"><i style="background:linear-gradient(180deg,${c},${c}88 40%,transparent 80%)"></i></div>`);
   for(let i=0;i<26;i++)h+=`<div class="yeSp" style="left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${(Math.random()*1.6).toFixed(2)}s;transform:scale(${(.4+Math.random()).toFixed(2)})"></div>`;
   if(k=="ap"||k=="fc")for(let i=0;i<14;i++)h+=`<div class="yeStar" style="left:${Math.random()*100}%;top:${Math.random()*40}%;background:${["#ff5fa0","#ffd24a","#4fb8ff","#ff7fd0"][i%4]};animation-delay:${(Math.random()*.8).toFixed(2)}s"></div>`;
   h+=`<div class="yeBig ${k}">${txt}</div><div class="yeTap">TAP</div>`;E.innerHTML=h;
   try{yse(k=="fi"?"back":"start")}catch(e){}
   yeT(yeToStage,3200);E.onclick=()=>{if(yeStage==1)yeToStage();else if(yeStage==2)yeToRes()}}
 function yeToStage(){yeClear();yeStage=2;const E=$("ysEnd");E.insertAdjacentHTML("beforeend",'<div class="yeBlack"></div>');
-  yeT(()=>{E.innerHTML=`<div class="yeStage"></div><div class="yeChar" style="background-image:url('${YCH[0].img}')"></div><div class="yeSS">${yeR.hp>0?"STAGE SUCCESS!":"STAGE FINISH"}</div><div class="yeTap">TAP</div>`;try{yse("ok")}catch(e){}yeT(yeToRes,2000)},500)}
+  yeT(()=>{E.innerHTML=`<div class="yeStage"></div><div class="yeChar" style="background-image:url('${YCH[yeR.ch].img}')"></div><div class="yeSS">${yeR.hp>0?"STAGE SUCCESS!":"STAGE FINISH"}</div><div class="yeTap">TAP</div>`;try{yse("ok")}catch(e){}yeT(yeToRes,2000)},500)}
 function z4(n){const s=String(Math.min(9999,n)).padStart(4,"0"),i=s.search(/[1-9]/);return i<0?`<s>000</s>0`:`<s>${s.slice(0,i)}</s>${s.slice(i)}`}
 const RANKS=[[80,"C"],[90,"B"],[95,"A"],[98,"A+"],[100,"S"],[100.25,"S+"],[100.5,"SS"],[100.75,"SS+"],[100.95,"SSS"]];
 function yeToRes(){yeClear();yeStage=3;const R=yeR,E=$("ysEnd"),sg=R.sg;
-  E.innerHTML=`<div class="yeStage" style="animation:none"></div><div class="yeChar" style="background-image:url('${YCH[0].img}');animation:none"></div>
+  E.innerHTML=`<div class="yeStage" style="animation:none"></div><div class="yeChar" style="background-image:url('${YCH[yeR.ch].img}');animation:none"></div>
   <div class="yeP"><div class="yeH"><div class="jk" style="background-image:url('${sg&&sg.jkR||""}')"></div><div class="nm"></div><div class="df">OLIVIER</div><div class="sts">${starsH(R.cl).replace(/class="st /g,'class="st ')}</div></div>
   <div class="yeRank" id="yeRank">${R.rk}</div>
   <div class="yeB"><button class="yeRe yp" id="yeRe" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="#4a4856" stroke-width="3.2" stroke-linecap="round"><path d="M19 9a8 8 0 0 0-14-1M5 15a8 8 0 0 0 14 1"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></button><div id="yePg"></div></div></div>
   <button class="yeBtn1 yp" id="yeRew" type="button">楽曲報酬</button><button class="yeBtn2 yp" id="yeNext" type="button">次へ</button>`;
   E.querySelector(".yeH .nm").textContent=sg?sg.name:"";E.onclick=null;
   $("yeRe").onclick=e=>{e.stopPropagation();ysPress($("yeRe"));yePage(R.pg==1?2:1)};$("yeRew").onclick=()=>ysNope($("yeRew"));
-  $("yeNext").onclick=()=>{ysPress($("yeNext"),"ok");setTimeout(()=>{yeClear();E.classList.add("hide");E.innerHTML="";openMenu();if(unlocked)openSel("song")},150)};
+  $("yeNext").onclick=()=>{ysPress($("yeNext"),"ok");setTimeout(()=>{yeClear();E.classList.add("hide");E.innerHTML="";yeHold=false;restoreLanes();ys=false;setPal(false);draw(0);openMenu();if(unlocked)openSel("song")},150)};
   R.pg=0;yePage(1);yeT(()=>{const r=$("yeRank");if(r){r.classList.add("show");try{yse("ok")}catch(e){}}},1500)}
 function judRows(R){const L=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];return `<div class="yeJ">${L.map((l,i)=>`<div><span class="lb l${i}">${l}</span><span class="nv">${z4(R.cnt[i])}</span></div>`).join("")}</div>`}
 function yePage(p){const R=yeR,G=$("yePg");if(!G)return;const first=R.pg==0;R.pg=p;{const r=$("yeRank");if(r)r.style.visibility=p==1?"":"hidden"}
@@ -1405,16 +1411,21 @@ function drawList(){const L=$("ysList"),st=L.scrollTop;L.innerHTML="";const box=
   if(ysView=="diff"){YSDV.forEach((d,i)=>{const n=SONGS.filter(s=>s.diff==d[0]).length;const c=mkCard({jk:`background:${DJK[i]}`,em:`<div class="em">${d[1]}</div>`,ac:acDeg(achDiff(d[0])),lv:d[1],name:d[0],ar:`収録曲 ${n}曲`,sub:`収録曲 ${n}曲`,on:i==ysTab});
       c.onclick=()=>{if(i==ysTab){ysPress(c,"ok");return diffOk()}ysTab=i;ysPress(c);drawList()};L.appendChild(c)});
     const d=YSDV[ysTab];box.innerHTML=`<div class="big" style="background:${DJK[ysTab]}">${d[1]}<small>OLIVIER</small></div>`;$("ysTag").textContent="DIFFICULTY";$("ysTag").className="tag orig";$("ysDName").textContent=d[0];$("ysDSub").textContent="難易度を選んでください";
-    diffBtns(d[1],acDeg(achDiff(d[0])));$("ysStatL").textContent="収録曲数";$("ysBest").innerHTML=SONGS.filter(s=>s.diff==d[0]).length+"<small> 曲</small>";$("ysRank").textContent=d[2];$("ysOk").disabled=false}
+    diffBtns(d[1],acDeg(achDiff(d[0])));$("ysStatL").textContent="収録曲数";$("ysStatL").parentNode.classList.remove("cnts");$("ysBest").innerHTML=SONGS.filter(s=>s.diff==d[0]).length+"<small> 曲</small>";$("ysRank").textContent=d[2];$("ysOk").disabled=false}
   else{const d=YSDV[ysTab],list=ysList();if(!ysPick||ysPick.diff!=d[0])ysPick=list[0]||null;
     if(!list.length)L.innerHTML='<div style="color:#fff;padding:30px 50px;font-weight:700">この難易度の曲はまだありません</div>';
     list.forEach(sg=>{const b0=best(sg),tg=YTAG[sg.id]||"orig";const c=mkCard({wm:`background-image:url('${sg.jkR||""}')`,stars:starsH(b0&&b0.cl||0),jk:`background-image:url('${sg.jkR||""}')`,ac:acDeg(achOf(sg)),lv:d[1],name:sg.name,ar:"",sub:sg.sub,rk:b0?b0.rk:"",tag:tg,on:sg==ysPick});
       c.onclick=()=>{if(ysPick==sg){ysPress(c,"ok");return ysGo("conf")}ysPick=sg;ysPress(c);drawList();pvPlay(sg);scrollToOn()};L.appendChild(c)});
     const sg=ysPick,tg=sg?YTAG[sg.id]||"orig":"orig";box.innerHTML=sg?`<img src="${sg.jkR||""}" alt="">`:"";$("ysTag").textContent=tg=="orig"?"ORIGINAL":"COVER";$("ysTag").className="tag "+tg;$("ysDName").textContent=sg?sg.name:"";$("ysDSub").textContent=sg?sg.diff+"　"+sg.sub:"";
-    diffBtns(d[1],sg?acDeg(achOf(sg)):"");const b0=sg&&best(sg);$("ysStatL").textContent="ベストスコア";$("ysBest").textContent=b0?String(b0.sc).padStart(8,"0"):"--------";$("ysRank").textContent=b0?b0.rk:"-";$("ysOk").disabled=!sg}
+    diffBtns(d[1],sg?acDeg(achOf(sg)):"");const b0=sg&&best(sg);ysStatShow(b0);$("ysRank").textContent=b0?b0.rk:"-";$("ysOk").disabled=!sg}
   L.scrollTop=st}
 function diffOk(){ysPick=(ysPick&&ysPick.diff==YSDV[ysTab][0])?ysPick:null;ysGo("song");setTimeout(scrollToOn,60)}
 function ysMove(dir){if(ysView=="diff"){const i=Math.max(0,Math.min(2,ysTab+dir));if(i==ysTab)return false;ysTab=i}else{const l=ysList(),i=l.indexOf(ysPick)+dir;if(i<0||i>=l.length)return false;ysPick=l[i];pvPlay(ysPick)}drawList();scrollToOn();return true}
+// ベスト：達成率。タップで判定ごとの数に切り替え
+let ysStatMode=0;
+function ysStatShow(b0){const st=$("ysStatL").parentNode;st.classList.toggle("cnts",ysStatMode==1&&!!(b0&&b0.c));
+  if(ysStatMode==1&&b0&&b0.c){$("ysStatL").textContent="";$("ysBest").innerHTML=b0.c.map((v,i)=>`<span class="yc${i}">${v}</span>`).join("")}
+  else{$("ysStatL").textContent="ベスト達成率";const a=b0&&b0.ach;$("ysBest").innerHTML=a?a.toFixed(2)+`<small>${a.toFixed(4).slice(-2)}%</small>`:"--.--<small>--%</small>"}}
 function drawConf(){const sg=ysPick;$("ycName").textContent=sg?sg.name:"";$("ycSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ycLvB").innerHTML=lvB(sg);$("ycLvB").setAttribute("style",sg?acDeg(achOf(sg)):"");$("ycMsg").textContent="";$("ycGName").textContent="グループ"+ysGrp;
   // キャラの枠（キャラは後で入れる）
   const C=$("ycCards");C.innerHTML="";for(let i=0;i<5;i++){const ch=YCH[i],f=document.createElement("div");f.className="ycfC"+(i==0?" lead":"");f.style.backgroundImage=`url('${ch.img}')`;f.innerHTML=`<i class="ic1"></i><i class="ic2"></i><i class="c1"></i><i class="c2"></i><div class="st">Lv.　 ${ch.lv}<br>♪　 ${ch.a}<br>✹　 ${ch.b}<br>🎧　 ${ch.c}</div>`;f.onclick=()=>ysPress(f);C.appendChild(f)}
@@ -1423,6 +1434,7 @@ async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ycMsg").textC
   const ok=await loadPreset(ysPick);ysBusy=false;
   if(!ok){$("ycMsg").textContent=$("listMsg").textContent;return}
   pvStop(.2);$("ysSel").classList.add("hide");if(+$("mode").value!=2){$("mode").value=2;apply()}$("go").onclick()}
+$("ysStatL").parentNode.onclick=()=>{if(ysView!="song")return;const b0=ysPick&&best(ysPick);if(!b0||!b0.c){ysNope($("ysStatL").parentNode);return}ysStatMode^=1;yse("tab");fxEl($("ysStatL").parentNode,"ypop");ysStatShow(b0)};
 $("ysOk").onclick=$("ysOkP").onclick=e=>{ysPress(e.currentTarget,"ok");if(ysView=="diff")diffOk();else if(ysPick)ysGo("conf")};
 $("ycStart").onclick=()=>{ysPress($("ycStart"),"start");playPick()};
 $("ysBack").onclick=()=>{ysPress($("ysBack"),"back");if(!$("ysSet").classList.contains("hide")){$("ysSet").classList.add("hide");return}if(ysView=="conf")ysGo("song");else if(ysView=="song")ysGo("diff");else ysClose()};
