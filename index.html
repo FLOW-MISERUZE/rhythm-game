@@ -434,6 +434,27 @@ summary{cursor:pointer;color:#cfd4ff}
 .ystat i{flex:0 0 auto;width:calc(var(--u)*36)!important;height:calc(var(--u)*36)!important;font-size:calc(var(--u)*13)!important;letter-spacing:-.04em}
 .ystat2{left:calc(var(--u)*262)!important;width:calc(var(--u)*128)!important;padding:0 calc(var(--u)*18)!important;box-sizing:border-box!important}.ystat2 span{font-size:calc(var(--u)*16)!important}.ystat2 b{font-size:calc(var(--u)*20)!important}
 .ystat.cnts{width:calc(var(--u)*378)!important}
+
+/* ---- 画面の動き（動画に合わせた切り替え・登場・タップの光） ---- */
+#ysVeil{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:0;background:rgba(236,236,242,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:opacity .16s ease-out}
+#ysVeil.on{opacity:1;pointer-events:auto}
+#ysVeil .ld{position:absolute;right:calc(var(--u)*26);bottom:calc(var(--u)*16);display:flex;align-items:center;gap:calc(var(--u)*8);font-family:"Montserrat",system-ui;font-weight:800;font-style:italic;font-size:calc(var(--u)*16);color:#3a3844;letter-spacing:.06em}
+#ysVeil .ld i{width:calc(var(--u)*46);height:calc(var(--u)*32);background:center/contain no-repeat;animation:ldHop .5s ease-in-out infinite alternate}
+@keyframes ldHop{from{transform:translateY(0) rotate(-6deg)}to{transform:translateY(calc(var(--u)*-6)) rotate(4deg)}}
+.ycard.yst{animation:ystIn .36s cubic-bezier(.2,.9,.3,1) both}
+@keyframes ystIn{from{opacity:0;transform:translateX(calc(var(--u)*-46))}to{opacity:1;transform:none}}
+.ycard.on.yst{animation-name:ystInOn}@keyframes ystInOn{from{opacity:0;transform:translateX(calc(var(--u)*-60))}to{opacity:1;transform:translateX(0)}}
+.ycab.yst{animation:yCab .45s cubic-bezier(.2,.9,.3,1) both}@keyframes yCab{from{opacity:0;transform:translateX(calc(var(--u)*80))}to{opacity:1;transform:none}}
+.ycfC.yst{animation:yCard .32s cubic-bezier(.2,1.3,.4,1) both}@keyframes yCard{0%{opacity:0;transform:translateY(calc(var(--u)*24)) scale(.86)}100%{opacity:1;transform:none}}
+.ycfBand.yst{animation:yBand .34s ease-out both}@keyframes yBand{from{opacity:0;transform:scaleY(.6)}to{opacity:1;transform:none}}
+.ysbox,.ypBox{animation:yDlg .36s cubic-bezier(.2,.9,.25,1) both!important}
+@keyframes yDlg{0%{opacity:.0;transform:scale(.5);filter:grayscale(1) brightness(1.6)}35%{opacity:.75;filter:grayscale(1) brightness(1.5)}100%{opacity:1;transform:none;filter:none}}
+.ysbox>*,.ypBox>*{animation:yDlgC .4s ease-out both}@keyframes yDlgC{0%,40%{opacity:0}100%{opacity:1}}
+.ytap{position:fixed;z-index:60;pointer-events:none;width:0;height:0}
+.ytap b{position:absolute;left:calc(var(--u)*-30);top:calc(var(--u)*-30);width:calc(var(--u)*60);height:calc(var(--u)*60);border-radius:50%;border:calc(var(--u)*3) solid rgba(255,140,190,.95);box-shadow:0 0 calc(var(--u)*10) rgba(255,160,210,.9);animation:ytR .45s ease-out forwards}
+@keyframes ytR{from{transform:scale(.2);opacity:1}to{transform:scale(1.3);opacity:0}}
+.ytap i{position:absolute;left:calc(var(--u)*-6);top:calc(var(--u)*-6);width:calc(var(--u)*12);height:calc(var(--u)*12);background:#fff;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);filter:drop-shadow(0 0 calc(var(--u)*3) #ff9fd0);animation:ytS .5s ease-out forwards}
+@keyframes ytS{from{transform:translate(0,0) scale(.6);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(90deg);opacity:0}}
 </style></head><body>
 <canvas id="cv"></canvas>
 <div id="bar"><button id="menuBtn" type="button">⚙ 設定</button><button id="stop" disabled>⏸ 一時停止</button></div>
@@ -600,7 +621,7 @@ summary{cursor:pointer;color:#cfd4ff}
 </div></div><div class="ysBtns"><button id="ysCancel" class="yp" type="button">キャンセル</button><button id="ysSetOk" class="yp" type="button">OK</button></div></div></div>
 </div>
 
-<div id="ysCut"></div><div id="ysPause" class="hide"></div><div id="ysEnd" class="hide"></div>
+<div id="ysCut"></div><div id="ysVeil"><div class="ld"><i class="ypMas"></i>NOW LOADING...</div></div><div id="ysPause" class="hide"></div><div id="ysEnd" class="hide"></div>
 <div id="result" class="hide"><div class="rbox"><div class="rtitle">RESULT</div><div id="rsong" class="sub"></div><div id="rrank" class="rrank"></div><div id="rscore" class="rscore"></div><div id="rtab" class="rtab"></div><div class="rbtns"><button id="rretry" type="button">↻ リトライ</button><button id="rback" type="button" style="background:rgba(255,255,255,.14)">← 戻る</button></div></div></div>
 <div id="menu">
 <div class="wrapm">
@@ -665,7 +686,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 54</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 55</div></div>
 </div>
 </div>
 <script>
@@ -1541,7 +1562,22 @@ function starsH(cl){let h="";for(let i=0;i<5;i++){const c=i<4?0:cl;h+=`<svg clas
 const acDeg=a=>`--ac:${(Math.max(0,Math.min(101,a))/101*360).toFixed(1)}deg`;
 const best=sg=>{try{return JSON.parse(localStorage.getItem("ysBest:"+sg.id)||"null")}catch(e){return null}};
 const ysList=()=>SONGS.filter(s=>s.diff==YSDV[ysTab][0]);
-function ysGo(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf");$("yvConf").classList.toggle("hide",v!="conf");
+
+// 画面の切り替え：一度白くぼかして、裏で入れ替えてから戻す
+let ysVeilBusy=false;
+function ysVeil(fn,hold){const V=$("ysVeil");if(ysVeilBusy){fn();return}ysVeilBusy=true;V.classList.add("on");
+  setTimeout(()=>{try{fn()}catch(e){}setTimeout(()=>{V.classList.remove("on");ysVeilBusy=false},hold||220)},170)}
+function ysGo(v){const vis=!$("ysSel").classList.contains("hide");if(vis&&ysView&&ysView!=v)ysVeil(()=>{ysGo0(v);ysStag(v)});else{ysGo0(v);ysStag(v)}}
+function ysStag(v){if(v=="conf"){const b=document.querySelector(".ycfBand");if(b){b.classList.remove("yst");void b.offsetWidth;b.classList.add("yst")}
+    document.querySelectorAll(".ycfC").forEach((c,i)=>{c.style.animationDelay=(.12+i*.07)+"s";c.classList.add("yst")})}
+  else{document.querySelectorAll("#ysList .ycard").forEach((c,i)=>{c.style.animationDelay=(i*.045)+"s";c.classList.add("yst");setTimeout(()=>c.classList.remove("yst"),900+i*45)});
+    const cb=document.querySelector(".ycab");if(cb){cb.classList.remove("yst");void cb.offsetWidth;cb.classList.add("yst")}}}
+// タップした所に光の輪とキラキラ
+function ysTapFx(x,y){const d=document.createElement("div");d.className="ytap";d.style.left=x+"px";d.style.top=y+"px";let h="<b></b>";
+  for(let i=0;i<7;i++){const a=i/7*Math.PI*2+Math.random()*.5,r=34+Math.random()*16;h+=`<i style="--dx:calc(var(--u)*${(Math.cos(a)*r).toFixed(1)});--dy:calc(var(--u)*${(Math.sin(a)*r).toFixed(1)})"></i>`}
+  d.innerHTML=h;document.body.appendChild(d);setTimeout(()=>d.remove(),600)}
+document.addEventListener("pointerdown",e=>{const t=e.target.closest&&e.target.closest(".yp,.ycard,.ycfC,.ysRad button,.ysTabsL button,.ystat");if(t)ysTapFx(e.clientX,e.clientY)},true);
+function ysGo0(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",v=="conf");$("yvConf").classList.toggle("hide",v!="conf");
   $("ysHead").textContent={diff:"難易度選択",song:"楽曲選択",conf:"最終確認"}[v];$("ysSet").classList.add("hide");
   for(const id of["ysQ","ysFil","ysLv"])$(id).classList.toggle("hide",v=="conf");
   $("ybg1").style.opacity=v=="conf"?0:1;$("ybg2").style.opacity=v=="conf"?1:0;
@@ -1590,7 +1626,7 @@ async function playPick(){if(!ysPick||ysBusy)return;ysBusy=true;$("ycMsg").textC
   pvStop(.2);$("ysSel").classList.add("hide");if(+$("mode").value!=2){$("mode").value=2;apply()}$("go").onclick()}
 $("ysStatL").parentNode.onclick=()=>{if(ysView!="song")return;const b0=ysPick&&best(ysPick);if(!b0||!b0.c){ysNope($("ysStatL").parentNode);return}ysStatMode^=1;yse("tab");fxEl($("ysStatL").parentNode,"ypop");ysStatShow(b0)};
 $("ysOk").onclick=$("ysOkP").onclick=e=>{ysPress(e.currentTarget,"ok");if(ysView=="diff")diffOk();else if(ysPick)ysGo("conf")};
-$("ycStart").onclick=()=>{ysPress($("ycStart"),"start");playPick()};
+$("ycStart").onclick=()=>{ysPress($("ycStart"),"start");$("ysVeil").classList.add("on");setTimeout(()=>{playPick();setTimeout(()=>$("ysVeil").classList.remove("on"),400)},250)};
 $("ysBack").onclick=()=>{ysPress($("ysBack"),"back");if(!$("ysSet").classList.contains("hide")){$("ysSet").classList.add("hide");return}if(ysView=="conf")ysGo("song");else if(ysView=="song")ysGo("diff");else ysClose()};
 $("ysUp").onclick=()=>{if(ysMove(-1))ysPress($("ysUp"));else ysNope($("ysUp"))};$("ysDn").onclick=()=>{if(ysMove(1))ysPress($("ysDn"));else ysNope($("ysDn"))};
 $("ysShuf").onclick=()=>{const l=ysView=="diff"?null:ysList();if(!l||l.length<2){ysNope($("ysShuf"));return}let n=ysPick;while(n==ysPick)n=l[Math.floor(Math.random()*l.length)];ysPick=n;ysPress($("ysShuf"));drawList();pvPlay(n);scrollToOn()};
