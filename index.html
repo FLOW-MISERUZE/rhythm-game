@@ -88,7 +88,7 @@ summary{cursor:pointer;color:#cfd4ff}
 #ysSel button{margin:0;width:auto;font-family:inherit;color:inherit;-webkit-tap-highlight-color:transparent;cursor:pointer}
 #ysSel .hide{display:none!important}
 .ybg{position:absolute;inset:calc(var(--u)*-12);z-index:0;transition:opacity .45s;background-size:cover;background-position:center}
-.ybg svg{width:100%;height:100%;display:block;filter:blur(3.2px) saturate(1.05)}
+.ybg svg{width:100%;height:100%;display:block;filter:blur(5px) saturate(1.1)}
 .yscr{position:absolute;inset:0;z-index:1}
 /* 押したときの動き */
 .yp{transition:transform .08s,filter .08s}.yp:active{transform:scale(.93);filter:brightness(1.12)}
@@ -228,7 +228,23 @@ summary{cursor:pointer;color:#cfd4ff}
 /* 縦向きの画面 */
 @media (orientation:portrait){.ycab{display:none}.ylist{width:100%}.ycard{width:calc(100% - calc(var(--u)*70))}.ycard.on{width:calc(100% - calc(var(--u)*20))}.ypl,.yq{display:none}
  .yokP{display:block!important}.ycfCards{overflow-x:auto;right:0}.ycfBar{width:auto;right:calc(var(--u)*10)}.ysbox{width:100%;height:100%;border-radius:0}}
-.yokP{display:none!important}.ypBox{overflow:visible!important}.ypHd{border-radius:calc(var(--u)*26) calc(var(--u)*26) 0 0;overflow:hidden}.ypMas{z-index:5;top:calc(var(--u)*-26)!important;right:calc(var(--u)*14)!important}
+.yokP{display:none!important}.ymonH{height:calc(var(--u)*46)!important}.ymonJ{height:calc(var(--u)*342)!important}.ymonC{height:calc(var(--u)*45)}
+#ysBest{white-space:nowrap}.ystat span{white-space:nowrap}
+.ymon{left:0!important;top:0!important;width:calc(var(--u)*350)!important;height:calc(var(--u)*433)!important;padding:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;transform-origin:0 0!important}
+.ymonS{width:100%!important;height:100%!important;border-radius:0!important;background:#1d1c21!important;box-shadow:none!important}
+.ymonH{height:calc(var(--u)*49)!important;padding:0 calc(var(--u)*12) 0 calc(var(--u)*18)!important;align-items:flex-end!important;padding-bottom:calc(var(--u)*8)!important}
+.ymonH b{font-size:calc(var(--u)*16)!important;letter-spacing:.01em}.ymonH span{font-size:calc(var(--u)*11.5)!important;font-weight:500!important;letter-spacing:.04em!important}
+.ymonJ{height:calc(var(--u)*328)!important;margin:0 calc(var(--u)*6)!important}
+.ymonC{padding:0 calc(var(--u)*10)!important;gap:calc(var(--u)*8)!important}
+.ymonC .tag{font-size:calc(var(--u)*12)!important;font-style:italic;padding:calc(var(--u)*2) calc(var(--u)*8)!important;border-radius:calc(var(--u)*3)!important;background:linear-gradient(90deg,#f39bd2,#b69cf0 55%,#7ad8f2)!important;color:#fff;-webkit-text-stroke:.4u #8a5fb0}
+.ymonC b{font-size:calc(var(--u)*14)!important;font-weight:500!important}.ymonC small{font-size:calc(var(--u)*8)!important;opacity:.75!important}
+/* 下の帯：達成率と星章 */
+.ystat{left:calc(var(--u)*13)!important;width:calc(var(--u)*228)!important;padding:0 calc(var(--u)*8) 0 calc(var(--u)*18)!important;bottom:calc(var(--u)*36)!important}
+.ystat span{font-size:calc(var(--u)*18)!important}.ystat b{font-size:calc(var(--u)*22)!important}
+.ystat.cnts{width:calc(var(--u)*378)!important;z-index:4}
+.ystat2{position:absolute;left:calc(var(--u)*250);bottom:calc(var(--u)*36);height:calc(var(--u)*58);width:calc(var(--u)*140);border-radius:calc(var(--u)*29);background:rgba(48,46,56,.92);display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*20);color:#fff;z-index:3;box-shadow:0 calc(var(--u)*3) calc(var(--u)*6) rgba(0,0,0,.35);box-sizing:border-box}
+.ystat2 span{font-size:calc(var(--u)*18);font-weight:700}.ystat2 b{font-size:calc(var(--u)*22);font-weight:500}
+.ypBox{overflow:visible!important}.ypHd{border-radius:calc(var(--u)*26) calc(var(--u)*26) 0 0;overflow:hidden}.ypMas{z-index:5;top:calc(var(--u)*-26)!important;right:calc(var(--u)*14)!important}
 /* 本家風のアーケード筐体（自作の絵） */
 .ycab{width:calc(var(--u)*650)!important}
 .ycSvg{position:absolute;left:0;top:0;width:calc(var(--u)*650);height:calc(var(--u)*834);filter:drop-shadow(0 calc(var(--u)*14) calc(var(--u)*24) rgba(0,0,0,.45))}
@@ -408,30 +424,39 @@ summary{cursor:pointer;color:#cfd4ff}
 </div></div>
 <div id="ysSel" class="hide">
 <div id="ybg1" class="ybg"><svg viewBox="0 0 1210 834" preserveAspectRatio="xMidYMid slice"><defs>
-<linearGradient id="yl1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9c6b2"/><stop offset=".42" stop-color="#b89a86"/><stop offset=".43" stop-color="#6b3e36"/><stop offset=".7" stop-color="#8a3a32"/><stop offset="1" stop-color="#5a2a26"/></linearGradient>
-<radialGradient id="yl2"><stop offset="0" stop-color="#fffaf0"/><stop offset=".5" stop-color="#ffe9c8" stop-opacity=".7"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
-<linearGradient id="yl3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe0ea"/><stop offset="1" stop-color="#8fa6b6"/></linearGradient>
-<linearGradient id="yl4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a1e1a"/><stop offset=".5" stop-color="#6a3428"/><stop offset="1" stop-color="#2a1612"/></linearGradient></defs>
-<rect width="1210" height="834" fill="url(#yl1)"/>
-<rect x="0" y="0" width="1210" height="150" fill="#e8dccd"/>
-<g fill="#cbb7a2">
-<rect x="0" y="120" width="1210" height="14"/><rect x="0" y="236" width="1210" height="10"/></g>
-<g fill="url(#yl3)" opacity=".95"><rect x="40" y="150" width="140" height="86"/><rect x="200" y="150" width="140" height="86"/><rect x="360" y="150" width="140" height="86"/><rect x="520" y="150" width="140" height="86"/><rect x="680" y="150" width="140" height="86"/></g>
-<g stroke="#9b8573" stroke-width="5"><line x1="110" y1="150" x2="110" y2="236"/><line x1="270" y1="150" x2="270" y2="236"/><line x1="430" y1="150" x2="430" y2="236"/><line x1="590" y1="150" x2="590" y2="236"/><line x1="750" y1="150" x2="750" y2="236"/></g>
-<rect x="0" y="246" width="1210" height="110" fill="#a2806c"/>
-<rect x="840" y="140" width="370" height="420" fill="url(#yl4)"/>
-<g fill="#2a1814" opacity=".55"><rect x="880" y="190" width="70" height="320" rx="6"/><rect x="980" y="190" width="70" height="320" rx="6"/><rect x="1080" y="190" width="70" height="320" rx="6"/></g>
-<rect x="0" y="356" width="1210" height="230" fill="#7a3a30" opacity=".55"/>
-<g fill="#e6d3c0" opacity=".85"><rect x="60" y="370" width="200" height="150" rx="6"/><rect x="300" y="380" width="160" height="120" rx="6"/></g>
-<rect x="0" y="560" width="1210" height="274" fill="#6e2a26"/>
-<path d="M0 834 L380 600 L830 600 L1210 834 Z" fill="#b02a2e" opacity=".75"/>
-<path d="M0 834 L300 640 L900 640 L1210 834" fill="none" stroke="#e8c37a" stroke-width="6" opacity=".5"/>
-<g fill="#2a2228"><rect x="96" y="470" width="14" height="230"/><rect x="468" y="470" width="14" height="230"/><rect x="84" y="696" width="38" height="10" rx="4"/><rect x="456" y="696" width="38" height="10" rx="4"/></g>
-<path d="M110 500 Q290 560 470 500" fill="none" stroke="#7a1820" stroke-width="10"/>
-<g fill="url(#yl2)"><circle cx="70" cy="70" r="60"/><circle cx="240" cy="40" r="66"/><circle cx="420" cy="78" r="58"/><circle cx="600" cy="44" r="62"/><circle cx="760" cy="82" r="56"/><circle cx="920" cy="40" r="60"/><circle cx="1090" cy="76" r="58"/>
-<circle cx="640" cy="160" r="40"/><circle cx="320" cy="170" r="36"/><circle cx="1000" cy="300" r="70"/><circle cx="180" cy="420" r="50"/><circle cx="1150" cy="620" r="90"/></g>
-<g fill="#fff" opacity=".9"><circle cx="70" cy="70" r="14"/><circle cx="240" cy="40" r="15"/><circle cx="420" cy="78" r="13"/><circle cx="600" cy="44" r="14"/><circle cx="760" cy="82" r="13"/><circle cx="920" cy="40" r="14"/><circle cx="1090" cy="76" r="13"/></g>
-<rect width="1210" height="834" fill="#2a1410" opacity=".18"/></svg></div>
+<linearGradient id="lb1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f9fd8"/><stop offset=".6" stop-color="#a9c8ea"/><stop offset="1" stop-color="#d8e6f2"/></linearGradient>
+<linearGradient id="lb2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a3f2a"/><stop offset=".5" stop-color="#a65a3c"/><stop offset="1" stop-color="#5e2f22"/></linearGradient>
+<linearGradient id="lb3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a9294"/><stop offset="1" stop-color="#6e6668"/></linearGradient>
+<radialGradient id="lb4"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#fffaf0"/><stop offset="1" stop-color="#fff4e0" stop-opacity="0"/></radialGradient>
+<radialGradient id="lb5"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".8"/><stop offset="1" stop-color="#ffb060" stop-opacity="0"/></radialGradient>
+<pattern id="lb6" width="64" height="40" patternUnits="userSpaceOnUse"><rect width="64" height="40" fill="#a3563a"/><rect x="1" y="1" width="30" height="18" fill="#b8664a"/><rect x="33" y="1" width="30" height="18" fill="#9c4e34"/><rect x="-15" y="21" width="30" height="18" fill="#9c4e34"/><rect x="17" y="21" width="30" height="18" fill="#b46046"/><rect x="49" y="21" width="30" height="18" fill="#a5583c"/></pattern></defs>
+<rect width="1210" height="834" fill="#8a7f80"/>
+<!-- ガラス張りの上の階 -->
+<rect x="0" y="0" width="1210" height="230" fill="url(#lb1)"/>
+<g fill="#eef3f8"><rect x="0" y="0" width="1210" height="14"/><rect x="0" y="96" width="1210" height="10"/></g>
+<g fill="#3d5f9a" opacity=".55"><rect x="0" y="14" width="1210" height="6"/></g>
+<g fill="#f4f7fb"><rect x="30" y="0" width="9" height="230"/><rect x="148" y="0" width="9" height="230"/><rect x="266" y="0" width="9" height="230"/><rect x="384" y="0" width="9" height="230"/><rect x="502" y="0" width="9" height="230"/><rect x="620" y="0" width="9" height="230"/><rect x="738" y="0" width="9" height="230"/><rect x="856" y="0" width="9" height="230"/><rect x="974" y="0" width="9" height="230"/><rect x="1092" y="0" width="9" height="230"/></g>
+<g fill="#2b4f8f" opacity=".35"><rect x="88" y="20" width="4" height="210"/><rect x="206" y="20" width="4" height="210"/><rect x="324" y="20" width="4" height="210"/><rect x="442" y="20" width="4" height="210"/><rect x="560" y="20" width="4" height="210"/><rect x="678" y="20" width="4" height="210"/><rect x="796" y="20" width="4" height="210"/><rect x="914" y="20" width="4" height="210"/><rect x="1032" y="20" width="4" height="210"/><rect x="1150" y="20" width="4" height="210"/></g>
+<!-- 天井の白い梁 -->
+<rect x="0" y="228" width="1210" height="44" fill="#ece8e4"/><rect x="0" y="268" width="1210" height="10" fill="#c9c2bd"/>
+<!-- 吊り下げ照明 -->
+<g><line x1="40" y1="106" x2="40" y2="140" stroke="#555" stroke-width="2"/><circle cx="40" cy="160" r="58" fill="url(#lb4)"/><ellipse cx="40" cy="160" rx="26" ry="20" fill="#fffdf8"/><line x1="150" y1="106" x2="150" y2="130" stroke="#555" stroke-width="2"/><circle cx="150" cy="150" r="58" fill="url(#lb4)"/><ellipse cx="150" cy="150" rx="26" ry="20" fill="#fffdf8"/><line x1="260" y1="106" x2="260" y2="152" stroke="#555" stroke-width="2"/><circle cx="260" cy="172" r="58" fill="url(#lb4)"/><ellipse cx="260" cy="172" rx="26" ry="20" fill="#fffdf8"/><line x1="420" y1="106" x2="420" y2="130" stroke="#555" stroke-width="2"/><circle cx="420" cy="150" r="58" fill="url(#lb4)"/><ellipse cx="420" cy="150" rx="26" ry="20" fill="#fffdf8"/><line x1="560" y1="106" x2="560" y2="146" stroke="#555" stroke-width="2"/><circle cx="560" cy="166" r="58" fill="url(#lb4)"/><ellipse cx="560" cy="166" rx="26" ry="20" fill="#fffdf8"/><line x1="700" y1="106" x2="700" y2="130" stroke="#555" stroke-width="2"/><circle cx="700" cy="150" r="58" fill="url(#lb4)"/><ellipse cx="700" cy="150" rx="26" ry="20" fill="#fffdf8"/><line x1="860" y1="106" x2="860" y2="150" stroke="#555" stroke-width="2"/><circle cx="860" cy="170" r="58" fill="url(#lb4)"/><ellipse cx="860" cy="170" rx="26" ry="20" fill="#fffdf8"/><line x1="1010" y1="106" x2="1010" y2="132" stroke="#555" stroke-width="2"/><circle cx="1010" cy="152" r="58" fill="url(#lb4)"/><ellipse cx="1010" cy="152" rx="26" ry="20" fill="#fffdf8"/><line x1="1150" y1="106" x2="1150" y2="148" stroke="#555" stroke-width="2"/><circle cx="1150" cy="168" r="58" fill="url(#lb4)"/><ellipse cx="1150" cy="168" rx="26" ry="20" fill="#fffdf8"/></g>
+<!-- 1階：レンガの壁と明るい窓 -->
+<rect x="0" y="278" width="1210" height="300" fill="#6b4a40"/>
+<rect x="0" y="290" width="330" height="250" fill="url(#lb6)"/>
+<rect x="330" y="290" width="260" height="250" fill="#3e2c2a"/><rect x="350" y="310" width="220" height="140" fill="#d8b78a" opacity=".7"/>
+<rect x="590" y="290" width="300" height="250" fill="url(#lb6)"/>
+<rect x="890" y="290" width="320" height="250" fill="#2e2224"/><g fill="#f2d7a8" opacity=".55"><rect x="910" y="320" width="80" height="120"/><rect x="1010" y="320" width="80" height="120"/><rect x="1110" y="320" width="80" height="120"/></g>
+<circle cx="120" cy="380" r="90" fill="url(#lb5)"/><circle cx="700" cy="370" r="110" fill="url(#lb5)"/><circle cx="1050" cy="400" r="90" fill="url(#lb5)"/>
+<g fill="#ffffff" opacity=".9"><rect x="60" y="455" width="60" height="40" rx="6"/><rect x="760" y="430" width="44" height="34" rx="6"/></g>
+<!-- ソファとテーブル -->
+<g fill="#4a2f2b"><rect x="20" y="520" width="240" height="60" rx="12"/><rect x="620" y="515" width="200" height="56" rx="12"/><rect x="960" y="520" width="230" height="60" rx="12"/></g>
+<g fill="#c9a77a"><rect x="60" y="560" width="160" height="14" rx="4"/><rect x="1000" y="560" width="150" height="14" rx="4"/></g>
+<!-- 床と赤いライン -->
+<rect x="0" y="578" width="1210" height="256" fill="url(#lb3)"/>
+<path d="M0 640 L1210 610 L1210 640 L0 680 Z" fill="#c8262c"/>
+<path d="M0 760 L1210 720" stroke="#b0a6a8" stroke-width="3" opacity=".5"/>
+<rect width="1210" height="834" fill="#fff" opacity=".06"/></svg></div>
 <div id="ybg2" class="ybg" style="opacity:0"><svg viewBox="0 0 1210 834" preserveAspectRatio="xMidYMid slice"><defs>
 <linearGradient id="yr1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f2f2"/><stop offset="1" stop-color="#d8d4d6"/></linearGradient>
 <pattern id="yr2" width="120" height="60" patternUnits="userSpaceOnUse"><rect width="120" height="60" fill="#a2969a"/><rect width="60" height="30" fill="#83787d"/><rect x="60" y="30" width="60" height="30" fill="#83787d"/></pattern></defs>
@@ -456,22 +481,43 @@ summary{cursor:pointer;color:#cfd4ff}
 <button class="ycircle yp" id="ysMark" type="button" style="left:calc(var(--u)*114);bottom:calc(var(--u)*34)" data-no="1"><svg viewBox="0 0 48 48"><path d="M12 6h24v36l-12-9-12 9z" fill="#3a3844"/><path d="M24 14l2.4 5 5.4.6-4 3.7 1.1 5.3-4.9-2.7-4.9 2.7 1.1-5.3-4-3.7 5.4-.6z" fill="#fff"/></svg></button>
 <div class="ycab">
  <svg class="ycSvg" viewBox="0 0 650 834" preserveAspectRatio="none"><defs>
-<linearGradient id="ycS1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbfbfd"/><stop offset=".25" stop-color="#b9b9c3"/><stop offset=".5" stop-color="#eeeef2"/><stop offset=".75" stop-color="#9c9ca8"/><stop offset="1" stop-color="#d8d8de"/></linearGradient>
-<linearGradient id="ycS2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#46464f"/><stop offset=".08" stop-color="#2e2e35"/><stop offset="1" stop-color="#141418"/></linearGradient>
-<linearGradient id="ycS3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5a3024"/><stop offset=".45" stop-color="#8a4a35"/><stop offset="1" stop-color="#4a2419"/></linearGradient>
-<linearGradient id="ycS4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#18181c"/><stop offset="1" stop-color="#303037"/></linearGradient></defs>
-<path d="M118 340 L238 300 L238 610 L118 618 Z" fill="#1c1c21"/><path d="M130 352 L226 318 L226 600 L130 606 Z" fill="#26262c"/>
-<path d="M548 290 L642 326 L650 834 L556 834 Z" fill="url(#ycS4)"/>
-<path d="M166 190 Q168 132 226 124 L556 92 Q618 90 620 150 L620 570 Q620 602 588 604 L196 596 Q164 594 164 566 Z" fill="url(#ycS1)"/>
-<path d="M176 194 Q178 142 228 136 L554 104 Q606 104 608 154 L608 566 Q608 590 584 591 L198 584 Q176 584 176 562 Z" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/>
-<path d="M58 650 Q60 606 112 602 L598 594 Q642 594 646 628 L650 834 L56 834 Z" fill="url(#ycS2)"/>
-<path d="M70 640 Q80 612 116 610 L596 602" fill="none" stroke="#6a6a74" stroke-width="3" opacity=".8"/>
-<rect x="212" y="606" width="200" height="14" rx="4" fill="#0e0e12"/><rect x="214" y="608" width="196" height="4" rx="2" fill="#3a3a42"/>
-<path d="M588 628 L650 622 L650 834 L592 834 Z" fill="url(#ycS3)"/><path d="M588 628 L650 622" stroke="#c07a5a" stroke-width="2"/>
-<rect x="230" y="760" width="150" height="40" rx="6" fill="#0c0c10" opacity=".7"/></svg>
+<linearGradient id="cbF" x1="0" y1="0" x2="1" y2=".35"><stop offset="0" stop-color="#f4f4f6"/><stop offset=".3" stop-color="#c9c9cf"/><stop offset=".55" stop-color="#fafafb"/><stop offset=".8" stop-color="#a9a9b1"/><stop offset="1" stop-color="#e2e2e6"/></linearGradient>
+<linearGradient id="cbSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b8b8c0"/><stop offset=".35" stop-color="#f2f2f4"/><stop offset=".7" stop-color="#8f8f99"/><stop offset="1" stop-color="#5d5d66"/></linearGradient>
+<linearGradient id="cbBz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a292f"/><stop offset="1" stop-color="#1b1a1f"/></linearGradient>
+<linearGradient id="cbW" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2c2b31"/><stop offset=".25" stop-color="#3d3c43"/><stop offset="1" stop-color="#151418"/></linearGradient>
+<linearGradient id="cbTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c5b62"/><stop offset=".45" stop-color="#3c3b41"/><stop offset="1" stop-color="#27262b"/></linearGradient>
+<linearGradient id="cbFr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#36353b"/><stop offset=".5" stop-color="#2a292e"/><stop offset="1" stop-color="#1c1b20"/></linearGradient>
+<linearGradient id="cbTrim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a7a82"/><stop offset=".5" stop-color="#e6e6ea"/><stop offset="1" stop-color="#6a6a72"/></linearGradient>
+<linearGradient id="cbWood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3e1f17"/><stop offset=".18" stop-color="#7c3e2c"/><stop offset=".55" stop-color="#63301f"/><stop offset=".85" stop-color="#4a2418"/><stop offset="1" stop-color="#2e150f"/></linearGradient>
+<pattern id="cbGr" width="6" height="80" patternUnits="userSpaceOnUse"><rect width="6" height="80" fill="none"/><path d="M1 0 Q3 40 1 80 M4 0 Q2 30 4 80" stroke="#2a120c" stroke-width=".8" opacity=".35" fill="none"/></pattern></defs>
+<g transform="translate(33.8 68.6) scale(.656)">
+<!-- 左右の黒い支え -->
+<path d="M208 420 Q210 398 232 398 L262 398 L238 800 L180 800 Z" fill="url(#cbW)"/><path d="M214 418 Q218 404 234 404" stroke="#6a6a72" stroke-width="3" fill="none" opacity=".7"/>
+<path d="M842 402 Q846 390 870 388 L890 390 Q910 394 910 420 L908 860 L850 860 Z" fill="url(#cbW)"/><path d="M848 404 Q856 394 872 394" stroke="#77777f" stroke-width="3" fill="none" opacity=".8"/>
+<!-- 画面の枠（右の厚み → 銀の枠 → 黒いベゼル） -->
+<path d="M860 46 Q926 46 930 112 L908 792 Q906 808 888 810 L858 806 Z" fill="url(#cbSide)"/>
+<path d="M352 42 L862 42 Q912 42 914 96 L880 790 Q878 808 858 808 L150 808 Q120 808 124 778 L300 92 Q314 42 352 42 Z" fill="url(#cbF)"/>
+<path d="M352 42 L862 42 Q912 42 914 96" stroke="#fff" stroke-width="4" fill="none" opacity=".9"/>
+<path d="M356 58 L858 58 Q896 58 896 98 L866 782 Q865 790 856 790 L160 790 Q142 790 146 772 L316 96 Q326 58 356 58 Z" fill="url(#cbBz)"/>
+<!-- 本体の上面とカード口 -->
+<path d="M70 812 Q78 796 104 796 L862 796 Q880 796 884 812 L888 846 L58 846 Z" fill="url(#cbTop)"/>
+<path d="M76 806 Q84 798 106 798 L860 798" stroke="#8a8a92" stroke-width="3" fill="none" opacity=".8"/>
+<rect x="212" y="806" width="350" height="16" rx="6" fill="#1a191d"/><rect x="216" y="809" width="342" height="6" rx="3" fill="#6d6c73" opacity=".8"/>
+<!-- 本体の前面 -->
+<path d="M58 846 L888 846 L892 1165 L40 1165 Q36 900 58 846 Z" fill="url(#cbFr)"/>
+<path d="M60 846 Q38 870 40 940 L40 1165" stroke="url(#cbTrim)" stroke-width="16" fill="none"/>
+<path d="M60 846 Q38 870 40 940 L40 1165" stroke="#fff" stroke-width="3" fill="none" opacity=".55"/>
+<rect x="208" y="992" width="210" height="44" rx="6" fill="#121115"/><rect x="214" y="998" width="198" height="8" rx="3" fill="#2e2d33"/>
+<rect x="232" y="1044" width="160" height="20" rx="4" fill="#0e0d10" opacity=".8"/>
+<!-- 右の木の柱 -->
+<path d="M852 838 Q852 826 866 826 L935 826 L935 1165 L852 1165 Z" fill="url(#cbWood)"/>
+<path d="M852 838 Q852 826 866 826 L935 826 L935 1165 L852 1165 Z" fill="url(#cbGr)"/>
+<path d="M858 830 L935 830" stroke="#b5735a" stroke-width="3" opacity=".7"/><path d="M856 840 L856 1165" stroke="#9a5a43" stroke-width="2" opacity=".6"/>
+</g></svg>
  <div class="ymon"><div class="ymonS"><div class="ymonH"><b>♪ RHYTHM</b><span>MUSIC INFORMATION</span></div><div class="ymonJ" id="ysJkBox"></div><div class="ymonC"><span class="tag orig" id="ysTag">OLIVIER</span><div><b id="ysDName"></b><small id="ysDSub"></small></div></div></div></div>
  <div class="ydiffs" id="ysDiffs"></div>
  <div class="ystat"><span id="ysStatL">ベストスコア</span><b id="ysBest">-</b><i id="ysRank">-</i></div>
+ <div class="ystat2"><span>星章</span><b>0</b></div>
  <button id="ysOk" class="yok yp" type="button">OK</button>
 </div>
 <button id="ysOkP" class="yok yokP yp" type="button" style="z-index:6">OK</button>
@@ -599,7 +645,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 51</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 52</div></div>
 </div>
 </div>
 <script>
@@ -1418,6 +1464,14 @@ const YTAG={s1:"cov",s2:"orig",s3:"orig",s4:"cov",s5:"cov"};
 // 画面の大きさに合わせて u（基準画面 1210×834 に対する 1px）を決める
 function ysU(){const w=innerWidth,h=innerHeight,u=w>=h?Math.min(w/1210,h/834):Math.min(w/700,h/1000);try{document.documentElement.style.setProperty("--u",u+"px")}catch(e){}}
 ysU();addEventListener("resize",ysU);
+
+// 筐体の画面：HTMLの画面を、傾いた画面の四隅にぴったり合わせる
+function ysHomo(el,w,h,P){const A=[],B=[],S=[[0,0],[w,0],[w,h],[0,h]];for(let i=0;i<4;i++){const[x,y]=S[i],[X,Y]=P[i];A.push([x,y,1,0,0,0,-x*X,-y*X]);B.push(X);A.push([0,0,0,x,y,1,-x*Y,-y*Y]);B.push(Y)}
+  for(let c=0;c<8;c++){let m=c;for(let r=c+1;r<8;r++)if(Math.abs(A[r][c])>Math.abs(A[m][c]))m=r;[A[c],A[m]]=[A[m],A[c]];[B[c],B[m]]=[B[m],B[c]];for(let r=0;r<8;r++)if(r!=c){const f=A[r][c]/A[c][c];for(let k=c;k<8;k++)A[r][k]-=f*A[c][k];B[r]-=f*B[c]}}
+  const h_=B.map((v,i)=>v/A[i][i]);el.style.transform=`matrix3d(${h_[0]},${h_[3]},0,${h_[6]},${h_[1]},${h_[4]},0,${h_[7]},0,0,1,0,${h_[2]},${h_[5]},0,1)`}
+function ysCab(){const m=document.querySelector(".ymon");if(!m)return;const u=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--u"))||1,T=(x,y)=>[(33.8+x*.656)*u,(68.6+y*.656)*u];
+  ysHomo(m,350*u,433*u,[T(326,64),T(890,64),T(862,784),T(152,784)])}
+addEventListener("resize",()=>setTimeout(ysCab,30));
 // 効果音（WebAudioで合成）
 let seC=null;const seCtx=()=>{if(!seC)seC=new(window.AudioContext||window.webkitAudioContext)();if(seC.state!="running")seC.resume();return seC};
 function yse(k){if(!YSE.se)return;let c;try{c=seCtx()}catch(e){return}const t=c.currentTime+.005;
@@ -1461,7 +1515,7 @@ function ysGo(v){const prev=ysView;ysView=v;$("yvList").classList.toggle("hide",
   $("ybg1").style.opacity=v=="conf"?0:1;$("ybg2").style.opacity=v=="conf"?1:0;
   if(v=="diff")pvStop(.4);ysRedraw();if(prev!=v){if(v=="conf")fxEl($("yvConf"),"yinR");else{fxEl($("ysList"),"yin");fxEl(document.querySelector(".ycab"),"yinR")}}
   if(v=="song")pvPlay(ysPick)}
-function openSel(v){$("ysSel").classList.remove("hide");hideOv();ysU();jkFix();if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}ysView="";ysGo(v||"diff");yse("open")}
+function openSel(v){$("ysSel").classList.remove("hide");hideOv();ysU();ysCab();jkFix();if(ysPick){const i=YSDV.findIndex(d=>d[0]==ysPick.diff);if(i>=0)ysTab=i}ysView="";ysGo(v||"diff");yse("open")}
 function ysClose(){pvStop(.3);$("ysSel").classList.add("hide")}
 function ysRedraw(){if(ysView=="conf")drawConf();else drawList()}
 const DJK=["linear-gradient(135deg,#7fb0ff,#3d58b8)","linear-gradient(135deg,#d88cff,#6a38b8)","linear-gradient(135deg,#ff8aa8,#b8305e)"];
@@ -1489,7 +1543,7 @@ function ysMove(dir){if(ysView=="diff"){const i=Math.max(0,Math.min(2,ysTab+dir)
 let ysStatMode=0;
 function ysStatShow(b0){const st=$("ysStatL").parentNode;st.classList.toggle("cnts",ysStatMode==1&&!!(b0&&b0.c));
   if(ysStatMode==1&&b0&&b0.c){$("ysStatL").textContent="";$("ysBest").innerHTML=b0.c.map((v,i)=>`<span class="yc${i}">${v}</span>`).join("")}
-  else{$("ysStatL").textContent="ベスト達成率";const a=b0&&b0.ach;$("ysBest").innerHTML=a?a.toFixed(2)+`<small>${a.toFixed(4).slice(-2)}%</small>`:"--.--<small>--%</small>"}}
+  else{$("ysStatL").textContent="達成率";const a=b0&&b0.ach;$("ysBest").innerHTML=a?a.toFixed(2)+`<small>${a.toFixed(4).slice(-2)}%</small>`:"--.--<small>--%</small>"}}
 function drawConf(){const sg=ysPick;$("ycName").textContent=sg?sg.name:"";$("ycSub").textContent=sg?sg.diff+"　"+sg.sub:"";$("ycLvB").innerHTML=lvB(sg);$("ycLvB").setAttribute("style",sg?acDeg(achOf(sg)):"");$("ycMsg").textContent="";$("ycGName").textContent="グループ"+ysGrp;
   // キャラの枠（キャラは後で入れる）
   const C=$("ycCards");C.innerHTML="";for(let i=0;i<5;i++){const ch=YCH[i],f=document.createElement("div");f.className="ycfC"+(i==0?" lead":"");f.style.backgroundImage=`url('${ch.img}')`;f.innerHTML=`<i class="ic1"></i><i class="ic2"></i><i class="c1"></i><i class="c2"></i><div class="st">Lv.　 ${ch.lv}<br>♪　 ${ch.a}<br>✹　 ${ch.b}<br>🎧　 ${ch.c}</div>`;f.onclick=()=>ysPress(f);C.appendChild(f)}
