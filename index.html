@@ -229,6 +229,29 @@ summary{cursor:pointer;color:#cfd4ff}
 @media (orientation:portrait){.ycab{display:none}.ylist{width:100%}.ycard{width:calc(100% - calc(var(--u)*70))}.ycard.on{width:calc(100% - calc(var(--u)*20))}.ypl,.yq{display:none}
  .yokP{display:block!important}.ycfCards{overflow-x:auto;right:0}.ycfBar{width:auto;right:calc(var(--u)*10)}.ysbox{width:100%;height:100%;border-radius:0}}
 .yokP{display:none!important}
+/* 〇〇〇〇モードの一時停止（配置は本家に合わせ、飾りは自作） */
+#ysPause{position:fixed;inset:0;z-index:28;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",system-ui,sans-serif;color:#3a3844;user-select:none;-webkit-user-select:none}
+#ysPause button{margin:0;width:auto;font-family:inherit;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.ypBox{position:relative;width:calc(var(--u)*740);height:calc(var(--u)*415);border-radius:calc(var(--u)*26);background:#ededf0;box-shadow:0 calc(var(--u)*18) calc(var(--u)*50) rgba(0,0,0,.5);overflow:hidden;animation:ypop .28s ease-out}
+.ypBox.sm{width:calc(var(--u)*500);height:calc(var(--u)*334)}
+.ypHd{position:absolute;left:0;right:0;top:0;height:calc(var(--u)*178);background:
+  repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 calc(var(--u)*30),transparent calc(var(--u)*30) calc(var(--u)*60)),linear-gradient(180deg,#ff7a7a,#f46a72)}
+.ypHd:after{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*130);background:#ededf0;clip-path:polygon(0 72%,100% 0,100% 100%,0 100%)}
+.ypDeco{position:absolute;top:calc(var(--u)*8);opacity:.16;font-size:calc(var(--u)*40);color:#fff;transform:rotate(-15deg)}
+.ypT{position:absolute;left:0;right:0;top:calc(var(--u)*14);height:calc(var(--u)*30);text-align:center;color:#fff;font-size:calc(var(--u)*25);font-weight:500;letter-spacing:.06em;display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*12)}
+.ypT svg{width:calc(var(--u)*20);height:calc(var(--u)*20);fill:#fff}
+.ypZ{position:absolute;right:calc(var(--u)*28);top:calc(var(--u)*6);color:#fff;font-weight:900;font-size:calc(var(--u)*18);opacity:.85;line-height:.8;transform:rotate(-12deg)}
+.ypIn{position:absolute;left:calc(var(--u)*14);right:calc(var(--u)*14);top:calc(var(--u)*58);height:calc(var(--u)*266);border-radius:calc(var(--u)*22);background:#fff;box-shadow:0 calc(var(--u)*2) calc(var(--u)*6) rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;text-align:center;font-size:calc(var(--u)*20);line-height:1.55;letter-spacing:.04em}
+.ypBox.sm .ypIn{left:calc(var(--u)*12);right:calc(var(--u)*12);top:calc(var(--u)*46);height:calc(var(--u)*212)}
+.ypIn em{font-style:normal;color:#e23a44;font-weight:700}
+.ypGear{position:absolute;right:calc(var(--u)*14);top:calc(var(--u)*12);width:calc(var(--u)*54)!important;height:calc(var(--u)*54);border-radius:50%;padding:0!important;background:#fff!important;border:calc(var(--u)*3) solid #c9c9d2!important;box-shadow:0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center}
+.ypGear svg{width:calc(var(--u)*34);height:calc(var(--u)*34)}
+.ypBtns{position:absolute;left:0;right:0;bottom:calc(var(--u)*16);display:flex;justify-content:center;gap:calc(var(--u)*18)}
+.ypB{width:calc(var(--u)*192)!important;height:calc(var(--u)*60);padding:0!important;border-radius:calc(var(--u)*8);font-size:calc(var(--u)*24);font-weight:500;letter-spacing:.04em;
+  border:calc(var(--u)*3) solid #c6c6ce!important;background:radial-gradient(circle,rgba(0,0,0,.035) calc(var(--u)*1.2),transparent calc(var(--u)*1.6)) 0 0/calc(var(--u)*8) calc(var(--u)*8),linear-gradient(180deg,#fff,#f0f0f4)!important;color:#3a3844!important;box-shadow:0 calc(var(--u)*3) 0 #bdbdc6}
+.ypB.red{border-color:#ffc58a!important;background:radial-gradient(circle,rgba(255,255,255,.2) calc(var(--u)*1.2),transparent calc(var(--u)*1.6)) 0 0/calc(var(--u)*8) calc(var(--u)*8),linear-gradient(180deg,#ff8a84,#f2525c)!important;color:#fff!important;box-shadow:0 calc(var(--u)*3) 0 #c33a44}
+.ypBox.sm .ypB{width:calc(var(--u)*154)!important;height:calc(var(--u)*48);font-size:calc(var(--u)*20)}
+
 .ystat{cursor:pointer}.ystat.cnts{padding:0 calc(var(--u)*8) 0 calc(var(--u)*12);gap:calc(var(--u)*4)}.ystat.cnts #ysStatL,.ystat.cnts i{display:none}
 .ystat.cnts b{display:flex;gap:calc(var(--u)*4);justify-content:space-between;font-size:calc(var(--u)*18);font-family:"Montserrat",system-ui;font-weight:700}
 .ystat.cnts b span{flex:1;text-align:right;padding:0 calc(var(--u)*3) calc(var(--u)*1);border-bottom:calc(var(--u)*3) solid;min-width:0}
@@ -484,7 +507,7 @@ summary{cursor:pointer;color:#cfd4ff}
 </div></div><div class="ysBtns"><button id="ysCancel" class="yp" type="button">キャンセル</button><button id="ysSetOk" class="yp" type="button">OK</button></div></div></div>
 </div>
 
-<div id="ysCut"></div><div id="ysEnd" class="hide"></div>
+<div id="ysCut"></div><div id="ysPause" class="hide"></div><div id="ysEnd" class="hide"></div>
 <div id="result" class="hide"><div class="rbox"><div class="rtitle">RESULT</div><div id="rsong" class="sub"></div><div id="rrank" class="rrank"></div><div id="rscore" class="rscore"></div><div id="rtab" class="rtab"></div><div class="rbtns"><button id="rretry" type="button">↻ リトライ</button><button id="rback" type="button" style="background:rgba(255,255,255,.14)">← 戻る</button></div></div></div>
 <div id="menu">
 <div class="wrapm">
@@ -549,7 +572,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 49</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 50</div></div>
 </div>
 </div>
 <script>
@@ -1158,8 +1181,8 @@ addEventListener("resize",()=>{fit();if(!run)draw(-1000)});if(window.visualViewp
 const pauseEl=$("pause");
 const setPlaying=b=>{try{document.body.classList.toggle("playing",b)}catch(e){}};
 const hudHit=(x,y)=>run&&!paused&&(ys?Math.hypot(x-(W0-46*SC),y-46*SC)<40*SC:Math.abs(x-44*SC)<46*SC&&Math.abs(y-48*SC)<46*SC),hudPause=()=>$("stop").onclick();
-function pauseGame(){if(!run||cal)return;if(paused){if(cdEnd){cdEnd=0;cdNum=0;pauseEl.classList.remove("hide")}return}
-  paused=true;pauseAt=performance.now();pauseAC=actx.currentTime;frozen=cur();ptr.clear();kh.fill(0);try{actx.suspend()}catch(e){}pauseEl.classList.remove("hide");$("retry").classList.toggle("hide",!ys)}
+function pauseGame(){if(!run||cal)return;if(paused){if(cdEnd){cdEnd=0;cdNum=0;if(ys)ypShow("main");else pauseEl.classList.remove("hide")}return}
+  paused=true;pauseAt=performance.now();pauseAC=actx.currentTime;frozen=cur();ptr.clear();kh.fill(0);try{actx.suspend()}catch(e){}pauseEl.classList.remove("hide");$("retry").classList.toggle("hide",!ys);if(ys)try{ypShow("main")}catch(e){}}
 function resumeGame(){if(!paused||cdEnd)return;if(acStale||actx.state=="closed"||actx.state=="interrupted"){freshAC();OUT=actx.createGain();OUT.connect(actx.destination);reAudio=true}pauseEl.classList.add("hide");cdEnd=performance.now()+3000;cdNum=3}
 function restoreLanes(){if(lanesBak){S.lanes=lanesBak;lanesBak=0;fit()}}
 function retryRun(){$("result").classList.add("hide");if(run){run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");try{songSrc&&songSrc.stop()}catch(e){}restoreLanes();ys=false;setPal(false)}closeMenu();startRun(false)}
@@ -1168,7 +1191,7 @@ function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,ach
   const lab=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];$("rtab").innerHTML=lab.map((l,i)=>`<span style="color:${JC[i]}">${l}</span><b>${cnt[i]}</b>`).join("")+`<span>MAX COMBO</span><b>${maxc}</b><span>FAST / LATE</span><b>${fc} / ${lc}</b><span>達成率</span><b>${ach.toFixed(4)}%</b>`;
   try{if(ysPick&&ys!==undefined){const k="ysBest:"+ysPick.id,o=JSON.parse(localStorage.getItem(k)||"null");const n={sc:Math.max(o?o.sc:0,Math.min(99999999,pts)),ach:Math.max(o&&o.ach||0,ach),c:(!o||!o.c||ach>=(o.ach||0))?cnt.slice():o.c};const hp=1000-cnt[MISS]*80-cnt[4]*50;n.cl=Math.max(o&&o.cl||0,hp<=0?0:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[3]+cnt[4]+cnt[5]==0?2:1);n.rk=achRank(n.ach);localStorage.setItem(k,JSON.stringify(n))}}catch(e){}
   {const hp=1000-cnt[MISS]*80-cnt[4]*50;ysFinishSeq({sg:ysPick,cnt:cnt.slice(),maxc,ach,rk,hp,cl:hp<=0?0:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[3]+cnt[4]+cnt[5]==0?2:1,dev:DEV.slice(),fc,lc,off:+S.off})}}
-function quitRun(msg){if(!run)return;try{$("ysCut").className="";$("ysCut").innerHTML="";ysCutPlan=null}catch(e){}const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done){yeHold=true;showResult();draw(f)}else{restoreLanes();ys=false;setPal(false);draw(f)}if(!(wasYs&&done)){openMenu();if(wasYs&&unlocked)openSel("song")}try{actx.resume()}catch(e){}}
+function quitRun(msg){if(!run)return;try{ypHide()}catch(e){}try{$("ysCut").className="";$("ysCut").innerHTML="";ysCutPlan=null}catch(e){}const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done){yeHold=true;showResult();draw(f)}else{restoreLanes();ys=false;setPal(false);draw(f)}if(!(wasYs&&done)){openMenu();if(wasYs&&unlocked)openSel("song")}try{actx.resume()}catch(e){}}
 $("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}pauseGame()};
 $("resume").onclick=resumeGame;$("retry").onclick=retryRun;$("rretry").onclick=retryRun;$("rback").onclick=()=>{$("result").classList.add("hide");openMenu();if(S.mode==2&&unlocked)openSel("song")};$("quit").onclick=()=>quitRun();
 document.addEventListener("visibilitychange",()=>{if(document.hidden)pauseGame()});
@@ -1343,6 +1366,20 @@ function yeHist(R){const c=$("yeHiC");if(!c)return;const g=c.getContext("2d"),W=
   g.strokeStyle="#9a98a6";g.lineWidth=1.5;g.beginPath();g.moveTo(W/2,8);g.lineTo(W/2,base);g.stroke();
   const bw=W/B;bins.forEach((v,i)=>{if(!v)return;const ms=Math.abs((i+.5)/B*250-125),h=(base-10)*v/mx;
     g.fillStyle=ms<=25?"#ff5f9e":ms<=40?"#ff9fd0":ms<=70?"#ffd23a":ms<=100?"#38c6e8":"#9a6cff";g.fillRect(i*bw+1,base-h,bw-2,h)})}
+// ---- 〇〇〇〇モードの一時停止：リタイア・リトライは確認つき、公演に戻るは3秒後に再開 ----
+const PAW='<svg viewBox="0 0 24 24"><circle cx="6" cy="9" r="2.6"/><circle cx="10.5" cy="5" r="2.6"/><circle cx="15.5" cy="5" r="2.6"/><circle cx="19.5" cy="9.5" r="2.6"/><path d="M12.8 11c3.6 0 6.6 4.2 6.6 7 0 2.6-2.4 3-4 2.4-1.3-.5-2-.9-2.6-.9s-1.3.4-2.6.9c-1.6.6-4-.2-4-2.4 0-2.8 3-7 6.6-7z"/></svg>';
+function ypShow(kind){const P=$("ysPause");P.classList.remove("hide");pauseEl.classList.add("hide");
+  const hd=t=>`<div class="ypHd"><span class="ypDeco" style="left:40u">♪</span><span class="ypDeco" style="left:130u;top:60u">✎</span><span class="ypDeco" style="right:160u">♫</span><span class="ypZ">z<br>&nbsp;z</span></div><div class="ypT">${PAW}${t}${PAW}</div>`;
+  if(kind=="main"){P.innerHTML=`<div class="ypBox">${hd("一時停止")}<div class="ypIn">公演を一時停止しました。<br>ライブを再開しますか？<button class="ypGear yp" id="ypGear" type="button"><svg viewBox="0 0 48 48"><use href="#ysGearI"/></svg></button></div>
+    <div class="ypBtns"><button class="ypB yp" id="ypRet" type="button">リタイア</button><button class="ypB yp" id="ypRtr" type="button">リトライ</button><button class="ypB red yp" id="ypRes" type="button">公演に戻る</button></div></div>`;
+    $("ypRet").onclick=()=>{ysPress($("ypRet"));ypShow("ret")};$("ypRtr").onclick=()=>{ysPress($("ypRtr"));ypShow("rtr")};
+    $("ypRes").onclick=()=>{ysPress($("ypRes"),"ok");ypHide();resumeGame()};$("ypGear").onclick=()=>ysNope($("ypGear"))}
+  else{const ret=kind=="ret";P.innerHTML=`<div class="ypBox sm">${hd(ret?"リタイア":"リトライ")}<div class="ypIn">${ret?"公演を中断してリタイアします。<br>よろしいですか？":"公演を最初からやり直します。<br>よろしいですか？"}</div>
+    <div class="ypBtns"><button class="ypB yp" id="ypNo" type="button">キャンセル</button><button class="ypB red yp" id="ypYes" type="button">${ret?"リタイア":"リトライ"}</button></div></div>`;
+    $("ypNo").onclick=()=>{ysPress($("ypNo"),"back");ypShow("main")};
+    $("ypYes").onclick=()=>{ysPress($("ypYes"),"ok");ypHide();if(ret)quitRun();else retryRun()}}
+  ysU();for(const n of P.querySelectorAll("[style]"))n.setAttribute("style",n.getAttribute("style").replace(/(-?\d+(?:\.\d+)?)u\b/g,"calc(var(--u)*$1)"))}
+function ypHide(){const P=$("ysPause");P.classList.add("hide");P.innerHTML=""}
 // 最初の画面（〇〇〇〇モード）はパスワード入力だけ
 $("gOk").onclick=()=>{if(cyrb53($("gPw").value,1888)===PWH){unlocked=true;$("gErr").textContent="";$("gPw").value="";$("gIn").classList.remove("hide");openSel("diff")}else{$("gErr").textContent="パスワードが違います";$("gPw").value=""}};
 $("gPw").addEventListener("keydown",e=>{if(e.key=="Enter")$("gOk").onclick()});$("gIn").onclick=()=>openSel("diff");
