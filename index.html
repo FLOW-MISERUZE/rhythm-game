@@ -229,6 +229,91 @@ summary{cursor:pointer;color:#cfd4ff}
 @media (orientation:portrait){.ycab{display:none}.ylist{width:100%}.ycard{width:calc(100% - calc(var(--u)*70))}.ycard.on{width:calc(100% - calc(var(--u)*20))}.ypl,.yq{display:none}
  .yokP{display:block!important}.ycfCards{overflow-x:auto;right:0}.ycfBar{width:auto;right:calc(var(--u)*10)}.ysbox{width:100%;height:100%;border-radius:0}}
 .yokP{display:none!important}
+/* 曲の終わり：判定の大きな文字 → STAGE 表示 → リザルト（2ページ） */
+#ysEnd{position:fixed;inset:0;z-index:30;overflow:hidden;font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",system-ui,sans-serif;color:#3a3844;user-select:none;-webkit-user-select:none}
+#ysEnd button{margin:0;width:auto;font-family:inherit;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.yeA{position:absolute;inset:0;background:rgba(5,4,12,.55);animation:yeFadeIn .4s}
+.yeBeam{position:absolute;top:-10%;width:34%;height:130%;filter:blur(calc(var(--u)*18));opacity:.0;transform-origin:50% 0;animation:yeBeam 3.4s ease-out forwards}
+@keyframes yeBeam{0%{opacity:0}15%{opacity:.75}80%{opacity:.7}100%{opacity:.55}}
+.yeSp{position:absolute;width:calc(var(--u)*22);height:calc(var(--u)*22);animation:yeTw 1.6s ease-in-out infinite}
+.yeSp:before{content:"";position:absolute;inset:0;background:#fff;clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%)}
+@keyframes yeTw{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.1)}}
+.yeStar{position:absolute;width:calc(var(--u)*30);height:calc(var(--u)*30);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:yeFall 3.2s linear forwards}
+@keyframes yeFall{from{transform:translateY(calc(var(--u)*-60)) rotate(0)}to{transform:translateY(calc(var(--u)*320)) rotate(260deg);opacity:0}}
+.yeBig{position:absolute;left:0;right:0;top:44%;transform:translateY(-50%);text-align:center;font-family:"Montserrat","M PLUS Rounded 1c",system-ui,sans-serif;font-weight:900;font-size:calc(var(--u)*104);letter-spacing:.03em;line-height:1.1;white-space:nowrap;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:yeBigIn .55s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes yeBigIn{0%{opacity:0;transform:translateY(-50%) scale(1.8);filter:blur(10px)}100%{opacity:1;transform:translateY(-50%) scale(1);filter:none}}
+.yeBig.ap{background-image:linear-gradient(180deg,#bff7ff 0%,#f4feff 38%,#ffe8f6 62%,#ffa6d8 100%);filter:drop-shadow(0 0 calc(var(--u)*2) #fff) drop-shadow(0 0 calc(var(--u)*14) rgba(255,140,220,.9)) drop-shadow(0 0 calc(var(--u)*26) rgba(140,220,255,.6))}
+.yeBig.fc{background-image:linear-gradient(180deg,#fff 0%,#ffe0f6 50%,#ff8fcf 100%);filter:drop-shadow(0 0 calc(var(--u)*2) #fff) drop-shadow(0 0 calc(var(--u)*16) rgba(255,90,200,.9))}
+.yeBig.cl{background-image:linear-gradient(180deg,#fffbd0 0%,#ffe45c 50%,#ffaa1a 100%);filter:drop-shadow(0 0 calc(var(--u)*2) #fff6c0) drop-shadow(0 0 calc(var(--u)*16) rgba(255,200,40,.85))}
+.yeBig.fi{background-image:linear-gradient(180deg,#fff 0%,#dfe3ee 55%,#9ea6bb 100%);filter:drop-shadow(0 0 calc(var(--u)*2) #fff) drop-shadow(0 0 calc(var(--u)*12) rgba(180,190,220,.7))}
+.yeBlack{position:absolute;inset:0;background:#000;animation:yeFadeIn .5s both}
+@keyframes yeFadeIn{from{opacity:0}to{opacity:1}}
+/* 赤い幕の背景 */
+.yeStage{position:absolute;inset:0;animation:yeFadeIn .6s both;background:
+  radial-gradient(60% 55% at 62% 38%,rgba(255,170,120,.55),transparent 70%),
+  repeating-linear-gradient(90deg,#5a0a10 0,#9c1a20 3%,#c8352c 6.5%,#a01c22 9.5%,#5a0a10 12.5%),#7a1016}
+.yeStage:before{content:"";position:absolute;left:0;right:0;top:0;height:calc(var(--u)*60);background:linear-gradient(180deg,rgba(40,0,0,.65),transparent)}
+.yeStage:after{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(var(--u)*110);background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='110'%3E%3Cpath d='M0 110 L30 30 L60 110 M30 110 L60 40 L90 110 M60 110 L90 20 L120 110' fill='none' stroke='%23d9a441' stroke-width='5' opacity='.85'/%3E%3Cpath d='M0 110 L15 70 L30 110 M90 110 L105 60 L120 110' fill='none' stroke='%23f3d27a' stroke-width='3' opacity='.6'/%3E%3C/svg%3E") repeat-x bottom/calc(var(--u)*120) calc(var(--u)*110),linear-gradient(0deg,rgba(30,5,5,.8),transparent)}
+.yeChar{position:absolute;left:calc(var(--u)*720);top:calc(var(--u)*120);width:calc(var(--u)*380);height:calc(var(--u)*600);border-radius:calc(var(--u)*20);background:#222 center/cover no-repeat;border:calc(var(--u)*6) solid #fff;box-shadow:0 calc(var(--u)*18) calc(var(--u)*40) rgba(0,0,0,.5);transform:rotate(2deg);animation:yeChar .6s cubic-bezier(.2,.9,.3,1) both}
+@keyframes yeChar{from{opacity:0;transform:translateX(calc(var(--u)*80)) rotate(6deg)}to{opacity:1;transform:rotate(2deg)}}
+.yeSS{position:absolute;left:calc(var(--u)*330);top:calc(var(--u)*510);transform:translate(-50%,-50%) skewX(-8deg);font-family:"Montserrat",system-ui,sans-serif;font-weight:900;font-style:italic;font-size:calc(var(--u)*46);color:#fff;letter-spacing:.02em;white-space:nowrap;
+  -webkit-text-stroke:calc(var(--u)*3) #c8243a;paint-order:stroke fill;text-shadow:0 0 calc(var(--u)*14) rgba(255,255,255,.6),0 calc(var(--u)*4) 0 #7a0a18;animation:yeSS .7s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes yeSS{0%{opacity:0;letter-spacing:.6em}100%{opacity:1;letter-spacing:.02em}}
+/* パネル */
+.yeP{position:absolute;left:calc(var(--u)*57);top:calc(var(--u)*88);width:calc(var(--u)*488);height:calc(var(--u)*630);animation:yePin .45s cubic-bezier(.2,.9,.3,1) both}
+@keyframes yePin{from{opacity:0;transform:translateX(calc(var(--u)*-60))}to{opacity:1;transform:none}}
+.yeH{position:absolute;left:0;top:0;width:calc(var(--u)*488);height:calc(var(--u)*80);border-radius:calc(var(--u)*12);background:#fff;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.25);overflow:hidden}
+.yeH .jk{position:absolute;left:0;top:0;width:calc(var(--u)*93);height:calc(var(--u)*80);background:#333 center/cover no-repeat}
+.yeH .nm{position:absolute;left:calc(var(--u)*93);right:0;top:0;height:calc(var(--u)*33);background:linear-gradient(90deg,#f45d6d,#f26876 85%,#ffd34a 92%,#7ee0ff 96%,#c98cff);color:#fff;font-size:calc(var(--u)*21);font-weight:500;letter-spacing:.04em;padding-left:calc(var(--u)*15);line-height:calc(var(--u)*33);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:calc(var(--u)*30)}
+.yeH .df{position:absolute;left:calc(var(--u)*108);top:calc(var(--u)*43);width:calc(var(--u)*108);height:calc(var(--u)*28);border-radius:calc(var(--u)*4);background:#3a3844;color:#fff;font-size:calc(var(--u)*16);letter-spacing:.06em;display:flex;align-items:center;justify-content:center}
+.yeH .sts{position:absolute;left:calc(var(--u)*224);top:calc(var(--u)*41);display:flex;gap:calc(var(--u)*1)}.yeH .st{width:calc(var(--u)*30);height:calc(var(--u)*30)}
+.yeH .st.s0{fill:#3a3844}.yeH .st.s1{fill:url(#ygY)}.yeH .st.s2{fill:url(#ygP)}.yeH .st.s3{fill:url(#ygA)}
+.yeRank{position:absolute;right:calc(var(--u)*-6);top:calc(var(--u)*44);font-family:"Montserrat",system-ui;font-weight:900;font-style:italic;font-size:calc(var(--u)*46);line-height:1;letter-spacing:-.04em;background:linear-gradient(180deg,#fffbe0,#ffd84a 45%,#e9a00e 70%,#fff2a0);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 0 #b37400) drop-shadow(0 calc(var(--u)*2) 0 #a06500) drop-shadow(0 0 calc(var(--u)*10) rgba(255,220,90,.9));z-index:3;opacity:0}
+.yeRank.show{animation:yeRank .55s cubic-bezier(.2,1.6,.4,1) forwards}
+@keyframes yeRank{0%{opacity:0;transform:scale(2.6) rotate(-8deg)}100%{opacity:1;transform:scale(1)}}
+.yeB{position:absolute;left:0;top:calc(var(--u)*90);width:calc(var(--u)*488);height:calc(var(--u)*540);border-radius:calc(var(--u)*20);background:
+  linear-gradient(45deg,rgba(225,225,235,.35) 25%,transparent 25% 75%,rgba(225,225,235,.35) 75%) 0 0/calc(var(--u)*36) calc(var(--u)*36),linear-gradient(45deg,rgba(225,225,235,.35) 25%,transparent 25% 75%,rgba(225,225,235,.35) 75%) calc(var(--u)*18) calc(var(--u)*18)/calc(var(--u)*36) calc(var(--u)*36),#fff;box-shadow:0 calc(var(--u)*3) calc(var(--u)*10) rgba(0,0,0,.3)}
+.yeRe{position:absolute;left:calc(var(--u)*-4);top:calc(var(--u)*-2);width:calc(var(--u)*42)!important;height:calc(var(--u)*42);border-radius:50%;padding:0!important;background:#fff!important;border:calc(var(--u)*3) solid #bcbcc6!important;display:flex;align-items:center;justify-content:center;box-shadow:0 calc(var(--u)*2) calc(var(--u)*4) rgba(0,0,0,.25);z-index:3}
+.yeRe svg{width:calc(var(--u)*24);height:calc(var(--u)*24)}
+.yePill{position:absolute;height:calc(var(--u)*28);padding:0 calc(var(--u)*16);border-radius:calc(var(--u)*14);background:#ef5662;color:#fff;font-size:calc(var(--u)*17);font-weight:500;line-height:calc(var(--u)*28);letter-spacing:.04em;white-space:nowrap}
+.yeAch{position:absolute;right:calc(var(--u)*30);top:calc(var(--u)*42);font-size:calc(var(--u)*34);color:#d84556;font-weight:500;letter-spacing:.01em}.yeAch small{font-size:calc(var(--u)*24)}
+.yeNx{position:absolute;left:calc(var(--u)*80);right:calc(var(--u)*28);top:calc(var(--u)*98);font-size:calc(var(--u)*16);display:flex;justify-content:space-between}
+.yeNx span:last-child{min-width:calc(var(--u)*130);display:flex;justify-content:space-between}
+.yeBar{position:absolute;left:calc(var(--u)*35);right:calc(var(--u)*28);top:calc(var(--u)*122);height:calc(var(--u)*20);border-radius:calc(var(--u)*10);background:#2a2833;overflow:visible}
+.yeBar i{position:absolute;left:0;top:0;bottom:0;border-radius:calc(var(--u)*10);background:linear-gradient(90deg,#f45d6d,#ff8a8a);width:0;transition:width 1.2s ease-out}
+.yeBar:before{content:"";position:absolute;left:calc(var(--u)*-2);top:calc(var(--u)*-8);width:calc(var(--u)*36);height:calc(var(--u)*36);border-radius:50%;background:#2a2833;z-index:2}
+.yeBar b{position:absolute;left:0;right:0;top:calc(var(--u)*-4);text-align:center;font-family:"Montserrat",system-ui;font-weight:900;font-size:calc(var(--u)*20);color:#ffd24a;-webkit-text-stroke:calc(var(--u)*1.5) #8a5a00;paint-order:stroke fill;z-index:3;opacity:0}
+.yeBar b.show{animation:yeFadeIn .4s forwards}
+.yeDot{position:absolute;left:calc(var(--u)*30);right:calc(var(--u)*28);height:calc(var(--u)*3);background-image:radial-gradient(circle,#b8b8c2 calc(var(--u)*1.3),transparent calc(var(--u)*1.6));background-size:calc(var(--u)*8) calc(var(--u)*3)}
+.yeJ{position:absolute;left:calc(var(--u)*30);top:calc(var(--u)*244);width:calc(var(--u)*240)}
+.yeJ div{height:calc(var(--u)*29);display:flex;align-items:center;justify-content:space-between}
+.yeJ .lb{font-family:"Montserrat",system-ui;font-weight:900;font-size:calc(var(--u)*19);letter-spacing:-.02em;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 .6u #fff) drop-shadow(.6u .6u 0 #fff) drop-shadow(-.6u -.6u 0 #fff)}
+.yeJ .l0{background-image:linear-gradient(90deg,#7ee4ff,#d9a6ff 50%,#ff8fcc)}.yeJ .l1{background-image:linear-gradient(90deg,#a58bff,#ff7fd0)}.yeJ .l2{background-image:linear-gradient(180deg,#ffe46a,#f0a51a)}
+.yeJ .l3{background-image:linear-gradient(180deg,#7ff0ff,#2fb6e0)}.yeJ .l4{background-image:linear-gradient(180deg,#c48bff,#7c3fd8)}.yeJ .l5{background-image:linear-gradient(180deg,#d8d8de,#8e8e98)}
+.yeJ .nv{font-size:calc(var(--u)*22);font-weight:500;color:#3a3844;letter-spacing:.06em}.yeJ .nv s{text-decoration:none;color:#b9b9c2}
+.yeMC{position:absolute;left:calc(var(--u)*296);top:calc(var(--u)*270);width:calc(var(--u)*120);text-align:center}
+.yeMC .tg{display:inline-block;height:calc(var(--u)*22);line-height:calc(var(--u)*22);padding:0 calc(var(--u)*10);border-radius:calc(var(--u)*4);font-family:"Montserrat",system-ui;font-weight:900;font-size:calc(var(--u)*13);color:#fff;margin-bottom:calc(var(--u)*6);opacity:0}
+.yeMC .tg.ap{background:linear-gradient(90deg,#ff8fcc,#c9a4ff,#7ee4ff)}.yeMC .tg.fc{background:linear-gradient(90deg,#ff7fbf,#ff9fd4)}.yeMC .tg.show{animation:yeRank .5s cubic-bezier(.2,1.6,.4,1) forwards}
+.yeMC .pl{position:relative;display:inline-block;margin:0 auto}
+.yeMC b{display:block;font-size:calc(var(--u)*38);font-weight:500;margin-top:calc(var(--u)*2);letter-spacing:.02em}
+.yeV{position:absolute;right:calc(var(--u)*30);font-size:calc(var(--u)*22);font-weight:500}
+.yeNote{position:absolute;left:calc(var(--u)*150);top:calc(var(--u)*24);font-size:calc(var(--u)*13);white-space:nowrap}
+.yeRow{position:absolute;left:calc(var(--u)*40);right:calc(var(--u)*28);height:calc(var(--u)*28);display:flex;align-items:center;font-size:calc(var(--u)*17)}
+.yeRow span{width:calc(var(--u)*100)}.yeRow em{font-style:normal;width:calc(var(--u)*110);text-align:right;margin-right:calc(var(--u)*12)}.yeRow em small{font-size:calc(var(--u)*13)}
+.yeRow .br{flex:1;height:calc(var(--u)*17);border-radius:calc(var(--u)*9);background:#2a2833;position:relative;overflow:hidden;box-shadow:inset 0 0 0 calc(var(--u)*2) #2a2833}.yeRow .br i{position:absolute;left:calc(var(--u)*2);top:calc(var(--u)*2);bottom:calc(var(--u)*2);border-radius:calc(var(--u)*7);background:#ef5662;width:0;transition:width 1s ease-out}
+.yeHi{position:absolute;left:calc(var(--u)*270);top:calc(var(--u)*300);width:calc(var(--u)*190);height:calc(var(--u)*150)}
+.yeHi canvas{position:static!important;inset:auto!important;background:transparent!important;width:100%!important;height:100%!important;display:block;touch-action:auto}
+.yeFS{position:absolute;left:calc(var(--u)*270);top:calc(var(--u)*452);width:calc(var(--u)*190);display:flex;justify-content:space-between;font-family:"Montserrat",system-ui;font-weight:700;font-size:calc(var(--u)*12);text-align:center;line-height:1.5}
+.yeFS div:first-child{color:#7aa4e8}.yeFS div:last-child{color:#d8434f}
+.yeRT{position:absolute;right:calc(var(--u)*30);top:calc(var(--u)*478);text-align:right;font-size:calc(var(--u)*22);font-weight:500;line-height:1.4}.yeRT small{display:block;font-size:calc(var(--u)*17)}
+.yeBtn1{position:absolute;left:calc(var(--u)*800);top:calc(var(--u)*745);width:calc(var(--u)*150)!important;height:calc(var(--u)*40);border-radius:calc(var(--u)*20);padding:0!important;background:linear-gradient(180deg,#fff,#efeff3)!important;border:calc(var(--u)*3) solid #c9c9d2!important;font-size:calc(var(--u)*17);color:#3a3844!important;box-shadow:0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,.3)}
+.yeBtn2{position:absolute;left:calc(var(--u)*990);top:calc(var(--u)*722);width:calc(var(--u)*198)!important;height:calc(var(--u)*60);border-radius:calc(var(--u)*6);padding:0!important;border:calc(var(--u)*3) solid #ffd6a0!important;background:radial-gradient(circle,rgba(255,255,255,.18) calc(var(--u)*1.2),transparent calc(var(--u)*1.6)) 0 0/calc(var(--u)*8) calc(var(--u)*8),linear-gradient(180deg,#ff8a84,#f2525c)!important;color:#fff!important;font-size:calc(var(--u)*26);font-weight:500;letter-spacing:.06em;box-shadow:0 calc(var(--u)*3) calc(var(--u)*8) rgba(0,0,0,.35)}
+.yeTap{position:absolute;left:0;right:0;bottom:calc(var(--u)*24);text-align:center;color:rgba(255,255,255,.75);font-size:calc(var(--u)*15);letter-spacing:.2em;animation:yeTw 1.6s infinite}
+@media (orientation:portrait){.yeP{left:50%;margin-left:calc(var(--u)*-244);top:calc(var(--u)*60)}.yeChar{display:none}.yeBtn1{left:auto;right:calc(var(--u)*240);top:auto;bottom:calc(var(--u)*40)}.yeBtn2{left:auto;right:calc(var(--u)*20);top:auto;bottom:calc(var(--u)*30)}.yeSS{left:50%}}
+
 .ycard .wm{position:absolute;right:0;top:0;bottom:0;width:62%;border-radius:0 calc(var(--u)*8) calc(var(--u)*8) 0;background:center/cover no-repeat;opacity:.13;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 45%);mask-image:linear-gradient(90deg,transparent,#000 45%)}
 .ycard.on .wm{opacity:.22}
 .ycard .stars{display:inline-flex;gap:calc(var(--u)*1);margin-right:calc(var(--u)*12);vertical-align:middle}
@@ -393,7 +478,7 @@ summary{cursor:pointer;color:#cfd4ff}
 </div></div><div class="ysBtns"><button id="ysCancel" class="yp" type="button">キャンセル</button><button id="ysSetOk" class="yp" type="button">OK</button></div></div></div>
 </div>
 
-<div id="ysCut"></div>
+<div id="ysCut"></div><div id="ysEnd" class="hide"></div>
 <div id="result" class="hide"><div class="rbox"><div class="rtitle">RESULT</div><div id="rsong" class="sub"></div><div id="rrank" class="rrank"></div><div id="rscore" class="rscore"></div><div id="rtab" class="rtab"></div><div class="rbtns"><button id="rretry" type="button">↻ リトライ</button><button id="rback" type="button" style="background:rgba(255,255,255,.14)">← 戻る</button></div></div></div>
 <div id="menu">
 <div class="wrapm">
@@ -458,7 +543,7 @@ summary{cursor:pointer;color:#cfd4ff}
 <div style="display:flex;align-items:end"><button id="d_reset" type="button">初期値に戻す</button></div>
 </div></details>
 <div id="dbg"></div>
-<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 47</div></div>
+<div style="text-align:center;margin:18px 0 6px"><button type="button" onclick="location.reload()" style="padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:14px">🔄 更新</button><div style="opacity:.6;font-size:12px;margin-top:8px">アプデ回数: 48</div></div>
 </div>
 </div>
 <script>
@@ -635,7 +720,7 @@ function press(a,b,isKey){
     if(best&&Math.abs(best.t+S.off-now)>pd+20)best=null;
     if(best){const n=best,d=n.t+S.off-now;
       if(n.k==2){if(isKey){judgeFlick(n,d,l)}else{n.pend=now;lastPend=n;plg(l,"FLICK：はじいて")}return}
-      const x=Math.abs(d),j=x<=25?0:x<=40?1:x<=70?2:x<=100?3:4;n.st=1;reg(j,j?(d>0?"FAST":"LATE"):"");fx(n);plg(l,jname(j)+(j?(d>0?" FAST":" LATE"):""));if(S.tap)tapSnd();return}
+      const x=Math.abs(d),j=x<=25?0:x<=40?1:x<=70?2:x<=100?3:4;n.st=1;DEV.push(d);reg(j,j?(d>0?"FAST":"LATE"):"");fx(n);plg(l,jname(j)+(j?(d>0?" FAST":" LATE"):""));if(S.tap)tapSnd();return}
     // 空打ち（ノーツもロングもない所）の時だけキービームを出す
     const act=N.some(n=>(n.k==1||n.k==3)&&n.st!=2&&n.t+S.off<=now+80&&now<=n.t+S.off+n.d&&(sp=>Math.min(b,sp[1])-Math.max(a,sp[0])>0)(n.k==3?spanAt(n,now):[U0(n),U1(n)]));
     if(pd>=1e9&&!act)KB["t"+performance.now()+Math.random()]={u:(a+b)/2,key:isKey,a,b,t:performance.now()}}
@@ -644,7 +729,7 @@ function press(a,b,isKey){
     if((n.k==2||n.k==4)&&!isKey)continue;
     if(!hitN(n,a,b,tol))continue;
     if(n.k==2){if(judgeFlick(n,d,l))return;continue}
-    const x=Math.abs(d),j=x<=25?0:x<=40?1:x<=70?2:x<=100?3:4;n.st=1;reg(j,j?(d>0?"FAST":"LATE"):"");plg(l,JN[j]+(j?(d>0?" FAST":" LATE"):""));
+    const x=Math.abs(d),j=x<=25?0:x<=40?1:x<=70?2:x<=100?3:4;n.st=1;DEV.push(d);reg(j,j?(d>0?"FAST":"LATE"):"");plg(l,JN[j]+(j?(d>0?" FAST":" LATE"):""));
     if(S.tap)tapSnd();return}
   if(ys&&!isKey)for(const n of N){const d=n.t+S.off-now;if(d>100)break;if(!n.st&&n.k==2&&d>=-100&&hitN(n,a,b,.25)){plg(l,"フリック：はじいてください");return}}
   let bb=null,bd=1e9;for(const n of N){if(n.st||!hitN(n,a,b,tol))continue;const d=n.t+S.off-now;if(Math.abs(d)<Math.abs(bd)){bb=n;bd=d}}
@@ -1048,7 +1133,7 @@ function startRun(isCal){
   if(cal)S.off=calOff;cal=isCal;if(isCal){calOff=S.off;S.off=0;calD=[];calGen=0}
   actx.resume&&actx.resume();try{const b=actx.createBuffer(1,1,22050),sn=actx.createBufferSource();sn.buffer=b;sn.connect(OUT);sn.start(0)}catch(e){}
   try{nbuf=actx.createBuffer(1,actx.sampleRate*.3,actx.sampleRate);const d=nbuf.getChannelData(0);for(let k=0;k<d.length;k++)d[k]=Math.random()*2-1}catch(e){nbuf=null}
-  N=[];fc=lc=0;pts=0;dP=0;calMsg="";paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");cnt=[0,0,0,0,0,0];combo=0;maxc=0;score=0;lastJ=null;
+  N=[];fc=lc=0;DEV=[];pts=0;dP=0;calMsg="";paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");cnt=[0,0,0,0,0,0];combo=0;maxc=0;score=0;lastJ=null;
   last=Array(5).fill(-999);lh=Array(5).fill(0);BEAT=isCal?600:60000/Math.max(60,Math.min(300,S.bpm||150));nb=0;gb=0;gcur=LEAD;gbar=-1;pend=[];
   rnd=rng((Math.random()*4294967296)>>>0);
   t0=actx.currentTime+.3;p0=performance.now();adj=audioMs();
@@ -1076,7 +1161,7 @@ function showResult(){const tot=cnt.reduce((a,b)=>a+b,0),acc=tot?score/tot:0,ach
   $("rsong").textContent=$("ysName").textContent.replace("📀 ","");$("rrank").textContent=rk;$("rscore").textContent=String(Math.min(99999999,pts)).padStart(8,"0");
   const lab=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];$("rtab").innerHTML=lab.map((l,i)=>`<span style="color:${JC[i]}">${l}</span><b>${cnt[i]}</b>`).join("")+`<span>MAX COMBO</span><b>${maxc}</b><span>FAST / LATE</span><b>${fc} / ${lc}</b><span>達成率</span><b>${ach.toFixed(4)}%</b>`;
   try{if(ysPick&&ys!==undefined){const k="ysBest:"+ysPick.id,o=JSON.parse(localStorage.getItem(k)||"null");const n={sc:Math.max(o?o.sc:0,Math.min(99999999,pts)),ach:Math.max(o&&o.ach||0,ach)};const hp=1000-cnt[MISS]*80-cnt[4]*50;n.cl=Math.max(o&&o.cl||0,hp<=0?0:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[3]+cnt[4]+cnt[5]==0?2:1);n.rk=achRank(n.ach);localStorage.setItem(k,JSON.stringify(n))}}catch(e){}
-  $("result").classList.remove("hide")}
+  {const hp=1000-cnt[MISS]*80-cnt[4]*50;ysFinishSeq({sg:ysPick,cnt:cnt.slice(),maxc,ach,rk,hp,cl:hp<=0?0:cnt[2]+cnt[3]+cnt[4]+cnt[5]==0?3:cnt[3]+cnt[4]+cnt[5]==0?2:1,dev:DEV.slice(),fc,lc,off:+S.off})}}
 function quitRun(msg){if(!run)return;try{$("ysCut").className="";$("ysCut").innerHTML="";ysCutPlan=null}catch(e){}const f=paused?frozen:cur(),wasYs=ys,done=msg=="曲が終わりました";run=false;paused=false;cdEnd=0;cdNum=0;pauseEl.classList.add("hide");$("stop").disabled=true;setPlaying(false);try{songSrc&&songSrc.stop()}catch(e){}$("goTxt").textContent="スタート";hud(true,msg);if(wasYs&&done)showResult();restoreLanes();ys=false;setPal(false);draw(f);if(!(wasYs&&done)){openMenu();if(wasYs&&unlocked)openSel("song")}try{actx.resume()}catch(e){}}
 $("stop").onclick=()=>{if(!run)return;if(cal){endCal(false);return}pauseGame()};
 $("resume").onclick=resumeGame;$("retry").onclick=retryRun;$("rretry").onclick=retryRun;$("rback").onclick=()=>{$("result").classList.add("hide");openMenu();if(S.mode==2&&unlocked)openSel("song")};$("quit").onclick=()=>quitRun();
@@ -1195,6 +1280,63 @@ function ysCutTick(now){if(S.ycut!=1||!ysAn)return;
     ysCutPlan=ord.map((c,i)=>({t:a+(b-a)*(i+.2+Math.random()*.6)/5,c,s:Math.random()<.5?"L":"R",done:false}))}
   ysCutLast=now;for(const q of ysCutPlan)if(!q.done&&now>=q.t){q.done=true;if(now-q.t<600)ysCutShow(q.c,q.s)}}
 function ysCutShow(c,side){try{const e=$("ysCut");e.className="";e.innerHTML=`<div class="band"></div><div class="ci"><i style="background-image:url('${YCH[c].img}')"></i></div>`;void e.offsetWidth;e.className=side}catch(x){}}
+// ---- 曲の終わり：FINISH/CLEAR/FULL COMBO/ALL PERFECT → STAGE 表示 → リザルト ----
+let DEV=[],yeTimers=[],yeR=null,yeStage=0;
+const yeT=(f,ms)=>yeTimers.push(setTimeout(f,ms));
+function yeClear(){for(const t of yeTimers)clearTimeout(t);yeTimers=[]}
+function ysFinishSeq(R){yeR=R;yeClear();const E=$("ysEnd");E.classList.remove("hide");ysU();yeStage=1;
+  const k=R.cl==3?"ap":R.cl==2?"fc":R.cl==1?"cl":"fi",txt={ap:"ALL PERFECT",fc:"FULL COMBO",cl:"CLEAR",fi:"FINISH"}[k];
+  const beams=[["#ff4f7a",2],["#ffd24a",18],["#5cff7a",38],["#4fe0ff",58],["#c86bff",76]];
+  let h='<div class="yeA"></div>';beams.forEach(([c,x],i)=>h+=`<div class="yeBeam" style="left:${x}%;background:linear-gradient(180deg,${c},transparent 75%);clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);transform:rotate(${(i-2)*9}deg);animation-delay:${i*.06}s"></div>`);
+  for(let i=0;i<26;i++)h+=`<div class="yeSp" style="left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${(Math.random()*1.6).toFixed(2)}s;transform:scale(${(.4+Math.random()).toFixed(2)})"></div>`;
+  if(k=="ap"||k=="fc")for(let i=0;i<14;i++)h+=`<div class="yeStar" style="left:${Math.random()*100}%;top:${Math.random()*40}%;background:${["#ff5fa0","#ffd24a","#4fb8ff","#ff7fd0"][i%4]};animation-delay:${(Math.random()*.8).toFixed(2)}s"></div>`;
+  h+=`<div class="yeBig ${k}">${txt}</div><div class="yeTap">TAP</div>`;E.innerHTML=h;
+  try{yse(k=="fi"?"back":"start")}catch(e){}
+  yeT(yeToStage,3200);E.onclick=()=>{if(yeStage==1)yeToStage();else if(yeStage==2)yeToRes()}}
+function yeToStage(){yeClear();yeStage=2;const E=$("ysEnd");E.insertAdjacentHTML("beforeend",'<div class="yeBlack"></div>');
+  yeT(()=>{E.innerHTML=`<div class="yeStage"></div><div class="yeChar" style="background-image:url('${YCH[0].img}')"></div><div class="yeSS">${yeR.hp>0?"STAGE SUCCESS!":"STAGE FINISH"}</div><div class="yeTap">TAP</div>`;try{yse("ok")}catch(e){}yeT(yeToRes,2000)},500)}
+function z4(n){const s=String(Math.min(9999,n)).padStart(4,"0"),i=s.search(/[1-9]/);return i<0?`<s>000</s>0`:`<s>${s.slice(0,i)}</s>${s.slice(i)}`}
+const RANKS=[[80,"C"],[90,"B"],[95,"A"],[98,"A+"],[100,"S"],[100.25,"S+"],[100.5,"SS"],[100.75,"SS+"],[100.95,"SSS"]];
+function yeToRes(){yeClear();yeStage=3;const R=yeR,E=$("ysEnd"),sg=R.sg;
+  E.innerHTML=`<div class="yeStage" style="animation:none"></div><div class="yeChar" style="background-image:url('${YCH[0].img}');animation:none"></div>
+  <div class="yeP"><div class="yeH"><div class="jk" style="background-image:url('${sg&&sg.jkR||""}')"></div><div class="nm"></div><div class="df">OLIVIER</div><div class="sts">${starsH(R.cl).replace(/class="st /g,'class="st ')}</div></div>
+  <div class="yeRank" id="yeRank">${R.rk}</div>
+  <div class="yeB"><button class="yeRe yp" id="yeRe" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="#4a4856" stroke-width="3.2" stroke-linecap="round"><path d="M19 9a8 8 0 0 0-14-1M5 15a8 8 0 0 0 14 1"/><path d="M5 3v5h5M19 21v-5h-5"/></svg></button><div id="yePg"></div></div></div>
+  <button class="yeBtn1 yp" id="yeRew" type="button">楽曲報酬</button><button class="yeBtn2 yp" id="yeNext" type="button">次へ</button>`;
+  E.querySelector(".yeH .nm").textContent=sg?sg.name:"";E.onclick=null;
+  $("yeRe").onclick=e=>{e.stopPropagation();ysPress($("yeRe"));yePage(R.pg==1?2:1)};$("yeRew").onclick=()=>ysNope($("yeRew"));
+  $("yeNext").onclick=()=>{ysPress($("yeNext"),"ok");setTimeout(()=>{yeClear();E.classList.add("hide");E.innerHTML="";openMenu();if(unlocked)openSel("song")},150)};
+  R.pg=0;yePage(1);yeT(()=>{const r=$("yeRank");if(r){r.classList.add("show");try{yse("ok")}catch(e){}}},1500)}
+function judRows(R){const L=["PERFECT✦","PERFECT","GREAT","GOOD","BAD","MISS"];return `<div class="yeJ">${L.map((l,i)=>`<div><span class="lb l${i}">${l}</span><span class="nv">${z4(R.cnt[i])}</span></div>`).join("")}</div>`}
+function yePage(p){const R=yeR,G=$("yePg");if(!G)return;const first=R.pg==0;R.pg=p;{const r=$("yeRank");if(r)r.style.visibility=p==1?"":"hidden"}
+  if(p==1){let nx=null,pv=0;for(const[t]of RANKS){if(R.ach<t){nx=t;break}pv=t}
+    G.innerHTML=`<div class="yePill" style="left:30u;top:46u">達成率</div><div class="yeAch" id="yeAch">0.0000<small>%</small></div>
+    <div class="yeNx"><span>次のランクまで</span><span><span>あと</span><span>${nx?(nx-R.ach).toFixed(4)+"%":"---"}</span></span></div>
+    <div class="yeBar"><i id="yeBarI"></i><b id="yeComp">COMPLETE!</b></div><div class="yeDot" style="top:172u"></div>
+    <div class="yePill" style="left:30u;top:200u">ノーツ判定</div>${judRows(R)}
+    <div class="yeMC"><div class="tg ${R.cl==3?"ap":"fc"}" id="yeTg">${R.cl==3?"ALL PERFECT":R.cl==2?"FULL COMBO":""}</div><br><div class="yePill pl" style="position:relative">最大コンボ</div><b id="yeMcV">0</b></div>
+    <div class="yeDot" style="top:426u"></div><div class="yePill" style="left:30u;top:455u">星章</div><div class="yeV" style="top:452u">0.00</div><div class="yePill" style="left:30u;top:495u">星章獲得率</div><div class="yeV" style="top:492u">0.00</div>`;
+    yeUfix(G);const A=$("yeAch"),M=$("yeMcV"),t0=performance.now(),dur=first?1300:500;
+    const step=()=>{const k=Math.min(1,(performance.now()-t0)/dur),e=1-Math.pow(1-k,3),v=(R.ach*e).toFixed(4);if(!A.isConnected)return;A.innerHTML=v.slice(0,-2)+`<small>${v.slice(-2)}%</small>`;M.textContent=Math.round(R.maxc*e);if(k<1)requestAnimationFrame(step);else{
+      const fr=nx?Math.max(0,Math.min(1,(R.ach-pv)/(nx-pv))):1;$("yeBarI").style.width=(fr*100)+"%";if(!nx)$("yeComp").classList.add("show");if(R.cl>=2)$("yeTg").classList.add("show")}};step()}
+  else{const rec=R.dev.length?Math.round(R.off-R.dev.reduce((a,b)=>a+b,0)/R.dev.length):R.off;
+    G.innerHTML=`<div class="yePill" style="left:30u;top:46u">達成率</div><div class="yeNote" style="top:51u">全国平均は同じレート帯で集計した値です。</div>
+    <div class="yeRow" style="top:92u"><span>プレイヤー</span><em>${R.ach.toFixed(2)}<small>${R.ach.toFixed(4).slice(-2)}%</small></em><div class="br"><i id="yeP1"></i></div></div>
+    <div class="yeRow" style="top:122u"><span>全国平均</span><em>0.00<small>00%</small></em><div class="br"><i></i></div></div>
+    <div class="yeDot" style="top:172u"></div><div class="yePill" style="left:30u;top:200u">ノーツ判定</div>${judRows(R)}
+    <div class="yeHi"><canvas id="yeHiC" width="380" height="300"></canvas></div><div class="yeFS"><div>FAST<br>${R.fc}</div><div>SLOW<br>${R.lc}</div></div>
+    <div class="yeDot" style="top:426u"></div><div class="yePill" style="left:30u;top:470u;font-size:14u;height:24u;line-height:24u">推奨判定タイミング</div>
+    <div class="yeRT">${rec>0?"+":""}${rec}<small>(現在 ${R.off>0?"+":""}${R.off})</small></div>`;
+    yeUfix(G);requestAnimationFrame(()=>{const b=$("yeP1");if(b)b.style.width=`calc(${Math.min(100,R.ach/101*100)}% - 4px)`});yeHist(R)}}
+// 文字列中の「数字u」を画面の大きさに合わせる
+function yeUfix(el){for(const n of el.querySelectorAll("[style]"))n.setAttribute("style",n.getAttribute("style").replace(/(-?\d+(?:\.\d+)?)u\b/g,"calc(var(--u)*$1)"))}
+// FAST/SLOW のばらつき（左がFAST、右がSLOW）
+function yeHist(R){const c=$("yeHiC");if(!c)return;const g=c.getContext("2d"),W=c.width,H=c.height,B=50,bins=new Array(B).fill(0);
+  for(const d of R.dev){const x=-d,i=Math.floor((x+125)/250*B);if(i>=0&&i<B)bins[i]++}
+  const mx=Math.max(1,...bins),base=H-14;g.clearRect(0,0,W,H);g.strokeStyle="#3a3844";g.lineWidth=2;g.beginPath();g.moveTo(0,base+1);g.lineTo(W,base+1);g.stroke();
+  g.strokeStyle="#9a98a6";g.lineWidth=1.5;g.beginPath();g.moveTo(W/2,8);g.lineTo(W/2,base);g.stroke();
+  const bw=W/B;bins.forEach((v,i)=>{if(!v)return;const ms=Math.abs((i+.5)/B*250-125),h=(base-10)*v/mx;
+    g.fillStyle=ms<=25?"#ff5f9e":ms<=40?"#ff9fd0":ms<=70?"#ffd23a":ms<=100?"#38c6e8":"#9a6cff";g.fillRect(i*bw+1,base-h,bw-2,h)})}
 // 最初の画面（〇〇〇〇モード）はパスワード入力だけ
 $("gOk").onclick=()=>{if(cyrb53($("gPw").value,1888)===PWH){unlocked=true;$("gErr").textContent="";$("gPw").value="";$("gIn").classList.remove("hide");openSel("diff")}else{$("gErr").textContent="パスワードが違います";$("gPw").value=""}};
 $("gPw").addEventListener("keydown",e=>{if(e.key=="Enter")$("gOk").onclick()});$("gIn").onclick=()=>openSel("diff");
